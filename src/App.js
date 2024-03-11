@@ -1,7 +1,7 @@
 import "./App.css";
 import LogIn from "./pages/LogIn";
 import ErrorPage from "./pages/ErrorPage";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ForgotUserPass from "./pages/ForgotUserPass";
 import CheckEmail from "./pages/CheckEmail";
 import SuccessfulPassword from "./components/SuccessfulPassword";
