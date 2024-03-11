@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/Dashboard/static/css/main.bff65918.css",
+    "main.js": "/Dashboard/static/js/main.2f22fc75.js",
+    "static/media/logo.png": "/Dashboard/static/media/logo.5bdefdcc877fbfe70f75.png",
+    "static/media/bgLogoSide.png": "/Dashboard/static/media/bgLogoSide.f817bbdf0e29c282fbb6.png",
+    "static/media/mainbg.png": "/Dashboard/static/media/mainbg.77f0ba69c35ef5c2d04a.png",
+    "static/media/justLogo.png": "/Dashboard/static/media/justLogo.ffc2f941520567a3d2bc.png",
+    "static/media/Cairo.ttf": "/Dashboard/static/media/Cairo.32b01d6a21d9433a251c.ttf",
+    "static/media/tittleLogo.png": "/Dashboard/static/media/tittleLogo.7c80a94da37bb9281e0e.png",
+    "static/media/TittleLogo2.png": "/Dashboard/static/media/TittleLogo2.9d6201006b3d3660b84a.png",
+    "static/media/welcom.png": "/Dashboard/static/media/welcom.bbce5331a6bcdd9c093a.png",
+    "static/media/party.png": "/Dashboard/static/media/party.8d648dd8a0bfd56cc066.png",
+    "static/media/crreatedParty.png": "/Dashboard/static/media/crreatedParty.466589772efe0b2add9b.png",
+    "static/media/party3.png": "/Dashboard/static/media/party3.4fd2005237ea9d7b29c6.png",
+    "static/media/Successful-password.png": "/Dashboard/static/media/Successful-password.3e11ca91f046152c3d3e.png",
+    "static/media/mainuser.jpg": "/Dashboard/static/media/mainuser.13efe6d92a40cfe5e6e5.jpg",
+    "index.html": "/Dashboard/index.html",
+    "main.bff65918.css.map": "/Dashboard/static/css/main.bff65918.css.map",
+    "main.2f22fc75.js.map": "/Dashboard/static/js/main.2f22fc75.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bff65918.css",
+    "static/js/main.2f22fc75.js"
+  ]
+}
