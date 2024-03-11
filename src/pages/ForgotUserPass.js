@@ -40,7 +40,7 @@ const ForgotUserPass = () => {
     // Redirect to CheckEmail page
     setTimeout(() => {
       window.location.href = "/Dashboard/#/CheckEmail";
-    }, 3000); // Change delay to 3 seconds
+    }, 1000); // Change delay to 3 seconds
   };
 
   return (

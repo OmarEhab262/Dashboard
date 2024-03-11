@@ -69,7 +69,7 @@ const CheckEmail = () => {
 
     // Placeholder functionality to demonstrate submission
     console.log("Form submitted:", { num, newPassword });
-    window.location.href = "/SuccessfulPassword";
+    window.location.href = "/Dashboard/#/SuccessfulPassword";
   };
 
   return (
