@@ -52,28 +52,24 @@ const NewEvents = () => {
           </div>
         </div>
         <div className="events flex justify-center items-center w-full mt-[30px] font-bold">
-          <div
+          <Link
+            to="/NewEvents"
             className="coming w-[20%] h-[60px] bg-[#041461] rounded-[16px] flex justify-center items-center m-[20px]"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
           >
-            <Link
-              to="/NewEvents"
-              className="text-white text-[18px] cursor-pointer"
-            >
+            <h3 className="text-white text-[18px] cursor-pointer">
               حفلات قادمة
-            </Link>
-          </div>
-          <div
+            </h3>
+          </Link>
+          <Link
+            to="/EndedEvents"
             className="coming w-[20%] h-[60px] bg-white rounded-[16px] flex justify-center items-center m-[20px]"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
           >
-            <Link
-              to="/EndedEvents"
-              className="text-[#041461] text-[18px] cursor-pointer"
-            >
+            <h3 className="text-[#041461] text-[18px] cursor-pointer">
               حفلات منتهية
-            </Link>
-          </div>
+            </h3>
+          </Link>
         </div>
         <div className="content w-full overflow-auto ssc flex flex-col items-center">
           <div
@@ -93,7 +89,8 @@ const NewEvents = () => {
             >
               <div className="boxes-inner flex ">
                 {[...Array(10)].map((_, index) => (
-                  <div
+                  <Link
+                    to="/ShowNewEventDetails"
                     key={index}
                     className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
                   >
@@ -131,7 +128,7 @@ const NewEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -153,7 +150,8 @@ const NewEvents = () => {
             >
               <div className="boxes-inner flex ">
                 {[...Array(10)].map((_, index) => (
-                  <div
+                  <Link
+                    to="/ShowNewEventDetails"
                     key={index}
                     className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
                   >
@@ -191,7 +189,7 @@ const NewEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -213,7 +211,8 @@ const NewEvents = () => {
             >
               <div className="boxes-inner flex ">
                 {[...Array(10)].map((_, index) => (
-                  <div
+                  <Link
+                    to="/ShowNewEventDetails"
                     key={index}
                     className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
                   >
@@ -251,7 +250,7 @@ const NewEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -273,7 +272,8 @@ const NewEvents = () => {
             >
               <div className="boxes-inner flex ">
                 {[...Array(10)].map((_, index) => (
-                  <div
+                  <Link
+                    to="/ShowNewEventDetails"
                     key={index}
                     className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
                   >
@@ -311,7 +311,7 @@ const NewEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -333,7 +333,8 @@ const NewEvents = () => {
             >
               <div className="boxes-inner flex ">
                 {[...Array(10)].map((_, index) => (
-                  <div
+                  <Link
+                    to="/ShowNewEventDetails"
                     key={index}
                     className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
                   >
@@ -371,7 +372,7 @@ const NewEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -393,7 +394,8 @@ const NewEvents = () => {
             >
               <div className="boxes-inner flex ">
                 {[...Array(10)].map((_, index) => (
-                  <div
+                  <Link
+                    to="/ShowNewEventDetails"
                     key={index}
                     className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
                   >
@@ -431,7 +433,7 @@ const NewEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -453,7 +455,8 @@ const NewEvents = () => {
             >
               <div className="boxes-inner flex ">
                 {[...Array(10)].map((_, index) => (
-                  <div
+                  <Link
+                    to="/ShowNewEventDetails"
                     key={index}
                     className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
                   >
@@ -491,7 +494,7 @@ const NewEvents = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

@@ -8,19 +8,39 @@ function LogIn() {
   const [password, setPassword] = useState("");
   const [incorrectUsername, setIncorrectUsername] = useState(false);
   const [incorrectPassword, setIncorrectPassword] = useState(false);
+  const [emptyUsername, setEmptyUsername] = useState(false);
+  const [emptyPassword, setEmptyPassword] = useState(false);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
     setIncorrectUsername(false); // Reset incorrect state when typing
+    setEmptyUsername(false); // Reset empty state when typing
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setIncorrectPassword(false); // Reset incorrect state when typing
+    setEmptyPassword(false); // Reset empty state when typing
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (username.trim() === "") {
+      setEmptyUsername(true);
+    } else {
+      setEmptyUsername(false);
+    }
+
+    if (password.trim() === "") {
+      setEmptyPassword(true);
+    } else {
+      setEmptyPassword(false);
+    }
+
+    if (username.trim() === "" || password.trim() === "") {
+      return;
+    }
 
     try {
       const response = await axios.get(
@@ -68,8 +88,10 @@ function LogIn() {
                 <label htmlFor="username"></label>
                 <input
                   className={`w-[100%] p-[10px] rounded-[8px] border-solid border-[1px] ${
-                    incorrectUsername ? "border-red-500" : "border-gray-400"
-                  } my-[20px]  outline-none`}
+                    incorrectUsername || emptyUsername
+                      ? "border-red-500"
+                      : "border-gray-400"
+                  } my-[10px]  outline-none`}
                   placeholder="اسم المستخدم"
                   type="text"
                   id="username"
@@ -79,18 +101,22 @@ function LogIn() {
                 />
                 <p
                   className={`text-red-600 mb-[20px] ${
-                    incorrectUsername ? "block" : "hidden"
+                    emptyUsername || incorrectUsername ? "block" : "hidden"
                   }`}
                 >
-                  برجاء ادخال اسم مستخدم صحيح
+                  {emptyUsername
+                    ? "برجاء ادخال اسم مستخدم"
+                    : "برجاء ادخال اسم مستخدم صحيح"}
                 </p>
               </div>
               <div>
                 <label htmlFor="password"></label>
                 <input
                   className={`w-[100%] p-[10px] rounded-[8px] border-solid border-[1px] ${
-                    incorrectPassword ? "border-red-500" : "border-gray-400"
-                  } mb-[20px] outline-none`}
+                    incorrectPassword || emptyPassword
+                      ? "border-red-500"
+                      : "border-gray-400"
+                  } my-[10px]  outline-none`}
                   placeholder="كلمة المرور"
                   type="password"
                   id="password"
@@ -100,10 +126,12 @@ function LogIn() {
                 />
                 <p
                   className={`text-red-600 mb-[20px] ${
-                    incorrectPassword ? "block" : "hidden"
+                    emptyPassword || incorrectPassword ? "block" : "hidden"
                   }`}
                 >
-                  برجاء ادخال كلمة مرور صحيحه
+                  {emptyPassword
+                    ? "برجاء ادخال كلمة مرور"
+                    : "برجاء ادخال كلمة مرور صحيحة"}
                 </p>
               </div>
               <div className="flex justify-between items-center font-[700] ">

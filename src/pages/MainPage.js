@@ -5,6 +5,7 @@ import count from "../assists/icon/count.png";
 import chair from "../assists/icon/chair.png";
 import party from "../assists/icon/party.png";
 import "../../src/index.css";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -77,7 +78,7 @@ const MainPage = () => {
         </div>
         <div className=" flex w-[100%] justify-between mt-[30px] mb-[20px]">
           <div
-            className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[330px] h-[70px] border border-[#0413616b]"
+            className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[32%] h-[70px] border border-[#0413616b]"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
           >
             <div className="flex justify-center items-center rounded-full w-[50px] h-[50px] text-white bg-[#041461] text-[14px]">
@@ -91,7 +92,7 @@ const MainPage = () => {
             </div>
           </div>
           <div
-            className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[330px] h-[70px] border border-[#0413616b]"
+            className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[32%]  h-[70px] border border-[#0413616b]"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
           >
             <div className="flex justify-center items-center rounded-full w-[50px] h-[50px] text-white bg-[#041461] text-[14px]">
@@ -105,7 +106,7 @@ const MainPage = () => {
             </div>
           </div>
           <div
-            className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[330px] h-[70px] border border-[#0413616b]"
+            className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[32%]  h-[70px] border border-[#0413616b]"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
           >
             <div className="flex justify-center items-center rounded-full w-[50px] h-[50px] text-white bg-[#041461] text-[14px]">
@@ -145,14 +146,20 @@ const MainPage = () => {
                   className="absolute top-[40px] left-0 w-[128px] h-[112px] border-solid border-[3px] border-[#041361c2] rounded-[16px] bg-white  "
                   style={{ display: showComingParties ? "block" : "none" }}
                 >
-                  <div className="flex flex-col justify-center items-center h-full">
-                    <h3 className="h-[50%] flex justify-center items-center">
-                      عرض الكل
-                    </h3>
+                  <div className="flex flex-col justify-center items-center h-full ">
+                    <Link
+                      to="/NewEvents "
+                      className="h-[50%] flex justify-center items-center cursor-pointer "
+                    >
+                      <h3 className="">عرض الكل</h3>
+                    </Link>
                     <div className="w-full h-[3px] bg-[#041361c2]"></div>
-                    <h3 className="h-[50%] flex justify-center items-center">
-                      إضـافـة
-                    </h3>
+                    <Link
+                      to="/AddEvents"
+                      className="h-[50%] flex justify-center items-center cursor-pointer "
+                    >
+                      <h3 className="">إضـافـة</h3>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -167,7 +174,8 @@ const MainPage = () => {
               }}
             >
               {newTickets.map((party) => (
-                <div
+                <Link
+                  to="/ShowNewEventDetails"
                   key={party.id}
                   className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px] "
                 >
@@ -196,7 +204,7 @@ const MainPage = () => {
                       ))}
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -223,17 +231,23 @@ const MainPage = () => {
                   ...
                 </h3>
                 <div
-                  className="absolute top-[40px] left-0 w-[128px] h-[112px] border-solid border-[3px] border-[#041361c2] rounded-[16px] bg-white"
+                  className="absolute top-[40px] left-0 w-[128px] h-[112px] border-solid border-[3px] border-[#041361c2] rounded-[16px] bg-white  "
                   style={{ display: showOldParties ? "block" : "none" }}
                 >
-                  <div className="flex flex-col justify-center items-center h-full">
-                    <h3 className="h-[50%] flex justify-center items-center">
-                      عرض الكل
-                    </h3>
+                  <div className="flex flex-col justify-center items-center h-full ">
+                    <Link
+                      to="/EndedEvents "
+                      className="h-[50%] flex justify-center items-center cursor-pointer "
+                    >
+                      <h3 className="">عرض الكل</h3>
+                    </Link>
                     <div className="w-full h-[3px] bg-[#041361c2]"></div>
-                    <h3 className="h-[50%] flex justify-center items-center">
-                      إضـافـة
-                    </h3>
+                    <Link
+                      to="/AddEvents"
+                      className="h-[50%] flex justify-center items-center cursor-pointer "
+                    >
+                      <h3 className="">إضـافـة</h3>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -248,7 +262,11 @@ const MainPage = () => {
               }}
             >
               {oldTickets.map((party) => (
-                <div key={party.id} className="partyContainer ml-[70px]">
+                <Link
+                  to="/ShowEndedEventDetail"
+                  key={party.id}
+                  className="partyContainer ml-[70px]"
+                >
                   <div className="party border-solid border-[1px] border-gray-400 rounded-[18px] ml-[10px] w-[260px] h-[240px] mb-[10px]">
                     <div className="img">
                       <img
@@ -268,7 +286,7 @@ const MainPage = () => {
                       </h4>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

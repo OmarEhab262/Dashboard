@@ -12,9 +12,13 @@ import parties from "../assists/icon/parties.png";
 import bparties from "../assists/icon/bparties.png";
 import user1 from "../assists/imgs/userm.png";
 import { Link, useLocation } from "react-router-dom";
-
+import down from "../assists/icon/down.png";
+import warrow from "../assists/icon/warrow.png";
 const SideBar = ({ activeItemProp }) => {
   const [activeItem, setActiveItem] = useState(""); // Initialize with an empty string
+  const [isRotated, setIsRotated] = useState(false);
+  const [show, setShow] = useState(false);
+  const [activeParty, setActiveParty] = useState(false);
   const location = useLocation();
   const goToUserpage = () => {
     window.location.href = "/Dashboard/#/User";
@@ -45,10 +49,10 @@ const SideBar = ({ activeItemProp }) => {
     } else if (pathname === "/Reservations") {
       setActiveItem("reservations");
     } else if (pathname === "/EndedEvents") {
-      setActiveItem("endedEvents");
+      setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/NewEvents")) {
-      setActiveItem("endedEvents");
+      setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/ShowEndedEventDetail")) {
       setActiveItem("endedEvents");
@@ -60,14 +64,21 @@ const SideBar = ({ activeItemProp }) => {
       setActiveItem("endedEvents");
     }
     if (location.pathname.endsWith("/AddEvents")) {
-      setActiveItem("endedEvents");
+      setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/CreatedParty")) {
       setActiveItem("endedEvents");
     }
     // Add more conditions for other pages if needed
   }, [location.pathname]);
-
+  const handleInputChange = () => {
+    setIsRotated(!isRotated);
+  };
+  const handlePartyChange = () => {
+    setActiveParty(true);
+    setActiveItem("");
+    setShow(!show);
+  };
   return (
     <div className="col-span-1 min-h-screen ">
       <div className="logo   flex justify-center items-center h-[20vh]">
@@ -190,34 +201,85 @@ const SideBar = ({ activeItemProp }) => {
             <div className="absolute bottom-0 right-[-120%] w-[100%] h-[100%] bg-white rounded-tl-[10px] rounded-bl-[10px]"></div>
           )}
         </Link>
-        <Link
-          to="/EndedEvents"
+        <div
+          //   to="/EndedEvents"
+          onClick={() => {
+            handleInputChange();
+            handlePartyChange();
+          }}
           className={`${
-            activeItem === "endedEvents"
-              ? "bg-[#f9f9ff] p-[15px] rounded-br-[20px] rounded-tr-[20px]  w-[80%] self-end relative mt-[5px]"
-              : "p-[15px] rounded-br-[20px] rounded-tr-[20px] w-[80%] self-end mt-[5px]"
+            activeParty === true ||
+            activeItem === "newEvents" ||
+            activeItem === "AddEvents"
+              ? "bg-[#f9f9ff] p-[15px] rounded-br-[20px] rounded-tr-[20px]  w-[80%] self-end relative mt-[5px] "
+              : "p-[15px] rounded-br-[20px] rounded-tr-[20px] w-[80%] self-end mt-[5px] "
           }`}
         >
-          <div className="flex cursor-pointer">
-            <img
-              src={activeItem === "endedEvents" ? bparties : parties}
-              alt="parties"
-              className="ml-[16px]"
-            />
-            <h3
-              className={`font-[700] ${
-                activeItem === "endedEvents"
-                  ? "text-[#041461]"
-                  : "text-[#838389]"
-              }`}
-            >
-              الحفلات
-            </h3>
+          <div className="flex cursor-pointer justify-between items-center">
+            <div className="flex justify-center items-center ">
+              {" "}
+              <img
+                src={
+                  activeParty === true ||
+                  activeItem === "newEvents" ||
+                  activeItem === "AddEvents"
+                    ? bparties
+                    : parties
+                }
+                alt="parties"
+                className="ml-[16px]"
+              />
+              <h3
+                className={`font-[700] ${
+                  activeParty ||
+                  activeItem === "newEvents" ||
+                  activeItem === "AddEvents"
+                    ? "text-[#041461]"
+                    : "text-[#838389]"
+                }`}
+              >
+                {activeItem === "newEvents" ? "عرض" : "الحفلات"}
+              </h3>
+            </div>
+            <div className="w-[30px]">
+              {" "}
+              <img
+                src={
+                  activeParty ||
+                  activeItem === "newEvents" ||
+                  activeItem === "AddEvents"
+                    ? down
+                    : warrow
+                }
+                alt=""
+                className={`transition-transform transform ${
+                  isRotated ? "rotate-180" : ""
+                }`}
+              />
+            </div>
           </div>
-          {activeItem === "endedEvents" && (
+          {activeParty === true && (
             <div className="absolute bottom-0 right-[-120%] w-[100%] h-[100%] bg-white rounded-tl-[10px] rounded-bl-[10px]"></div>
           )}
-        </Link>
+        </div>
+        <div
+          className={`ease-in duration-300 ${
+            show ? "show" : "hidden"
+          } w-[70%] self-end relative mt-[15px] bg-white rounded-[24px] h-[125px] ml-[20px] text-[#041461] font-[700] text-[16px] overflow-hidden`}
+        >
+          <Link
+            className="up h-[50%] border-b-2 flex justify-center items-center border-[#041461] cursor-pointer hover:bg-gray-300"
+            to="/NewEvents"
+          >
+            <h3>عرض</h3>
+          </Link>
+          <Link
+            className="down h-[50%] border-t-2 flex justify-center items-center border-[#041461] cursor-pointer  hover:bg-gray-300"
+            to="/AddEvents"
+          >
+            <h3>إضافة</h3>
+          </Link>
+        </div>
       </div>
       <div className="user flex justify-center items-center flex-col w-full  h-[15vh]">
         <div className="line w-[70%] bg-white h-[1px]"></div>

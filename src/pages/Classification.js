@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import SideBar from "../components/SideBar";
 import "../../src/index.css";
 
 const Classification = () => {
   const [data, setData] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +21,44 @@ const Classification = () => {
 
     fetchData();
   }, []);
+
+  const fileInputRef = useRef(null);
+
+  const handleEditImageClick = (itemId) => {
+    setSelectedItemId(itemId);
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        `https://api.example.com/update/${selectedItemId}`, // Replace with your API endpoint
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      // Assuming the API responds with updated data for the item
+      const updatedItem = response.data;
+
+      setData((prevData) =>
+        prevData.map((item) =>
+          item.id === selectedItemId ? updatedItem : item
+        )
+      );
+    } catch (error) {
+      console.error("Error updating image:", error);
+    }
+  };
 
   return (
     <div className="grid grid-cols-5 h-screen">
@@ -40,7 +79,9 @@ const Classification = () => {
                 >
                   <div
                     className="head h-[54px] rounded-[10px] flex justify-center items-center w-full my-[10px] border border-[#0413616b]"
-                    style={{ boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)" }}
+                    style={{
+                      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)",
+                    }}
                   >
                     <h3 className="text-[#041461] text-[18px] font-[500]">
                       {item.name}
@@ -53,7 +94,10 @@ const Classification = () => {
                       className="w-full h-[200px]"
                     />
                   </div>
-                  <div className="edit w-[132px] h-[63px] bg-[#041461D9] rounded-[10px] flex justify-center items-center cursor-pointer my-[10px]">
+                  <div
+                    className="edit w-[132px] h-[63px] bg-[#041461D9] rounded-[10px] flex justify-center items-center cursor-pointer my-[10px]"
+                    onClick={() => handleEditImageClick(item.id)}
+                  >
                     <h3 className="text-[16px] font-[700] text-white">
                       تعديل الصورة
                     </h3>
@@ -64,6 +108,12 @@ const Classification = () => {
           </div>
         </div>
       </div>
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={handleFileChange}
+      />
     </div>
   );
 };
