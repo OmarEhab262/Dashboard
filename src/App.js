@@ -1,7 +1,8 @@
+import React from "react";
 import "./App.css";
 import LogIn from "./pages/LogIn";
 import ErrorPage from "./pages/ErrorPage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ForgotUserPass from "./pages/ForgotUserPass";
 import CheckEmail from "./pages/CheckEmail";
 import SuccessfulPassword from "./components/SuccessfulPassword";
@@ -20,6 +21,7 @@ import EditEventDetail from "./pages/EditEventDetail";
 import ShowNewEventDetails from "./pages/ShowNewEventDetails";
 import AddEvents from "./pages/AddEvents";
 import User from "./pages/User";
+
 function App() {
   return (
     <Router basename="/Dashboard">
