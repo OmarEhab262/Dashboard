@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import LogIn from "./pages/LogIn";
 import ErrorPage from "./pages/ErrorPage";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import ForgotUserPass from "./pages/ForgotUserPass";
 import CheckEmail from "./pages/CheckEmail";
 import SuccessfulPassword from "./components/SuccessfulPassword";
@@ -24,7 +24,7 @@ import User from "./pages/User";
 
 function App() {
   return (
-    <Router basename="/Dashboard">
+    <Router>
       <Routes>
         <Route path="/" element={<LogIn />} />
         <Route path="/ForgotUserPass" element={<ForgotUserPass />} />
