@@ -7,6 +7,7 @@ const User = () => {
   const [fullName, setFullName] = useState("حمبولة السيد احمد");
   const [email, setEmail] = useState("hambolaelsayed26.gmail.com");
   const [password, setPassword] = useState("1234");
+
   const [role, setRole] = useState("الادمن");
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleFullNameChange = (e) => setFullName(e.target.value);
@@ -29,6 +30,11 @@ const User = () => {
   const handleCameraClick = () => {
     document.getElementById("imageInput").click();
   };
+
+  const [change, setChange] = useState("disabled");
+  const handleChange = () => {
+    setChange("");
+  };
   return (
     <div className="grid grid-cols-5  h-screen ">
       <SideBar />
@@ -41,11 +47,11 @@ const User = () => {
           </h3>
         </div>
         <div className="w-full overflow-auto ssc pl-[15px]">
-          <div className="content mt-[17px] flex justify-between items-center w-full">
+          <div className="content mt-[17px] flex justify-between items-center w-full ">
             <div className="head flex items-center ">
-              <div>
-                <div className="img w-[140px] h-[140px]  flex justify-center items-center relative">
-                  <img src={image} alt="" className="rounded-full" />
+              <div className="relative">
+                <div className="img w-[140px] h-[140px]    overflow-hidden   rounded-full">
+                  <img src={image} alt="" className="rounded-full " />
                   <div
                     className="change absolute bottom-2 left-2 bg-[#041461] w-[32px] h-[32px] flex justify-center items-center rounded-full cursor-pointer"
                     onClick={handleCameraClick}
@@ -54,6 +60,7 @@ const User = () => {
                   </div>
                 </div>
                 <input
+                  disabled={change}
                   type="file"
                   id="imageInput"
                   accept="image/*"
@@ -70,7 +77,10 @@ const User = () => {
                 </div>
               </div>
             </div>
-            <div className="title w-[154px] h-[64px] bg-[#041461D9] flex justify-center items-center rounded-[8px] text-white text-[16px]">
+            <div
+              onClick={handleChange}
+              className="title w-[154px] h-[64px] bg-[#041461D9] flex justify-center items-center rounded-[8px] text-white text-[20px] cursor-pointer"
+            >
               <h3>تعديل بيانات</h3>
             </div>
           </div>
@@ -80,6 +90,7 @@ const User = () => {
                 <h3>اسم المستخدم</h3>
               </div>
               <input
+                disabled={change}
                 type="text"
                 value={username}
                 onChange={handleUsernameChange}
@@ -91,6 +102,7 @@ const User = () => {
                 <h3>الاسم ثلاثي</h3>
               </div>
               <input
+                disabled={change}
                 type="text"
                 value={fullName}
                 onChange={handleFullNameChange}
@@ -102,6 +114,7 @@ const User = () => {
                 <h3>البريد الالكترونى</h3>
               </div>
               <input
+                disabled={change}
                 type="text"
                 value={email}
                 onChange={handleEmailChange}
@@ -113,6 +126,7 @@ const User = () => {
                 <h3>كلمة المرور</h3>
               </div>
               <input
+                disabled={change}
                 type="text"
                 value={password}
                 onChange={handlePasswordChange}
@@ -124,6 +138,7 @@ const User = () => {
                 <h3>الدور</h3>
               </div>
               <input
+                disabled={change}
                 type="text"
                 value={role}
                 onChange={handleRoleChange}

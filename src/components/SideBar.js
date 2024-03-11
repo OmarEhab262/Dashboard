@@ -55,16 +55,16 @@ const SideBar = ({ activeItemProp }) => {
       setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/ShowEndedEventDetail")) {
-      setActiveItem("endedEvents");
+      setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/EditEventDetail")) {
       setActiveItem("endedEvents");
     }
     if (location.pathname.endsWith("/ShowNewEventDetails")) {
-      setActiveItem("endedEvents");
+      setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/AddEvents")) {
-      setActiveItem("newEvents");
+      setActiveItem("addEvents");
     }
     if (location.pathname.endsWith("/CreatedParty")) {
       setActiveItem("endedEvents");
@@ -210,7 +210,7 @@ const SideBar = ({ activeItemProp }) => {
           className={`${
             activeParty === true ||
             activeItem === "newEvents" ||
-            activeItem === "AddEvents"
+            activeItem === "addEvents"
               ? "bg-[#f9f9ff] p-[15px] rounded-br-[20px] rounded-tr-[20px]  w-[80%] self-end relative mt-[5px] "
               : "p-[15px] rounded-br-[20px] rounded-tr-[20px] w-[80%] self-end mt-[5px] "
           }`}
@@ -222,7 +222,7 @@ const SideBar = ({ activeItemProp }) => {
                 src={
                   activeParty === true ||
                   activeItem === "newEvents" ||
-                  activeItem === "AddEvents"
+                  activeItem === "addEvents"
                     ? bparties
                     : parties
                 }
@@ -233,12 +233,16 @@ const SideBar = ({ activeItemProp }) => {
                 className={`font-[700] ${
                   activeParty ||
                   activeItem === "newEvents" ||
-                  activeItem === "AddEvents"
+                  activeItem === "addEvents"
                     ? "text-[#041461]"
                     : "text-[#838389]"
                 }`}
               >
-                {activeItem === "newEvents" ? "عرض" : "الحفلات"}
+                {activeItem === "newEvents"
+                  ? "عرض"
+                  : activeItem === "addEvents"
+                  ? "إضافة"
+                  : "الحفلات"}
               </h3>
             </div>
             <div className="w-[30px]">
@@ -247,7 +251,7 @@ const SideBar = ({ activeItemProp }) => {
                 src={
                   activeParty ||
                   activeItem === "newEvents" ||
-                  activeItem === "AddEvents"
+                  activeItem === "addEvents"
                     ? down
                     : warrow
                 }

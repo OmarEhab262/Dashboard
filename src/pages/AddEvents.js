@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SideBar from "../components/SideBar";
 import down from "../assists/icon/down.png";
 import arrow from "../assists/icon/arrow.png";
+import { Link } from "react-router-dom";
 
 const AddEvents = () => {
   const [partyName, setPartyName] = useState("");
@@ -42,6 +43,9 @@ const AddEvents = () => {
   const goToCreatedParty = () => {
     window.location.href = "/Dashboard/#/CreatedParty";
   };
+  const goBack = () => {
+    window.history.back();
+  };
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -64,7 +68,7 @@ const AddEvents = () => {
             next ? "hidden" : ""
           } `}
         >
-          <div className="nameParty col-span-2 flex w-full h-[80px] items-center mb-[40px]">
+          <div className="nameParty col-span-2 flex w-full h-[80px] items-center mb-[20px]">
             <h3 className="text-[24px] font-[700] w-[150px] ml-[20px]">
               اسم الحفلة
             </h3>
@@ -74,7 +78,7 @@ const AddEvents = () => {
               onChange={(e) => setPartyName(e.target.value)}
             />
           </div>
-          <div className="dateParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mb-[40px]">
+          <div className="dateParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mb-[20px]">
             <h3 className="text-[24px] font-[700] w-[160px]">التاريخ</h3>
             <input
               type="text"
@@ -82,7 +86,7 @@ const AddEvents = () => {
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
-          <div className="timeParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mr-[20px] mb-[40px]">
+          <div className="timeParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mr-[20px] mb-[20px]">
             <h3 className="text-[24px] font-[700] w-[100px]">الوقت</h3>
             <input
               type="text"
@@ -90,7 +94,7 @@ const AddEvents = () => {
               onChange={(e) => setTime(e.target.value)}
             />
           </div>
-          <div className="governorateParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mb-[40px]">
+          <div className="governorateParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mb-[20px]">
             <h3 className="text-[24px] font-[700] w-[160px]">المحافظة</h3>
             <input
               type="text"
@@ -98,7 +102,7 @@ const AddEvents = () => {
               onChange={(e) => setGovernorate(e.target.value)}
             />
           </div>
-          <div className="placeParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mr-[20px] mb-[40px]">
+          <div className="placeParty col-span-1 flex w-full h-[80px] items-center mt-[20px] mr-[20px] mb-[20px]">
             <h3 className="text-[24px] font-[700] w-[100px]">المكان</h3>
             <input
               type="text"
@@ -188,7 +192,7 @@ const AddEvents = () => {
         `}
         >
           <div
-            className={`header flex items-center w-[100%] h-[35px] mt-[5px] mb-[35px]`}
+            className={`header flex items-center w-[100%] h-[35px] mt-[20px] mb-[20px]`}
           >
             <img
               src={arrow}
@@ -201,7 +205,7 @@ const AddEvents = () => {
             </h3>
           </div>
           <div className=" overflow-auto ssc  h-[75vh] pl-[15px]">
-            <div className="descriptionParty col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between ">
+            <div className="descriptionParty col-span-2 flex w-full  h-[122px] items-center  mt-[20px] mb-[20px]  justify-between ">
               <h3 className="text-[24px] font-[700]  ml-[20px]">وصف الحفلة</h3>
               <input
                 type="text"
@@ -209,7 +213,7 @@ const AddEvents = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <div className="addimg col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+            <div className="addimg col-span-2 flex w-full  h-[80px] items-center mb-[20px]  justify-between">
               <h3 className="text-[24px] font-[700]  ml-[20px]">اضافة صورة</h3>
               <label
                 className="w-[80%] h-[81px] outline-0 border bg-transparent rounded-[8px] text-[30px]    text-dodgerblue cursor-pointer"
@@ -229,7 +233,7 @@ const AddEvents = () => {
                 />
               </label>
             </div>
-            <div className="Vip col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+            <div className="Vip col-span-2 flex w-full  h-[80px] items-center  mt-[20px] mb-[20px]  justify-between">
               <h3 className="text-[24px] font-[700]  ml-[20px]">
                 ارقام مقاعد Vip
               </h3>
@@ -239,7 +243,7 @@ const AddEvents = () => {
                 onChange={(e) => setVipSeats(e.target.value)}
               />
             </div>
-            <div className="Plus col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+            <div className="Plus col-span-2 flex w-full  h-[80px] items-center  mt-[20px] mb-[20px]  justify-between">
               <h3 className="text-[24px] font-[700]  ml-[20px]">
                 ارقام مقاعد Plus
               </h3>
@@ -249,7 +253,7 @@ const AddEvents = () => {
                 onChange={(e) => setPlusSeats(e.target.value)}
               />
             </div>
-            <div className="VVip col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+            <div className="VVip col-span-2 flex w-full  h-[80px] items-center mt-[20px] mb-[20px]  justify-between">
               <h3 className="text-[24px] font-[700]  ml-[20px]">
                 ارقام مقاعد VVip
               </h3>
@@ -259,7 +263,7 @@ const AddEvents = () => {
                 onChange={(e) => setVvipSeats(e.target.value)}
               />
             </div>
-            <div className="type col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+            <div className="type col-span-2 flex w-full  h-[80px] items-center mb-[20px]  justify-between">
               <h3 className="text-[24px] font-[700]  ml-[20px]">حالة الحفلة</h3>
               <div className="w-[70%] h-[81px] bg-transparent rounded-[8px] text-[24px] flex justify-around items-center text-[#04146152] mx-auto">
                 <label className="flex items-center cursor-pointer">
@@ -301,7 +305,7 @@ const AddEvents = () => {
               </div>
             </div>
             <div className="flex ">
-              <div className="VVip col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+              <div className="VVip col-span-2 flex w-full  h-[80px] items-center  mt-[20px] mb-[20px]  justify-between">
                 <h3 className="w-[45%] text-[24px] font-[700] pl-[15px]">
                   اسعار تذاكر VVip
                 </h3>
@@ -311,7 +315,7 @@ const AddEvents = () => {
                   onChange={(e) => setTicketPricesVVIP(e.target.value)}
                 />
               </div>
-              <div className="Plus col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+              <div className="Plus col-span-2 flex w-full  h-[80px] items-center  mt-[20px] mb-[20px]  justify-between">
                 <h3 className="w-[45%] text-[24px] font-[700] px-[15px]">
                   اسعار تذاكر Plus
                 </h3>
@@ -323,7 +327,7 @@ const AddEvents = () => {
               </div>
             </div>
             <div className="flex ">
-              <div className="Vip col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+              <div className="Vip col-span-2 flex w-full  h-[80px] items-center  mt-[20px] mb-[20px]  justify-between">
                 <h3 className="w-[45%] text-[24px] font-[700] pl-[15px]">
                   اسعار تذاكر Vip
                 </h3>
@@ -333,18 +337,18 @@ const AddEvents = () => {
                   onChange={(e) => setTicketPricesVIP(e.target.value)}
                 />
               </div>
-              <div className="accompanying col-span-2 flex w-full  h-[122px] items-center mb-[40px]  justify-between">
+              <div className="accompanying col-span-2 flex w-full  h-[80px] items-center  mt-[20px] mb-[20px]  justify-between">
                 <h3 className="w-[45%] text-[24px] font-[700] px-[15px]">
                   المرافق
                 </h3>
                 <input
                   type="text"
-                  className="w-[65%] h-[81px] outline-0 border border-2 bg-transparent rounded-[8px] text-[30px] pr-[24px]"
+                  className="w-[65%] h-[80px] outline-0 border border-2 bg-transparent rounded-[8px] text-[30px] pr-[24px]"
                   onChange={(e) => setAccompanying(e.target.value)}
                 />
               </div>
             </div>
-            <div className="submit flex mx-auto w-[60%] justify-between mb-[20px]">
+            <div className="submit flex mx-auto w-[60%] justify-between  mt-[20px] mb-[20px]">
               <div
                 className={`next flex justify-center items-center  w-[244px] h-[60px]  rounded-[6px] bg-[#041461] text-white text-[20px] font-[700] cursor-pointer `}
                 onClick={goToCreatedParty}
@@ -352,7 +356,8 @@ const AddEvents = () => {
                 <h3>انشاء حفلة</h3>
               </div>
               <div
-                className={`next flex justify-center items-center  w-[244px] h-[60px]  rounded-[6px] bg-white text-[#041461] text-[20px] font-[700] cursor-pointer border border-[2px] border-[#041461]`}
+                onClick={goBack}
+                className={`next flex justify-center items-center  w-[244px] h-[60px]  rounded-[6px] bg-transparent text-[#041461] text-[20px] font-[700] cursor-pointer border border-[2px] border-[#041461]`}
               >
                 <h3>الغاء</h3>
               </div>
