@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --main-color: #041461;
+}
+@font-face {
+  font-family: "Cairo";
+  src: url("./assists/font/Cairo.ttf");
+}
+body {
+  font-family: "Cairo", sans-serif;
+  background-image: url(./assists/imgs/mainbg.png);
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  direction: rtl;
+}
+.parties::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; /* Adjust the height if needed */
+}
+
+/* Track styles */
+.parties::-webkit-scrollbar-track {
+  background: transparent;
+  /* Change color when hovered */
+}
+
+/* Handle styles */
+.parties::-webkit-scrollbar-thumb {
+  background: #041461;
+  border-radius: 6px;
+}
+
+/* Handle hover styles */
+.parties::-webkit-scrollbar-thumb:hover {
+  background: #041461;
+}
+.ssc::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; /* Adjust the height if needed */
+}
+
+/* Track styles */
+.ssc::-webkit-scrollbar-track {
+  background: transparent;
+  /* Change color when hovered */
+}
+
+/* Handle styles */
+.ssc::-webkit-scrollbar-thumb {
+  background: #041461;
+  /* /////////////?///////////////////////////
+//////
+///*/
+  border-radius: 6px;
+}
+
+/* Handle hover styles */
+.ssc::-webkit-scrollbar-thumb:hover {
+  background: #041461;
+}
+.partyContainer {
+  width: 220px;
+}

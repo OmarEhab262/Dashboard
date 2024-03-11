@@ -1,0 +1,12 @@
+{
+  "cSpell.words": [
+    "bclassification",
+    "bhome",
+    "bparties",
+    "breservations",
+    "btickets",
+    "busers"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}
