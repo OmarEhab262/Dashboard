@@ -44,7 +44,7 @@ function LogIn() {
 
       // If both username and password are correct, navigate to Gg page
       // Redirect to Gg page
-      window.location.href = "/Dashboard/Welcome";
+      window.location.href = "/Dashboard/#/Welcome";
     } catch (error) {
       console.error("Error:", error);
     }

@@ -17,7 +17,7 @@ const SideBar = ({ activeItemProp }) => {
   const [activeItem, setActiveItem] = useState(""); // Initialize with an empty string
   const location = useLocation();
   const goToUserpage = () => {
-    window.location.href = "/User";
+    window.location.href = "/Dashboard/#/User";
   };
   useEffect(() => {
     // Update activeItem based on the activeItemProp whenever the prop changes
@@ -28,6 +28,9 @@ const SideBar = ({ activeItemProp }) => {
     // Set activeItem based on the current location pathname
     const pathname = location.pathname;
     if (pathname === "/MainPage") {
+      setActiveItem("home");
+    }
+    if (pathname === "/Dashboard/#/MainPage") {
       setActiveItem("home");
     } else if (pathname === "/Users") {
       setActiveItem("users");

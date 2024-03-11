@@ -40,7 +40,7 @@ const AddEvents = () => {
     setSelectedOption(e.target.value);
   };
   const goToCreatedParty = () => {
-    window.location.href = "/CreatedParty";
+    window.location.href = "/Dashboard/#/CreatedParty";
   };
   return (
     <div className="grid grid-cols-5 h-screen">
