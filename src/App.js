@@ -25,36 +25,27 @@ function App() {
     <Router basename="/Dashboard">
       <Routes>
         <Route path="/" element={<LogIn />} />
-        <Route path="/Dashboard/ForgotUserPass" element={<ForgotUserPass />} />
-        <Route path="/Dashboard/CheckEmail" element={<CheckEmail />} />
+        <Route path="/ForgotUserPass" element={<ForgotUserPass />} />
+        <Route path="/CheckEmail" element={<CheckEmail />} />
+        <Route path="/SuccessfulPassword" element={<SuccessfulPassword />} />
+        <Route path="/Welcome" element={<Welcome />} />
+        <Route path="/CreatedParty" element={<CreatedParty />} />
+        <Route path="/MainPage" element={<MainPage />} />
+        <Route path="/Users" element={<Users />} />
+        <Route path="/Classification" element={<Classification />} />
+        <Route path="/Reservations" element={<Reservations />} />
+        <Route path="/EndedEvents" element={<EndedEvents />} />
+        <Route path="/NewEvents" element={<NewEvents />} />
         <Route
-          path="/Dashboard/SuccessfulPassword"
-          element={<SuccessfulPassword />}
-        />
-        <Route path="/Dashboard/Welcome" element={<Welcome />} />
-        <Route path="/Dashboard/CreatedParty" element={<CreatedParty />} />
-        <Route path="/Dashboard/MainPage" element={<MainPage />} />
-        <Route path="/Dashboard/Users" element={<Users />} />
-        <Route path="/Dashboard/Classification" element={<Classification />} />
-        <Route path="/Dashboard/Reservations" element={<Reservations />} />
-        <Route path="/Dashboard/EndedEvents" element={<EndedEvents />} />
-        <Route path="/Dashboard/NewEvents" element={<NewEvents />} />
-        <Route
-          path="/Dashboard/ShowEndedEventDetail"
+          path="/ShowEndedEventDetail"
           element={<ShowEndedEventDetail />}
         />
-        <Route
-          path="/Dashboard/EditEventDetail"
-          element={<EditEventDetail />}
-        />
-        <Route
-          path="/Dashboard/ShowNewEventDetails"
-          element={<ShowNewEventDetails />}
-        />
-        <Route path="/Dashboard/ShowParties" element={<ShowParties />} />
-        <Route path="/Dashboard/AddEvents" element={<AddEvents />} />
-        <Route path="/Dashboard/Booking" element={<Booking />} />
-        <Route path="/Dashboard/User" element={<User />} />
+        <Route path="/EditEventDetail" element={<EditEventDetail />} />
+        <Route path="/ShowNewEventDetails" element={<ShowNewEventDetails />} />
+        <Route path="/ShowParties" element={<ShowParties />} />
+        <Route path="/AddEvents" element={<AddEvents />} />
+        <Route path="/Booking" element={<Booking />} />
+        <Route path="/User" element={<User />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
