@@ -22,7 +22,7 @@ import AddEvents from "./pages/AddEvents";
 import User from "./pages/User";
 function App() {
   return (
-    <Router basename="Dashboard">
+    <Router basename="/Dashboard">
       <Routes>
         <Route path="/" element={<LogIn />} />
         <Route path="/ForgotUserPass" element={<ForgotUserPass />} />
