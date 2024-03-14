@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Dashboard/static/css/main.cb131dca.css",
-    "main.js": "/Dashboard/static/js/main.b14285dc.js",
+    "main.css": "/Dashboard/static/css/main.fd0ccf62.css",
+    "main.js": "/Dashboard/static/js/main.de4f5125.js",
     "static/media/logo.png": "/Dashboard/static/media/logo.5bdefdcc877fbfe70f75.png",
     "static/media/bgLogoSide.png": "/Dashboard/static/media/bgLogoSide.f817bbdf0e29c282fbb6.png",
     "static/media/mainbg.png": "/Dashboard/static/media/mainbg.77f0ba69c35ef5c2d04a.png",
@@ -16,11 +16,11 @@
     "static/media/Successful-password.png": "/Dashboard/static/media/Successful-password.3e11ca91f046152c3d3e.png",
     "static/media/mainuser.jpg": "/Dashboard/static/media/mainuser.13efe6d92a40cfe5e6e5.jpg",
     "index.html": "/Dashboard/index.html",
-    "main.cb131dca.css.map": "/Dashboard/static/css/main.cb131dca.css.map",
-    "main.b14285dc.js.map": "/Dashboard/static/js/main.b14285dc.js.map"
+    "main.fd0ccf62.css.map": "/Dashboard/static/css/main.fd0ccf62.css.map",
+    "main.de4f5125.js.map": "/Dashboard/static/js/main.de4f5125.js.map"
   },
   "entrypoints": [
-    "static/css/main.cb131dca.css",
-    "static/js/main.b14285dc.js"
+    "static/css/main.fd0ccf62.css",
+    "static/js/main.de4f5125.js"
   ]
 }
