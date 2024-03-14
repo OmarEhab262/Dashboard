@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LogoSide from "../components/LogoSide";
 import leftarrow from "../assists/icon/leftarrow.png";
+import axios from "axios";
 
 const CheckEmail = () => {
-  const [num, setNum] = useState("");
   const [enteredCode, setEnteredCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -12,25 +12,6 @@ const CheckEmail = () => {
   const [incorrectNewPassword, setIncorrectNewPassword] = useState(false);
   const [incorrectConfirmPassword, setIncorrectConfirmPassword] =
     useState(false);
-
-  useEffect(() => {
-    // Retrieve the random code from local storage
-    const storedCode = localStorage.getItem("randomCode");
-    if (storedCode) {
-      setNum(storedCode); // Set the retrieved code to the state
-    } else {
-      generateRandomCode(); // Generate a new code if none found in local storage
-    }
-  }, []);
-
-  const generateRandomCode = () => {
-    // Generate random 6-digit number
-    const randomCode = Math.floor(100000 + Math.random() * 900000);
-    console.log("New random 6-digit code:", randomCode);
-    setNum(randomCode.toString()); // Convert to string and update state
-    // Store the random code in local storage
-    localStorage.setItem("randomCode", randomCode);
-  };
 
   const handleNumChange = (e) => {
     const enteredNum = e.target.value;
@@ -48,17 +29,19 @@ const CheckEmail = () => {
     setIncorrectConfirmPassword(false); // Reset incorrect state when typing
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if num is a 6-digit number
-    if (!/^\d{6}$/.test(enteredCode) || enteredCode !== num) {
+    if (!/^\d{6}$/.test(enteredCode)) {
       setIncorrectNum(true);
+      return;
     }
 
     // Check if newPassword is at least 6 characters long
     if (newPassword.length < 6) {
       setIncorrectNewPassword(true);
+      return;
     }
 
     // Check if confirmPassword matches newPassword
@@ -67,9 +50,92 @@ const CheckEmail = () => {
       return;
     }
 
-    // Placeholder functionality to demonstrate submission
-    console.log("Form submitted:", { num, newPassword });
-    window.location.href = "/Dashboard/#/SuccessfulPassword";
+    try {
+      // Retrieve the email from localStorage
+      const email = localStorage.getItem("email");
+      if (!email) {
+        console.error("Email not found in localStorage");
+        return;
+      }
+
+      console.log("Data to be sent:", { email, code: enteredCode });
+      const token = localStorage.getItem("token");
+      console.log(token);
+
+      // Send a POST request to verify PIN API
+      const pinResponse = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/verify/pin",
+        { email, token: enteredCode },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      console.log("Response from verify PIN API:", pinResponse.data);
+
+      // Check if PIN verification was successful
+
+      // Send a POST request to reset password API
+      const resetResponse = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/reset-password",
+        {
+          email,
+          password: newPassword,
+          password_confirmation: confirmPassword,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      console.log("Response from reset password API:", resetResponse.data);
+
+      // Placeholder functionality to demonstrate submission
+      console.log("Form submitted:", { email, num: enteredCode });
+      window.location.href = "/Dashboard/#/SuccessfulPassword";
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error
+    }
+  };
+
+  const handleResendPIN = async () => {
+    try {
+      // Retrieve the email and token from localStorage
+      const email = localStorage.getItem("email");
+      const token = localStorage.getItem("token");
+
+      if (!email) {
+        console.error("Email not found in localStorage");
+        return;
+      }
+
+      // Send a POST request to resend PIN code
+      const resetCode = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/password/resend-pin",
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      console.log("Response from resend PIN code:", resetCode.data);
+
+      // Placeholder functionality to demonstrate successful resend
+      console.log("PIN code resent successfully");
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error
+    }
   };
 
   return (
@@ -109,10 +175,12 @@ const CheckEmail = () => {
                       }
                     }}
                   />
-
-                  <span className="cursor-pointer" onClick={generateRandomCode}>
+                  <div
+                    onClick={handleResendPIN}
+                    className="cursor-pointer text-[#041461] text-[14px] font-bold"
+                  >
                     لم يصلك الرمز بعد؟!
-                  </span>
+                  </div>
                 </div>
                 <p
                   className={`text-red-600  ${

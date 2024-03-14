@@ -1,72 +1,63 @@
 import React, { useState } from "react";
-import LogoSide from "../components/LogoSide";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import LogoSide from "../components/LogoSide";
 
 function LogIn() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [incorrectUsername, setIncorrectUsername] = useState(false);
-  const [incorrectPassword, setIncorrectPassword] = useState(false);
-  const [emptyUsername, setEmptyUsername] = useState(false);
-  const [emptyPassword, setEmptyPassword] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-    setIncorrectUsername(false); // Reset incorrect state when typing
-    setEmptyUsername(false); // Reset empty state when typing
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailError("");
+    setErrorMessage("");
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    setIncorrectPassword(false); // Reset incorrect state when typing
-    setEmptyPassword(false); // Reset empty state when typing
+    setPasswordError("");
+    setErrorMessage("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (username.trim() === "") {
-      setEmptyUsername(true);
-    } else {
-      setEmptyUsername(false);
-    }
-
-    if (password.trim() === "") {
-      setEmptyPassword(true);
-    } else {
-      setEmptyPassword(false);
-    }
-
-    if (username.trim() === "" || password.trim() === "") {
-      return;
-    }
-
     try {
-      const response = await axios.get(
-        "https://api.npoint.io/e7789345d320b409a032"
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/login",
+        { email, password }
       );
-      const data = response.data;
 
-      // Check if username exists in the fetched data
-      const user = data.find((user) => user.name === username);
-
-      if (!user) {
-        setIncorrectUsername(true);
-        return;
-      }
-
-      // Check if the password matches the one associated with the username
-      if (user.password !== password) {
-        setIncorrectPassword(true);
-        return;
-      }
-
-      // If both username and password are correct, navigate to Gg page
-      // Redirect to Gg page
+      console.log(response.data);
+      const token = response.data.data.token;
+      const emailFromServer = response.data.data.email;
+      console.log(token);
+      console.log(emailFromServer);
+      localStorage.setItem("token", token);
       window.location.href = "/Dashboard/#/Welcome";
     } catch (error) {
-      console.error("Error:", error);
+      console.log(error.response);
+      if (error.response) {
+        if (error.response.status === 401) {
+          setErrorMessage("البريد الإلكتروني أو كلمة المرور غير صحيحة.");
+        } else if (error.response.status === 422) {
+          setErrorMessage("بريد إلكتروني غير صحيح أو غير موجود.");
+        } else {
+          setErrorMessage(`خطأ في الخادم: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        setErrorMessage(
+          "خطأ في الشبكة. الرجاء التحقق من اتصال الإنترنت الخاص بك."
+        );
+      } else {
+        console.error("خطأ:", error.message);
+        setErrorMessage(
+          "حدث خطأ أثناء تسجيل الدخول. الرجاء المحاولة مرة أخرى في وقت لاحق."
+        );
+      }
     }
   };
 
@@ -82,75 +73,51 @@ function LogIn() {
               للوحة معلوماتك
             </p>
           </div>
-          <div>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="username"></label>
-                <input
-                  className={`w-[100%] p-[10px] rounded-[8px] border-solid border-[1px] ${
-                    incorrectUsername || emptyUsername
-                      ? "border-red-500"
-                      : "border-gray-400"
-                  } my-[10px]  outline-none`}
-                  placeholder="اسم المستخدم"
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={username}
-                  onChange={handleUsernameChange}
-                />
-                <p
-                  className={`text-red-600 mb-[20px] ${
-                    emptyUsername || incorrectUsername ? "block" : "hidden"
-                  }`}
-                >
-                  {emptyUsername
-                    ? "برجاء ادخال اسم مستخدم"
-                    : "برجاء ادخال اسم مستخدم صحيح"}
-                </p>
-              </div>
-              <div>
-                <label htmlFor="password"></label>
-                <input
-                  className={`w-[100%] p-[10px] rounded-[8px] border-solid border-[1px] ${
-                    incorrectPassword || emptyPassword
-                      ? "border-red-500"
-                      : "border-gray-400"
-                  } my-[10px]  outline-none`}
-                  placeholder="كلمة المرور"
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-                <p
-                  className={`text-red-600 mb-[20px] ${
-                    emptyPassword || incorrectPassword ? "block" : "hidden"
-                  }`}
-                >
-                  {emptyPassword
-                    ? "برجاء ادخال كلمة مرور"
-                    : "برجاء ادخال كلمة مرور صحيحة"}
-                </p>
-              </div>
-              <div className="flex justify-between items-center font-[700] ">
-                <button
-                  className="w-[220px] bg-[#041461] hover:bg-[#041361db] py-[10px] text-gray-50 rounded-[40px] ease-in duration-300 text-center"
-                  type="submit"
-                  // to="/MainPage"
-                >
-                  تسجيل الدخول
-                </button>
-                <Link
-                  to="/ForgotUserPass"
-                  className="text-[#041461] text-[14px] border-b border-dotted border-[#041461]"
-                >
-                  نسيت اسم المستخدم الخاص بك او الباسورد؟
-                </Link>
-              </div>
-            </form>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="email"></label>
+              <input
+                className={`w-[100%] p-[10px] rounded-[8px] border-solid border-[1px] ${
+                  errorMessage ? "border-red-500" : "border-gray-400"
+                } my-[20px]  outline-none`}
+                placeholder="البريد الإلكتروني"
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={handleEmailChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="password"></label>
+              <input
+                className={`w-[100%] p-[10px] rounded-[8px] border-solid border-[1px] ${
+                  errorMessage ? "border-red-500" : "border-gray-400"
+                } mb-[20px] outline-none`}
+                placeholder="كلمة المرور"
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <div className="flex justify-between items-center font-[700] ">
+              <button
+                className="w-[220px] bg-[#041461] hover:bg-[#041361db] py-[10px] text-gray-50 rounded-[40px] ease-in duration-300 text-center"
+                type="submit"
+              >
+                تسجيل الدخول
+              </button>
+              <Link
+                to="/ForgotUserPass"
+                className="text-[#041461] text-[14px] border-b border-dotted border-[#041461]"
+              >
+                نسيت اسم المستخدم الخاص بك او الباسورد؟
+              </Link>
+            </div>
+          </form>
+          {errorMessage && <p className="text-red-600 mt-4">{errorMessage}</p>}
         </div>
       </div>
     </div>

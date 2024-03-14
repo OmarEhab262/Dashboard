@@ -5,6 +5,7 @@ import party from "../assists/imgs/party.png";
 import date from "../assists/icon/date.png";
 import location from "../assists/icon/location.png";
 import time from "../assists/icon/time.png";
+import { Link } from "react-router-dom";
 
 const ShowEndedEventDetail = () => {
   const goBack = () => {
@@ -26,9 +27,12 @@ const ShowEndedEventDetail = () => {
             </h3>
           </div>
           <div className=" flex justify-end ">
-            <div className="w-[155px] h-[50px] rounded-[16px] bg-[#041461] text-white font-bold text-[16px] flex justify-center items-center ml-[30px]">
+            <Link
+              to="/EditEventDetail"
+              className="cursor-pointer w-[155px] h-[50px] rounded-[16px] bg-[#041461] text-white font-bold text-[16px] flex justify-center items-center ml-[30px]"
+            >
               <h3>تعديل حفلة</h3>
-            </div>
+            </Link>
           </div>
         </div>
         <div className="info flex py-[20px]  w-full h-auto overflow-hidden">

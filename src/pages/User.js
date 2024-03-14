@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cam from "../assists/icon/cam.png";
 import user from "../assists/imgs/mainuser.jpg";
 import SideBar from "../components/SideBar";
+import axios from "axios";
 const User = () => {
-  const [username, setUsername] = useState("حمبولة");
-  const [fullName, setFullName] = useState("حمبولة السيد احمد");
-  const [email, setEmail] = useState("hambolaelsayed26.gmail.com");
-  const [password, setPassword] = useState("1234");
-
-  const [role, setRole] = useState("الادمن");
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleFullNameChange = (e) => setFullName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleRoleChange = (e) => setRole(e.target.value);
-  const [image, setImage] = useState(user);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -34,6 +28,64 @@ const User = () => {
   const [change, setChange] = useState("disabled");
   const handleChange = () => {
     setChange("");
+  };
+  const [userData, setUserData] = useState(null);
+  const [username, setUsername] = useState("");
+  const [image, setImage] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("الادمن");
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://causal-eternal-ladybird.ngrok-free.app/api/profile",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setUserData(response.data);
+        setUsername(response.data.nameEN);
+        setFullName(response.data.nameAR);
+        setPassword(response.data.nameEN);
+        setEmail(response.data.email);
+        setImage(response.data.image);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+    fetchData();
+  }, [token]);
+
+  const handleSaveData = async () => {
+    try {
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/profile/update",
+        {
+          nameEN: username,
+          image: image,
+          nameAR: fullName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("User data updated:", response.data);
+      // You can do something after successful update if needed
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
   };
   return (
     <div className="grid grid-cols-5  h-screen ">
@@ -70,7 +122,7 @@ const User = () => {
               </div>
               <div className="info mr-[18px]">
                 <div className="name text-[24px] font-bold text-[#041461]">
-                  <h3>حمبولة السيد احمد </h3>
+                  <h3>{}</h3>
                 </div>
                 <div className="type text-[#041461B2] text-[24px]">
                   <h3>الادمن</h3>
@@ -121,18 +173,7 @@ const User = () => {
                 className="w-full bg-transparent outline-0 border-b-2 text-[#041461D9] text-[17px] mt-[15px] font-bold"
               />
             </div>
-            <div className="password mt-[24px]">
-              <div className="title text-[#04146194] text-[20px]">
-                <h3>كلمة المرور</h3>
-              </div>
-              <input
-                disabled={change}
-                type="text"
-                value={password}
-                onChange={handlePasswordChange}
-                className="w-full bg-transparent outline-0 border-b-2 text-[#041461D9] text-[17px] mt-[15px] font-bold"
-              />
-            </div>
+
             <div className="role mt-[24px]">
               <div className="title text-[#04146194] text-[20px]">
                 <h3>الدور</h3>
@@ -146,7 +187,10 @@ const User = () => {
               />
             </div>
           </div>
-          <div className="save w-[244px] mx-auto mb-[20px] mt-[40px] bg-[#041461D9] h-[60px] flex justify-center items-center rounded-[8px] cursor-pointer">
+          <div
+            onClick={handleSaveData}
+            className="save w-[244px] mx-auto mb-[20px] mt-[40px] bg-[#041461D9] h-[60px] flex justify-center items-center rounded-[8px] cursor-pointer"
+          >
             <h3 className="text-white text-[20px] font-[500]">حفظ البيانات</h3>
           </div>
         </div>

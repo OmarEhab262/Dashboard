@@ -2,45 +2,61 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LogoSide from "../components/LogoSide";
 import leftarrow from "../assists/icon/leftarrow.png";
+import axios from "axios";
 
-const ForgotUserPass = () => {
+function ForgotUserPass() {
   const [email, setEmail] = useState("");
-  const [incorrectEmail, setIncorrectEmail] = useState(false);
-
-  // Array of valid email addresses
-  const validEmails = [
-    "example1@example.com",
-    "example2@example.com",
-    "example3@example.com",
-  ];
+  const [errorMessage, setErrorMessage] = useState("");
+  const [emailExists, setEmailExists] = useState(true);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    setIncorrectEmail(false); // Reset incorrect state when typing
+    // Reset emailExists state when the user starts typing a new email
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if the entered email matches any of the valid email addresses
-    if (!validEmails.includes(email)) {
-      setIncorrectEmail(true);
-      return;
-    }
+    try {
+      // Retrieve token from localStorage
+      const token = localStorage.getItem("token");
+      console.log(token);
+      if (!token) {
+        console.error("Token not found in localStorage");
+        // Handle case where token is not available
+        return;
+      }
 
-    // Generate random 6-digit number
-    const randomCode = Math.floor(100000 + Math.random() * 900000);
-    console.log("Random 6-digit code:", randomCode);
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/forgot-password",
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      localStorage.setItem("email", email);
+      console.log("Response from server:", response.data);
 
-    // Store the random code in local storage
-    localStorage.setItem("randomCode", randomCode.toString());
-
-    // Placeholder functionality to demonstrate submission
-    console.log("Email submitted:", email);
-    // Redirect to CheckEmail page
-    setTimeout(() => {
+      // Placeholder functionality to demonstrate submission
+      console.log("Email submitted:", email);
+      // Redirect to CheckEmail page
       window.location.href = "/Dashboard/#/CheckEmail";
-    }, 1000); // Change delay to 3 seconds
+    } catch (error) {
+      console.error("Error:", error);
+      if (error.response && error.response.status === 404) {
+        // If email does not exist, set the emailExists state to false
+        setEmailExists(false);
+      } else {
+        // For other errors, set a generic error message
+        setErrorMessage(
+          "Failed to send forgot password email. Please try again."
+        );
+        setEmailExists(false);
+      }
+    }
   };
 
   return (
@@ -61,9 +77,11 @@ const ForgotUserPass = () => {
               <div>
                 <label htmlFor="email"></label>
                 <input
-                  className={`my-7 w-[100%] p-[10px] rounded-[8px] border-solid border-[1px] ${
-                    incorrectEmail ? "border-red-500" : "border-gray-400"
-                  } mb-[20px] outline-none`}
+                  className={`my-7 w-[100%] p-[10px] rounded-[8px] border-solid mb-[20px] outline-none  ${
+                    !emailExists
+                      ? "border-[1px] border-red-600"
+                      : "border-[1px] border-gray-400"
+                  }`}
                   placeholder="البريد الإلكتروني"
                   type="email"
                   id="email"
@@ -73,13 +91,13 @@ const ForgotUserPass = () => {
                 />
                 <p
                   className={`text-red-600 mb-[20px] ${
-                    incorrectEmail ? "block" : "hidden"
+                    !emailExists ? "block" : "hidden"
                   }`}
                 >
                   برجاء إدخال بريد إلكتروني صحيح
                 </p>
               </div>
-              <div className="flex justify-between items-center font-[700] ">
+              <div className="flex justify-between items-center font-[700]">
                 <button
                   className="w-[220px] bg-[#041461] hover:bg-[#041361db] py-[10px] text-gray-50 rounded-[40px] ease-in duration-300"
                   type="submit"
@@ -101,6 +119,6 @@ const ForgotUserPass = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ForgotUserPass;

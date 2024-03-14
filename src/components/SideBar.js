@@ -14,6 +14,7 @@ import user1 from "../assists/imgs/userm.png";
 import { Link, useLocation } from "react-router-dom";
 import down from "../assists/icon/down.png";
 import warrow from "../assists/icon/warrow.png";
+import axios from "axios";
 const SideBar = ({ activeItemProp }) => {
   const [activeItem, setActiveItem] = useState(""); // Initialize with an empty string
   const [isRotated, setIsRotated] = useState(false);
@@ -58,7 +59,7 @@ const SideBar = ({ activeItemProp }) => {
       setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/EditEventDetail")) {
-      setActiveItem("endedEvents");
+      setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/ShowNewEventDetails")) {
       setActiveItem("newEvents");
@@ -79,6 +80,41 @@ const SideBar = ({ activeItemProp }) => {
     setActiveItem("");
     setShow(!show);
   };
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://causal-eternal-ladybird.ngrok-free.app/api/profile",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setUserData(response.data);
+        setLoading(false);
+        // console.log(response.data); // Log entire response data
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []); // Empty dependency array to fetch data only once when component mounts
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!userData) {
+    return <div>No user data available.</div>;
+  }
   return (
     <div className="col-span-1 min-h-screen ">
       <div className="logo   flex justify-center items-center h-[20vh]">
@@ -285,17 +321,26 @@ const SideBar = ({ activeItemProp }) => {
           </Link>
         </div>
       </div>
-      <div className="user flex justify-center items-center flex-col w-full  h-[15vh]">
+      <div className="user flex justify-center items-center flex-col w-full h-[15vh]">
         <div className="line w-[70%] bg-white h-[1px]"></div>
         <div className="content flex items-center mt-[20px]">
           <div className="img w-[64px] cursor-pointer" onClick={goToUserpage}>
-            <img src={user1} alt="user1" className="w-full" />
+            <img src={userData.image} alt="user1" className="w-full" />
           </div>
           <div className="info mr-[20px] ">
-            <h3 className="text-[16px] font-bold text-white mb-[5px]">
-              محمد لطفى
-            </h3>
-            <h4 className="text-[12px] text-gray-500">ml12345@gmail.com</h4>
+            {loading ? (
+              <p>Loading...</p>
+            ) : userData ? (
+              <>
+                <h3 className="text-[16px] font-bold text-white mb-[5px]">
+                  {userData.nameEN}
+                </h3>
+                <h4 className="text-[12px] text-gray-500">{userData.email}</h4>
+                {/* Add more fields as needed */}
+              </>
+            ) : (
+              <p>Error fetching user data</p>
+            )}
           </div>
         </div>
       </div>
