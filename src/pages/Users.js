@@ -1,63 +1,49 @@
 import React, { useState, useEffect } from "react";
 import search from "../assists/icon/search.png";
 import SideBar from "../components/SideBar";
-import usera from "../assists/imgs/usera.png";
-import axios from "axios"; // Import axios for making API requests
+import axios from "axios";
 
 const Users = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [users, setUsers] = useState([]); // State to store users data
-  const [selectedLanguage, setSelectedLanguage] = useState("arabic"); // Default language is Arabic
+  const [users, setUsers] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [userToDelete, setUserToDelete] = useState(null); // State to store the user to be deleted
+  const [userToDelete, setUserToDelete] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // Fetch user data from the API
-    axios
-      .get("https://api.npoint.io/020cb3bcb198f0b39ee0")
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://causal-eternal-ladybird.ngrok-free.app/api/users",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        let filteredUsers = response.data.data;
+        if (searchInput) {
+          filteredUsers = response.data.data.filter(
+            (user) =>
+              user.nameAR.toLowerCase().includes(searchInput.toLowerCase()) ||
+              user.nameEN.toLowerCase().includes(searchInput.toLowerCase()) ||
+              user.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+              user.phone.includes(searchInput)
+          );
+        }
+        setUsers(filteredUsers);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Searching for:", searchInput);
-    // You can implement search logic here
-  };
+    fetchData();
+  }, [searchInput, token]);
 
-  // Filter users based on search query or show all users if search query is empty
-  const searchInputLower = searchInput.toLowerCase();
-
-  // Filter users based on search query or show all users if search query is empty
-  const filteredUsers = searchInput
-    ? users.filter(
-        (user) =>
-          user.name.arabic.toLowerCase().startsWith(searchInputLower) ||
-          user.name.english.toLowerCase().startsWith(searchInputLower)
-      )
-    : users;
-
-  // Function to handle user deletion
-  const deleteUser = () => {
-    if (userToDelete) {
-      // Remove the user from the API
-      axios
-        .delete(`https://api.npoint.io/020cb3bcb198f0b39ee0/${userToDelete.id}`)
-        .then((response) => {
-          console.log("User deleted successfully");
-          // Remove the deleted user from the local state
-          setUsers(users.filter((user) => user.id !== userToDelete.id));
-          // Close the delete confirmation dialog
-          setShowDeleteConfirmation(false);
-        })
-        .catch((error) => {
-          console.error("Error deleting user:", error);
-        });
-    }
+  const handleInputChange = (e) => {
+    setSearchInput(e.target.value);
   };
 
   return (
@@ -68,10 +54,7 @@ const Users = () => {
           <h3 className="text-[24px] font-bold text-[#041461]">
             لوحة المعلومات/ <span className="text-[20px]">المستخدمين</span>{" "}
           </h3>
-          <form
-            onSubmit={handleSearch}
-            className="flex bg-[#041461] items-center w-[40%] p-[20px] rounded-[16px] h-[50px]"
-          >
+          <form className="flex bg-[#041461] items-center w-[40%] p-[20px] rounded-[16px] h-[50px]">
             <img
               src={search}
               alt="searchicon"
@@ -80,7 +63,7 @@ const Users = () => {
             <input
               type="text"
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={handleInputChange}
               className="text-[16px] font-bold text-white w-[80%] ml-[20px] bg-[#041461] outline-none placeholder-white"
               placeholder="ابحث عن المستخدمين"
             />
@@ -91,7 +74,7 @@ const Users = () => {
           style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
         >
           <h3 className="font-bold text-[16px] text-[#041461]">
-            عدد المستخدمين : <span>{filteredUsers.length}</span>
+            عدد المستخدمين : <span>{users.length}</span>
           </h3>
         </div>
         <div className="w-full ">
@@ -104,22 +87,25 @@ const Users = () => {
             <h3 className="w-[80px]  text-center">السن</h3>
           </div>
           <div className="overflow-auto h-[67vh] ssc">
-            {filteredUsers.map((user) => (
+            {users.map((user) => (
               <div
                 key={user.id}
-                className="flex justify-between items-center w-full "
+                className="flex justify-between items-center w-full"
               >
                 <div className="info text-[15px] text-[#041461] font-bold flex items-center w-[90%] my-[10px]  bg-[#727db5ab] rounded-[24px]  justify-around py-[15px]">
                   <img
-                    src={user.image}
-                    alt="user"
+                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${user.image}`}
+                    alt="User"
                     className="w-[50px] h-[50px] rounded-full text-center"
                   />
-                  <h3 className="w-[170px]  text-center">{user.name.arabic}</h3>
-                  <h3 className="w-[190px]  text-center">
-                    {user.name.english}
+                  <h3 className="w-[170px]  text-center">{user.nameAR}</h3>
+                  <h3 className="w-[190px]  text-center">{user.nameEN}</h3>
+                  <h3
+                    className="w-[130px]  text-center overflow-x-auto  overflow-hidden userssss mt-[10px]"
+                    title={user.email}
+                  >
+                    {user.email}
                   </h3>
-                  <h3 className="w-[130px]  text-center">{user.email}</h3>
                   <h3 className="w-[150px]  text-center">{user.phone}</h3>
                   <h3 className="w-[80px]  text-center">
                     {user.age >= 18 ? "أكبر من 18" : "أصغر من 18"}
@@ -137,6 +123,7 @@ const Users = () => {
               </div>
             ))}
           </div>
+
           {showDeleteConfirmation && (
             <div
               className="fixed h-screen w-full top-0 left-0 flex justify-center items-center text-[#041461]"
@@ -149,7 +136,7 @@ const Users = () => {
                 <div className="flex gap-5">
                   <div
                     className="cursor-pointer w-[68px] h-[52px] rounded-[10px] bg-[#041461] text-white flex justify-center items-center border border-[#041461] mt-[20px]"
-                    onClick={deleteUser}
+                    // onClick={deleteUser}
                   >
                     نعم
                   </div>

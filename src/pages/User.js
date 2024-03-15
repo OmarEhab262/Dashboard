@@ -3,6 +3,7 @@ import cam from "../assists/icon/cam.png";
 import user from "../assists/imgs/mainuser.jpg";
 import SideBar from "../components/SideBar";
 import axios from "axios";
+
 const User = () => {
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleFullNameChange = (e) => setFullName(e.target.value);
@@ -12,23 +13,21 @@ const User = () => {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    setImage(file);
   };
 
   const handleCameraClick = () => {
-    document.getElementById("imageInput").click();
+    const imageInput = document.getElementById("imageInput");
+    if (imageInput) {
+      imageInput.click();
+    }
   };
 
-  const [change, setChange] = useState("disabled");
   const handleChange = () => {
     setChange("");
   };
+
+  const [change, setChange] = useState("disabled");
   const [userData, setUserData] = useState(null);
   const [username, setUsername] = useState("");
   const [image, setImage] = useState("");
@@ -51,10 +50,8 @@ const User = () => {
             },
           }
         );
-        setUserData(response.data);
         setUsername(response.data.nameEN);
         setFullName(response.data.nameAR);
-        setPassword(response.data.nameEN);
         setEmail(response.data.email);
         setImage(response.data.image);
       } catch (error) {
@@ -63,19 +60,19 @@ const User = () => {
     };
     fetchData();
   }, [token]);
-
   const handleSaveData = async () => {
     try {
+      const formData = new FormData();
+      formData.append("nameEN", username);
+      formData.append("nameAR", fullName);
+      formData.append("image", image); // Append the image blob
+
       const response = await axios.post(
         "https://causal-eternal-ladybird.ngrok-free.app/api/profile/update",
-        {
-          nameEN: username,
-          image: image,
-          nameAR: fullName,
-        },
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: "Bearer " + token,
             "ngrok-skip-browser-warning": "69420",
           },
@@ -87,6 +84,7 @@ const User = () => {
       console.error("Error updating user data:", error);
     }
   };
+
   return (
     <div className="grid grid-cols-5  h-screen ">
       <SideBar />
@@ -103,7 +101,11 @@ const User = () => {
             <div className="head flex items-center ">
               <div className="relative">
                 <div className="img w-[140px] h-[140px]    overflow-hidden   rounded-full">
-                  <img src={image} alt="" className="rounded-full " />
+                  <img
+                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${image}`}
+                    alt=""
+                    className="rounded-full "
+                  />
                   <div
                     className="change absolute bottom-2 left-2 bg-[#041461] w-[32px] h-[32px] flex justify-center items-center rounded-full cursor-pointer"
                     onClick={handleCameraClick}
@@ -115,7 +117,6 @@ const User = () => {
                   disabled={change}
                   type="file"
                   id="imageInput"
-                  accept="image/*"
                   style={{ display: "none" }}
                   onChange={handleImageChange}
                 />

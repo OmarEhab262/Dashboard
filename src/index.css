@@ -34,7 +34,14 @@ body {
   background: #041461;
   border-radius: 6px;
 }
-
+.userssss::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; /* Adjust the height if needed */
+}
+.userssss::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 6px;
+}
 /* Handle hover styles */
 .parties::-webkit-scrollbar-thumb:hover {
   background: #041461;

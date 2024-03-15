@@ -116,15 +116,15 @@ const SideBar = ({ activeItemProp }) => {
     return <div>No user data available.</div>;
   }
   return (
-    <div className="col-span-1 min-h-screen ">
-      <div className="logo   flex justify-center items-center h-[20vh]">
+    <div className="col-span-1 min-h-screen flex justify-between flex-col">
+      <div className="logo   flex justify-center items-center  ">
         <img
           src={logo}
           alt="logo"
           className="w-[150px] self-end pl-[20px] mt-[50px] ml-[-30px] mb-[15px]"
         />
       </div>
-      <div className="nav flex flex-col h-[65vh]">
+      <div className="nav flex flex-col h-[70%]">
         <Link
           to="/MainPage"
           className={`${
@@ -324,10 +324,17 @@ const SideBar = ({ activeItemProp }) => {
       <div className="user flex justify-center items-center flex-col w-full h-[15vh]">
         <div className="line w-[70%] bg-white h-[1px]"></div>
         <div className="content flex items-center mt-[20px]">
-          <div className="img w-[64px] cursor-pointer" onClick={goToUserpage}>
-            <img src={userData.image} alt="user1" className="w-full" />
+          <div
+            className="img w-[64px] cursor-pointer rounded-full"
+            onClick={goToUserpage}
+          >
+            <img
+              src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${userData.image}`}
+              alt="user1"
+              className="w-full rounded-full"
+            />
           </div>
-          <div className="info mr-[20px] ">
+          <div className="info mr-[20px] w-[100px] overflow-hidden ">
             {loading ? (
               <p>Loading...</p>
             ) : userData ? (
@@ -335,8 +342,12 @@ const SideBar = ({ activeItemProp }) => {
                 <h3 className="text-[16px] font-bold text-white mb-[5px]">
                   {userData.nameEN}
                 </h3>
-                <h4 className="text-[12px] text-gray-500">{userData.email}</h4>
-                {/* Add more fields as needed */}
+                <h4
+                  className="text-[12px] text-gray-500 overflow-x-auto overflow-y-hidden userssss "
+                  title={userData.email}
+                >
+                  {userData.email}
+                </h4>
               </>
             ) : (
               <p>Error fetching user data</p>
