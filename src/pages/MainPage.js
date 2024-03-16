@@ -189,7 +189,7 @@ const MainPage = () => {
             >
               {futureParties.map((party) => (
                 <Link
-                  to="/ShowNewEventDetails"
+                  to={`/ShowNewEventDetails/${party.event.id}`}
                   key={party.event.id}
                   className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px] "
                 >
@@ -268,7 +268,7 @@ const MainPage = () => {
             >
               {filteredParties.map((party) => (
                 <Link
-                  to="/ShowEndedEventDetail"
+                  to={`/ShowEndedEventDetail/${party.event.id}`}
                   key={party.event.id}
                   className="partyContainer ml-[70px]"
                 >

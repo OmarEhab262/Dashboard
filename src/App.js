@@ -39,11 +39,14 @@ function App() {
         <Route path="/EndedEvents" element={<EndedEvents />} />
         <Route path="/NewEvents" element={<NewEvents />} />
         <Route
-          path="/ShowEndedEventDetail"
+          path="/ShowEndedEventDetail/:id"
           element={<ShowEndedEventDetail />}
         />
         <Route path="/EditEventDetail" element={<EditEventDetail />} />
-        <Route path="/ShowNewEventDetails" element={<ShowNewEventDetails />} />
+        <Route
+          path="/ShowNewEventDetails/:id"
+          element={<ShowNewEventDetails />}
+        />
         <Route path="/ShowParties" element={<ShowParties />} />
         <Route path="/AddEvents" element={<AddEvents />} />
         <Route path="/Booking" element={<Booking />} />

@@ -72,50 +72,6 @@ const EditEventDetail = () => {
           </h3>
         </div>
         <div className=" overflow-auto ssc pl-[24px]">
-          <div className=" flex w-[100%] justify-between mt-[30px] mb-[20px]">
-            <div
-              className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[300px] h-[70px] border border-[#0413616b]"
-              style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
-            >
-              <div className="flex justify-center items-center rounded-full w-[50px] h-[50px] text-white bg-[#041461] text-[14px]">
-                <img src={count} alt="count" />
-              </div>
-              <div className=" mr-[20px]">
-                <h3 className="text-[16px] font-bold text-[#041461]">
-                  عدد المستخدمين
-                </h3>
-                <h3 className="text-[12px]">100000 مستخدم</h3>
-              </div>
-            </div>
-            <div
-              className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[300px] h-[70px] border border-[#0413616b]"
-              style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
-            >
-              <div className="flex justify-center items-center rounded-full w-[50px] h-[50px] text-white bg-[#041461] text-[14px]">
-                <img src={chair} alt="chair" />
-              </div>
-              <div className=" mr-[20px]">
-                <h3 className="text-[16px] font-bold text-[#041461]">
-                  عدد الحجوزات
-                </h3>
-                <h3 className="text-[12px]">100000 حجز</h3>
-              </div>
-            </div>
-            <div
-              className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[300px] h-[70px] border border-[#0413616b]"
-              style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
-            >
-              <div className="flex justify-center items-center rounded-full w-[50px] h-[50px] text-white bg-[#041461] text-[14px]">
-                <img src={party} alt="party" />
-              </div>
-              <div className=" mr-[20px]">
-                <h3 className="text-[16px] font-bold text-[#041461]">
-                  عدد الحفلات
-                </h3>
-                <h3 className="text-[12px]">60 حفلة</h3>
-              </div>
-            </div>
-          </div>
           <div className="h-[245px] grid w-full grid-cols-3 gap-[30px]">
             <div className="img h-full  col-span-1 ">
               <img src={partys} alt="party" className="h-full w-full" />

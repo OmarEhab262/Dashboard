@@ -24,6 +24,7 @@ const AddEvents = () => {
   const [ticketPricesPlus, setTicketPricesPlus] = useState("");
   const [ticketPricesVIP, setTicketPricesVIP] = useState("");
   const [accompanying, setAccompanying] = useState("");
+  const [ticketPrice, setTicketPrice] = useState("");
   const [selectedOption, setSelectedOption] = useState("open");
   const [activeTab, setActiveTab] = useState(null);
   const [stand, setStand] = useState(false);
@@ -530,6 +531,24 @@ const AddEvents = () => {
                   onChange={(e) => setAccompanying(e.target.value)}
                 />
               </div>
+            </div>
+            <div
+              className={`accompanying col-span-2 flex w-full  h-[80px] items-center  mt-[20px] mb-[20px]  justify-between ${
+                stand ? "hidden" : ""
+              }`}
+            >
+              <h3 className="w-[250px] text-[24px] font-[700] px-[15px]">
+                سعر التذكرة
+              </h3>
+              <input
+                type="text"
+                className={`${
+                  stand
+                    ? " w-[65%] h-[80px] outline-0 border border-2 bg-transparent rounded-[8px] text-[30px] pr-[24px]"
+                    : " w-full h-[80px] outline-0 border border-2 bg-transparent rounded-[8px] text-[30px] pr-[24px]"
+                }`}
+                onChange={(e) => setTicketPrice(e.target.value)}
+              />
             </div>
             <div className="submit flex mx-auto w-[60%] justify-between  mt-[20px] mb-[20px]">
               <div

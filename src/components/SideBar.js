@@ -11,7 +11,7 @@ import breservations from "../assists/icon/breservations.png";
 import parties from "../assists/icon/parties.png";
 import bparties from "../assists/icon/bparties.png";
 import user1 from "../assists/imgs/userm.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import down from "../assists/icon/down.png";
 import warrow from "../assists/icon/warrow.png";
 import axios from "axios";
@@ -21,6 +21,7 @@ const SideBar = ({ activeItemProp }) => {
   const [show, setShow] = useState(false);
   const [activeParty, setActiveParty] = useState(false);
   const location = useLocation();
+  const { id } = useParams();
   const goToUserpage = () => {
     window.location.href = "/Dashboard/#/User";
   };
@@ -33,6 +34,9 @@ const SideBar = ({ activeItemProp }) => {
     // Set activeItem based on the current location pathname
     const pathname = location.pathname;
     if (pathname === "/MainPage") {
+      setActiveItem("home");
+    }
+    if (pathname === "/MainPage/") {
       setActiveItem("home");
     }
     if (pathname === "/Dashboard/#/MainPage") {
@@ -55,13 +59,14 @@ const SideBar = ({ activeItemProp }) => {
     if (location.pathname.endsWith("/NewEvents")) {
       setActiveItem("newEvents");
     }
-    if (location.pathname.endsWith("/ShowEndedEventDetail")) {
+
+    if (location.pathname.endsWith(`/ShowEndedEventDetail/${id}`)) {
       setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/EditEventDetail")) {
       setActiveItem("newEvents");
     }
-    if (location.pathname.endsWith("/ShowNewEventDetails")) {
+    if (location.pathname.endsWith(`/ShowNewEventDetails/${id}`)) {
       setActiveItem("newEvents");
     }
     if (location.pathname.endsWith("/AddEvents")) {

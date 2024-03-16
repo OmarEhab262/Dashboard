@@ -1,16 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
 import arrow from "../assists/icon/arrow.png";
-import party from "../assists/imgs/party.png";
+import partyImg from "../assists/imgs/party.png";
 import date from "../assists/icon/date.png";
 import location from "../assists/icon/location.png";
-import time from "../assists/icon/time.png";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
 
 const ShowEndedEventDetail = () => {
   const goBack = () => {
     window.history.back();
   };
+
+  const { id } = useParams();
+  const [party, setParty] = useState(null);
+  const [imgs, setImgs] = useState(null);
+  const token = localStorage.getItem("token");
+  console.log(id);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://causal-eternal-ladybird.ngrok-free.app/api/events/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setParty(response.data.event); // Set party to response.data instead of response.data.events
+        setImgs(response.data.images); // Set party to response.data instead of response.data.events
+        console.log(response.data.images); // Set party to response.data instead of response.data.events
+        console.log(response.data.event); // Logging the fetched data
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [id, token]);
+
+  if (!party) {
+    return <div>Loading...</div>; // Display a loading message while party data is being fetched
+  }
 
   return (
     <div className="grid grid-cols-5 h-screen">
@@ -22,8 +56,7 @@ const ShowEndedEventDetail = () => {
               <img src={arrow} alt="arrow" className="w-[23px] h-[23px]" />
             </button>
             <h3 className="text-[24px] font-bold text-[#041461]">
-              لوحة المعلومات/{" "}
-              <span className="text-[20px]"> فان داى كلية علوم</span>
+              لوحة المعلومات/ <span className="text-[20px]">{party.title}</span>
             </h3>
           </div>
           <div className=" flex justify-end ">
@@ -38,7 +71,7 @@ const ShowEndedEventDetail = () => {
         <div className="info flex py-[20px]  w-full h-auto overflow-hidden">
           <div className="img h-[231px] w-[30%]">
             <img
-              src={party}
+              src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.banner}`}
               alt="party"
               className="h-full w-full object-cover"
             />
@@ -47,20 +80,13 @@ const ShowEndedEventDetail = () => {
             <div className="header mb-[36px] ">
               <div className="top mb-[10px]">
                 <h3 className="text-[32px] font-[700] text-[#041461]">
-                  فان داى كلية علوم
+                  {party.title}
                 </h3>
               </div>
               <div className="bot text-[16px] flex ml-[32px] ">
                 <div className="date flex mt-[5px]">
                   <img src={date} alt="date" className="w-[16px] h-[16px]" />
-                  <h3 className="text-[12px] mr-[10px]">
-                    اﻷثنين، 16 اغسطس 2024
-                  </h3>
-                </div>
-                <div className="time flex mt-[5px] mx-[32px] items-center">
-                  <div className="h-[150%] w-[2px] bg-gray-400  ml-[10px]"></div>
-                  <img src={time} alt="time " className="w-[16px] h-[16px]" />
-                  <h3 className="text-[12px] mr-[10px]">7:00 مساءا</h3>
+                  <h3 className="text-[12px] mr-[10px]">{party.date_time}</h3>
                 </div>
                 <div className="location flex mt-[5px] mx-[32px] items-center">
                   <div className="h-[150%] w-[2px] bg-gray-400  ml-[10px]"></div>
@@ -69,7 +95,12 @@ const ShowEndedEventDetail = () => {
                     alt="location"
                     className="w-[12px] h-[16px]"
                   />
-                  <h3 className="text-[12px] mr-[10px]">روما، ايطاليا</h3>
+                  <a
+                    href={party.location}
+                    className="text-[12px] mr-[10px] hover:font-bold"
+                  >
+                    {party.location}
+                  </a>
                 </div>
               </div>
             </div>
@@ -78,134 +109,34 @@ const ShowEndedEventDetail = () => {
                 <h3 className="text-[24px] font-[500][">الوصف</h3>
               </div>
               <div className="botFooter w-[460px] h-[62px] overflow-auto ssc">
-                <p className="text-[14px]">
-                  حفلة تخرج لخريجي كلية الآداب جامعة المنصورة دفعة 2023 ,يشمل
-                  الحفلة استعراضات فنية وأداء موسيقي حي باستخدام فرقة موسيقية أو
-                  فنانين محليين ليضيفوا جواً من الحيوية والاحتفال إلى الحفلة .
-                  حفلة تخرج لخريجي كلية الآداب جامعة المنصورة دفعة 2023 ,يشمل
-                  الحفلة استعراضات فنية وأداء موسيقي حي باستخدام فرقة موسيقية أو
-                  فنانين محليين ليضيفوا جواً من الحيوية والاحتفال إلى الحفلة .
-                  حفلة تخرج لخريجي كلية الآداب جامعة المنصورة دفعة 2023 ,يشمل
-                  الحفلة استعراضات فنية وأداء موسيقي حي باستخدام فرقة موسيقية أو
-                  فنانين محليين ليضيفوا جواً من الحيوية والاحتفال إلى الحفلة .
-                </p>
+                <p className="text-[14px]">{party.description}</p>
               </div>
             </div>
           </div>
         </div>
-        <div className="h-[50vh] overflow-auto  ssc">
-          <div className="img mt-[40px] h-[200px]w-full overflow-hidden">
+        <div className="h-[50vh] overflow-auto w-full  ssc">
+          <div className="img mt-[40px] h-[200px]  ">
             <h3 className="text-[24px] font-bold">الصور</h3>
-            <div className="containerImgs  w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
-              <img
-                src={party}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-              />
+            <div className="containerImgs  w-full flex overflow-x-auto ssc  mt-[20px] pb-[10px]">
+              {imgs &&
+                imgs.map((img) => (
+                  <img
+                    key={img.id} // Ensure each image has a unique key
+                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${img.image}`} // Access the 'image' property of each image object
+                    alt="party"
+                    className="w-[224px] h-[144px] object-cover ml-[18px] block"
+                  />
+                ))}
             </div>
           </div>
           <div className="video mt-[40px] h-[200px]w-full overflow-hidden">
             <h3 className="text-[24px] font-bold">الفيديو</h3>
             <div className="containerImgs  w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
-              <img
-                src={party}
+              <video
+                src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.video}`}
                 alt="party"
                 className="w-[224px] h-[144px] object-cover ml-[18px] block"
+                controls
               />
             </div>
           </div>
