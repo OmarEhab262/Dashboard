@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Dashboard/static/css/main.81046189.css",
-    "main.js": "/Dashboard/static/js/main.58d9670b.js",
+    "main.css": "/Dashboard/static/css/main.3cf9d8ba.css",
+    "main.js": "/Dashboard/static/js/main.302ed3f0.js",
     "static/media/logo.png": "/Dashboard/static/media/logo.5bdefdcc877fbfe70f75.png",
     "static/media/bgLogoSide.png": "/Dashboard/static/media/bgLogoSide.f817bbdf0e29c282fbb6.png",
     "static/media/mainbg.png": "/Dashboard/static/media/mainbg.77f0ba69c35ef5c2d04a.png",
@@ -12,15 +12,14 @@
     "static/media/welcom.png": "/Dashboard/static/media/welcom.bbce5331a6bcdd9c093a.png",
     "static/media/party.png": "/Dashboard/static/media/party.8d648dd8a0bfd56cc066.png",
     "static/media/crreatedParty.png": "/Dashboard/static/media/crreatedParty.466589772efe0b2add9b.png",
-    "static/media/party3.png": "/Dashboard/static/media/party3.4fd2005237ea9d7b29c6.png",
     "static/media/Successful-password.png": "/Dashboard/static/media/Successful-password.3e11ca91f046152c3d3e.png",
     "static/media/mainuser.jpg": "/Dashboard/static/media/mainuser.13efe6d92a40cfe5e6e5.jpg",
     "index.html": "/Dashboard/index.html",
-    "main.81046189.css.map": "/Dashboard/static/css/main.81046189.css.map",
-    "main.58d9670b.js.map": "/Dashboard/static/js/main.58d9670b.js.map"
+    "main.3cf9d8ba.css.map": "/Dashboard/static/css/main.3cf9d8ba.css.map",
+    "main.302ed3f0.js.map": "/Dashboard/static/js/main.302ed3f0.js.map"
   },
   "entrypoints": [
-    "static/css/main.81046189.css",
-    "static/js/main.58d9670b.js"
+    "static/css/main.3cf9d8ba.css",
+    "static/js/main.302ed3f0.js"
   ]
 }
