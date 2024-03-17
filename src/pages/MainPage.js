@@ -10,14 +10,20 @@ import axios from "axios";
 
 const MainPage = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [typeTickets, setTypeTickets] = useState([]);
-  const [newTickets, setNewTickets] = useState([]);
-  const [oldTickets, setOldTickets] = useState([]);
+  const [userCount, setUsersCount] = useState("");
+  const [bookingCount, setBookingCount] = useState("");
+  const [eventsCount, setEventsCount] = useState("");
   const [showComingParties, setShowComingParties] = useState(false);
   const [showOldParties, setShowOldParties] = useState(false);
   const [events, setEvents] = useState([]);
   const token = localStorage.getItem("token");
-
+  const [searchResults, setSearchResults] = useState([]);
+  useEffect(() => {
+    const filteredEvents = events.filter((event) =>
+      event.event.title.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    setSearchResults(filteredEvents);
+  }, [searchInput, events]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,6 +39,72 @@ const MainPage = () => {
         );
         setEvents(response.data.events); // Assuming the events array is directly inside the response data
         console.log(response.data.events); // Logging the fetched events
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://causal-eternal-ladybird.ngrok-free.app/api/users_count",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setUsersCount(response.data.count); // Assuming the events array is directly inside the response data
+        console.log(response.data.count); // Logging the fetched events
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://causal-eternal-ladybird.ngrok-free.app/api/booking_count",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setBookingCount(response.data.count); // Assuming the events array is directly inside the response data
+        console.log(response.data.count); // Logging the fetched events
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://causal-eternal-ladybird.ngrok-free.app/api/events_count",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setEventsCount(response.data.count); // Assuming the events array is directly inside the response data
+        console.log(response.data.count); // Logging the fetched events
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -63,6 +135,68 @@ const MainPage = () => {
   const showlastParties = () => {
     setShowOldParties((prevShow) => !prevShow);
   };
+  function parseDateString(dateString) {
+    const [date, time] = dateString.split(" ");
+    const [year, month, day] = date.split("-");
+    const [hours, minutes, seconds] = time.split(":");
+    const parsedDate = new Date(year, month - 1, day, hours, minutes, seconds);
+
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true,
+      locale: "ar",
+    };
+
+    // Customize the AM/PM strings
+    const localeOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      locale: "ar",
+    };
+
+    // Format time with customized AM/PM strings
+    const timeComponent = parsedDate
+      .toLocaleTimeString("ar", localeOptions)
+      .replace("ص", "صباحا")
+      .replace("م", "مساءا");
+
+    const formattedDate = parsedDate.toLocaleString("ar", options);
+    return {
+      dateComponent: parsedDate.toLocaleDateString("ar", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      timeComponent: timeComponent,
+    };
+  }
+  function formatDate(dateTimeString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const date = new Date(dateTimeString).toLocaleDateString("ar", options);
+
+    const timeOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      hourCycle: "h23", // Use 24-hour cycle to avoid AM/PM indicator
+    };
+    let time = new Date(dateTimeString).toLocaleTimeString("ar", timeOptions);
+
+    // Replace ص with صباحًا and م with مساءً
+    time = time.replace("ص", "صباحًا").replace("م", "مساءً");
+
+    return `${date}، ${time}`;
+  }
 
   return (
     <div className="grid grid-cols-5  h-screen ">
@@ -102,7 +236,7 @@ const MainPage = () => {
               <h3 className="text-[16px] font-bold text-[#041461]">
                 عدد المستخدمين
               </h3>
-              <h3 className="text-[12px]">100000 مستخدم</h3>
+              <h3 className="text-[12px]">{userCount} مستخدم</h3>
             </div>
           </div>
           <div
@@ -116,7 +250,7 @@ const MainPage = () => {
               <h3 className="text-[16px] font-bold text-[#041461]">
                 عدد الحجوزات
               </h3>
-              <h3 className="text-[12px]">100000 حجز</h3>
+              <h3 className="text-[12px]">{bookingCount} حجز</h3>
             </div>
           </div>
           <div
@@ -130,7 +264,7 @@ const MainPage = () => {
               <h3 className="text-[16px] font-bold text-[#041461]">
                 عدد الحفلات
               </h3>
-              <h3 className="text-[12px]">60 حفلة</h3>
+              <h3 className="text-[12px]">{eventsCount} حفلة</h3>
             </div>
           </div>
         </div>
@@ -187,30 +321,34 @@ const MainPage = () => {
                 WebkitScrollbarColor: "transparent transparent", // Set scrollbar color to transparent
               }}
             >
-              {futureParties.map((party) => (
-                <Link
-                  to={`/ShowNewEventDetails/${party.event.id}`}
-                  key={party.event.id}
-                  className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px] "
-                >
-                  <div className="date bg-[#0413614d] w-[200px] items-center flex justify-center py-[5px] rounded-[24px] mb-[5px] h-[40px]">
-                    <h3 className="text-[#041461] text-[14px] font-bold">
-                      {party.event.date_time}
-                    </h3>
-                  </div>
-                  <div className="flex flex-col justify-center items-center mt-[15px]">
-                    <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]">
-                      {party.event.title}
-                    </h3>
-                    <h4 className="time text-[12px] text-gray-500 mb-[10px] mt-[10px]">
-                      {party.event.date_time}
-                    </h4>
-                  </div>
-                  <div className="users self-end ml-[25px]">
-                    <div className="users flex"></div>
-                  </div>
-                </Link>
-              ))}
+              {searchResults.map((party) => {
+                const formattedDate = parseDateString(party.event.date_time);
+
+                return (
+                  <Link
+                    to={`/ShowNewEventDetails/${party.event.id}`}
+                    key={party.event.id}
+                    className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px] "
+                  >
+                    <div className="date bg-[#0413614d] w-[200px] items-center flex justify-center py-[5px] rounded-[24px] mb-[5px] h-[40px]">
+                      <h3 className="text-[#041461] text-[14px] font-bold">
+                        {parseDateString(party.event.date_time).dateComponent}
+                      </h3>
+                    </div>
+                    <div className="flex flex-col justify-center items-center mt-[15px]">
+                      <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]">
+                        {party.event.title}
+                      </h3>
+                      <h4 className="time text-[12px] text-gray-500 mb-[10px] mt-[10px]">
+                        {parseDateString(party.event.date_time).timeComponent}
+                      </h4>
+                    </div>
+                    <div className="users self-end ml-[25px]">
+                      <div className="users flex"></div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
           <div
@@ -266,7 +404,7 @@ const MainPage = () => {
                 WebkitScrollbarColor: "transparent transparent", // Set scrollbar color to transparent
               }}
             >
-              {filteredParties.map((party) => (
+              {searchResults.map((party) => (
                 <Link
                   to={`/ShowEndedEventDetail/${party.event.id}`}
                   key={party.event.id}
@@ -287,8 +425,8 @@ const MainPage = () => {
                           {party.event.title}
                         </h3>
                       </div>
-                      <h4 className="timeAndDate text-[12px] text-[#838389] mt-[10px]  ">
-                        {party.event.date_time}
+                      <h4 className="timeAndDate text-[12px] text-[#838389] mt-[10px]">
+                        {formatDate(party.event.date_time)}
                       </h4>
                     </div>
                   </div>

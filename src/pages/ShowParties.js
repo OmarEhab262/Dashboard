@@ -6,50 +6,106 @@ import date from "../assists/icon/date.png";
 import locationIcon from "../assists/icon/location.png";
 import time from "../assists/icon/time.png";
 import { useLocation, useNavigate } from "react-router";
+import arrow from "../assists/icon/arrow.png";
+import { Link } from "react-router-dom";
 
 const ShowParties = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [parties, setParties] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const nameFilter = location.state.name;
   const idFilter = location.state.id;
-  const navigate = useNavigate(); // Using useNavigate hook
+  const [data, setData] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios
-      .get("https://api.npoint.io/bd48efeb2ee7716143c2")
-      .then((response) => {
-        console.log("API Response:", response.data);
-        setParties(response.data[idFilter - 2].parties);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsLoading(false);
-      });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://causal-eternal-ladybird.ngrok-free.app/api/category_events?query=${nameFilter}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+        setData(response.data.data);
+        setIsLoading(false); // Set loading to false after data fetch
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        setError(error); // Set error state
+      }
+    };
+    fetchData();
+  }, [nameFilter]); // Add nameFilter to dependency array
 
   console.log("Name Filter:", nameFilter);
-  console.log("id Filter:", idFilter - 2);
+  function parseDateString(dateString) {
+    const [date, time] = dateString.split(" ");
+    const [year, month, day] = date.split("-");
+    const [hours, minutes, seconds] = time.split(":");
+    const parsedDate = new Date(year, month - 1, day, hours, minutes, seconds);
 
-  const goToUsers = (party) => {
-    navigate("/Booking", { replace: true, state: { party, name: nameFilter } });
-  };
-  const filteredParties = parties.filter(
-    (party) => party.type_party === nameFilter
-  );
-  console.log("Filtered Parties Length:", filteredParties.length);
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true,
+      locale: "ar",
+    };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Searching for:", searchInput);
-    // Implement search logic here if needed
-  };
+    // Customize the AM/PM strings
+    const localeOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      locale: "ar",
+    };
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+    // Format time with customized AM/PM strings
+    const timeComponent = parsedDate
+      .toLocaleTimeString("ar", localeOptions)
+      .replace("ص", "صباحا")
+      .replace("م", "مساءا");
+
+    const formattedDate = parsedDate.toLocaleString("ar", options);
+    return {
+      dateComponent: parsedDate.toLocaleDateString("ar", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      timeComponent: timeComponent,
+    };
+  }
+  function formatDate(dateTimeString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const date = new Date(dateTimeString).toLocaleDateString("ar", options);
+
+    const timeOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      hourCycle: "h23", // Use 24-hour cycle to avoid AM/PM indicator
+    };
+    let time = new Date(dateTimeString).toLocaleTimeString("ar", timeOptions);
+
+    // Replace ص with صباحًا and م with مساءً
+    time = time.replace("ص", "صباحًا").replace("م", "مساءً");
+
+    return `${date}، ${time}`;
   }
 
   return (
@@ -57,12 +113,17 @@ const ShowParties = () => {
       <SideBar />
       <div className="col-span-4 bg-[#f9f9ff] rounded-[20px] flex mb-[20px] mt-[30px] ml-[40px] p-[25px] flex-col items-start h-[92vh] overflow-hidden">
         <div className="header flex justify-between w-[100%] h-[35px] mt-[5px] mb-[5px]">
-          <h3 className="text-[24px] font-bold text-[#041461]">
-            لوحة المعلومات /
-            <span className="text-[20px]">الحجوزات/ {nameFilter}</span>
-          </h3>
+          <div className="flex items-center">
+            <Link to="/Reservations" className="ml-[10px]">
+              <img src={arrow} alt="arrow" className="w-[23px] h-[23px]" />
+            </Link>
+            <h3 className="text-[24px] font-bold text-[#041461]">
+              لوحة المعلومات /
+              <span className="text-[20px]">الحجوزات/ {nameFilter}</span>
+            </h3>
+          </div>
           <form
-            onSubmit={handleSearch}
+            // onSubmit={handleSearch}
             className="flex bg-[#041461] items-center w-[40%] p-[20px] rounded-[16px] h-[50px]"
           >
             <img
@@ -91,41 +152,41 @@ const ShowParties = () => {
           {isLoading ? (
             <div>Loading...</div>
           ) : (
-            filteredParties.map((party, index) => (
+            data.map((party) => (
               <div
-                key={index}
+                key={party.event.id}
                 className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mx-auto mt-[20px] cursor-pointer"
-                onClick={() => goToUsers(party)}
+                // onClick={() => goToUsers(party)}
               >
                 <div className="w-full">
                   <img
-                    src={party.img_party}
+                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.event.banner}`}
                     alt="party"
                     className="w-full h-[125px]"
                   />
                   <div className="content">
                     <div className="title flex justify-center mt-[5px]">
                       <h3 className="text-[#041461] text-[16px] font-bold">
-                        {party.name_party}
+                        {party.event.title}
                       </h3>
                     </div>
                     <div className="info pr-[8px]">
                       <div className="date flex mt-[5px]">
                         <img src={date} alt="date" />
                         <h3 className="text-[12px] mr-[10px]">
-                          {party.date_party}
+                          {parseDateString(party.event.date_time).dateComponent}
                         </h3>
                       </div>
                       <div className="location flex mt-[5px]">
                         <img src={locationIcon} alt="location" />
-                        <h3 className="text-[12px] mr-[10px]">
-                          {party.location_party}
+                        <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
+                          {party.event.location}
                         </h3>
                       </div>
                       <div className="time flex mt-[5px]">
                         <img src={time} alt="time" />
                         <h3 className="text-[12px] mr-[10px]">
-                          {party.time_party}
+                          {parseDateString(party.event.date_time).timeComponent}
                         </h3>
                       </div>
                     </div>

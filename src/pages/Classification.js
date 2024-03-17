@@ -1,62 +1,62 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SideBar from "../components/SideBar";
 import "../../src/index.css";
 
 const Classification = () => {
   const [data, setData] = useState([]);
-  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [image, setImage] = useState(null); // New state for selected image
+  const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.npoint.io/3499a5d9ee6a5ea8b7d0"
-        );
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const fileInputRef = useRef(null);
-
-  const handleEditImageClick = (itemId) => {
-    setSelectedItemId(itemId);
-    fileInputRef.current.click();
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/categories",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      setData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching category data:", error);
+    }
   };
 
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  useEffect(() => {
+    fetchData();
+  }, [token]);
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImage(file); // Update the image state
+  };
+
+  const handleFileChange = async (event, id) => {
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("image", image); // Append the image blob
 
     try {
-      const response = await axios.post(
-        `https://api.example.com/update/${selectedItemId}`, // Replace with your API endpoint
+      const response = await axios.patch(
+        `https://causal-eternal-ladybird.ngrok-free.app/api/categories/${id}`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
           },
         }
       );
 
-      // Assuming the API responds with updated data for the item
-      const updatedItem = response.data;
+      console.log("Updated category data:", response.data.data);
 
-      setData((prevData) =>
-        prevData.map((item) =>
-          item.id === selectedItemId ? updatedItem : item
-        )
-      );
+      // Refresh data after image upload
+      fetchData();
     } catch (error) {
-      console.error("Error updating image:", error);
+      console.error("Error uploading image:", error);
     }
   };
 
@@ -79,41 +79,45 @@ const Classification = () => {
                 >
                   <div
                     className="head h-[54px] rounded-[10px] flex justify-center items-center w-full my-[10px] border border-[#0413616b]"
-                    style={{
-                      boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)",
-                    }}
+                    style={{ boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)" }}
                   >
                     <h3 className="text-[#041461] text-[18px] font-[500]">
                       {item.name}
                     </h3>
                   </div>
                   <div className="mid w-[200px] h-[200px] border border-[#041461] rounded-[10px] flex justify-center items-center my-[10px]">
-                    <img
-                      src={item.img}
-                      alt={item.name}
-                      className="w-full h-[200px]"
-                    />
+                    {item.image ? (
+                      <img
+                        src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.image}`}
+                        alt={item.name}
+                        className="w-full h-[200px]"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex justify-center items-center text-[#041461]">
+                        Image Not Available
+                      </div>
+                    )}
                   </div>
-                  <div
+                  <input
+                    id={`fileInput-${item.id}`}
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={(event) => handleFileChange(event, item.id)}
+                  />
+                  <label
+                    htmlFor={`fileInput-${item.id}`}
                     className="edit w-[132px] h-[63px] bg-[#041461D9] rounded-[10px] flex justify-center items-center cursor-pointer my-[10px]"
-                    onClick={() => handleEditImageClick(item.id)}
                   >
                     <h3 className="text-[16px] font-[700] text-white">
                       تعديل الصورة
                     </h3>
-                  </div>
+                  </label>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-      <input
-        type="file"
-        ref={fileInputRef}
-        style={{ display: "none" }}
-        onChange={handleFileChange}
-      />
     </div>
   );
 };

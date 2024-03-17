@@ -6,19 +6,26 @@ import { useNavigate } from "react-router-dom";
 const Reservations = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate(); // Using useNavigate hook
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://api.npoint.io/3499a5d9ee6a5ea8b7d0"
+          "https://causal-eternal-ladybird.ngrok-free.app/api/categories",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
         );
-        setData(response.data);
+        setData(response.data.data);
+        // console.log(response.data); // Log entire response data
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching user profile:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -41,29 +48,32 @@ const Reservations = () => {
         <div className="overflow-auto ssc w-full flex justify-center items-center h-[93%]">
           <div className="container flex justify-center mt-[15px]">
             <div className="grid grid-cols-3 grid-rows-2 gap-[55px] mt-[20px]">
-              {data.map((item) => (
-                <div
-                  key={item.id}
-                  className="box h-[300px] w-[206px] flex flex-col justify-between items-center cursor-pointer"
-                  onClick={() => navigateToParty(item)}
-                >
+              {data &&
+                data.map((item) => (
                   <div
-                    className="head h-[54px] rounded-[10px] flex justify-center items-center w-full my-[10px] border border-[#0413616b]"
-                    style={{ boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)" }}
+                    key={item.id}
+                    className="box h-[300px] w-[206px] flex flex-col justify-between items-center cursor-pointer"
+                    onClick={() => navigateToParty(item)}
                   >
-                    <h3 className="text-[#041461] text-[18px] font-[500] ">
-                      {item.name}
-                    </h3>
+                    <div
+                      className="head h-[54px] rounded-[10px] flex justify-center items-center w-full my-[10px] border border-[#0413616b]"
+                      style={{
+                        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)",
+                      }}
+                    >
+                      <h3 className="text-[#041461] text-[18px] font-[500] ">
+                        {item.name}
+                      </h3>
+                    </div>
+                    <div className="mid w-[200px] h-[200px] border border-[#041461] rounded-[10px] flex justify-center items-center my-[10px]">
+                      <img
+                        src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.image}`}
+                        alt={item.name}
+                        className="w-full h-[200px]"
+                      />
+                    </div>
                   </div>
-                  <div className="mid w-[200px] h-[200px] border border-[#041461] rounded-[10px] flex justify-center items-center my-[10px]">
-                    <img
-                      src={item.img}
-                      alt={item.name}
-                      className="w-full h-[200px]"
-                    />
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>

@@ -4,13 +4,14 @@ import down from "../assists/icon/down.png";
 import arrow from "../assists/icon/arrow.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddEvents = () => {
   const [partyName, setPartyName] = useState("");
   const [date, setDate] = useState("");
   const [governorate, setGovernorate] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [place, setPlace] = useState("");
-  const [type, setType] = useState(null);
   const [band, setBand] = useState("");
   const [isRotated, setIsRotated] = useState(false);
   const [isRotatedT, setIsRotatedT] = useState(false);
@@ -26,11 +27,12 @@ const AddEvents = () => {
   const [accompanying, setAccompanying] = useState("");
   const [ticketPrice, setTicketPrice] = useState("");
   const [selectedOption, setSelectedOption] = useState("open");
-  const [activeTab, setActiveTab] = useState(null);
   const [stand, setStand] = useState(false);
   const [status, setStatus] = useState(1);
   const [showGovernorate, setShowGovernorate] = useState("");
+  const [showCategories, setShowCategories] = useState("");
   const [numGovernorate, setNumGovernorate] = useState("");
+  const [numCategory, setNumCategory] = useState("");
 
   const handleStand = () => {
     setStand(true);
@@ -43,18 +45,12 @@ const AddEvents = () => {
     setIsRotatedT(!isRotatedT);
   };
   const handleNext = () => {
-    console.log(numGovernorate);
     setNext(!next);
-    if (type === "ستاند اب") {
+    if (showCategories === "ستاند اب") {
       handleStand();
     } else {
       setStand(false);
     }
-  };
-
-  const handleClick = (tab) => {
-    setActiveTab(tab); // Set the active tab
-    setIsRotated(false);
   };
 
   const handleOptionChange = (value) => {
@@ -75,7 +71,6 @@ const AddEvents = () => {
   };
 
   const token = localStorage.getItem("token");
-
   const fetchData = async () => {
     try {
       const formData = new FormData();
@@ -88,6 +83,22 @@ const AddEvents = () => {
       formData.append("location", place);
       formData.append("date_time", date);
       formData.append("state_id", numGovernorate);
+      formData.append("category_event_id", numCategory);
+
+      // Create an object with the price and other necessary fields
+      const eventTicketCategory = {
+        price: ticketPrice,
+        is_available: 1,
+        tickets_category_id: 1,
+      };
+
+      // Convert the object to a JSON string and append it to the form data
+      formData.append(
+        "event_ticket_categories",
+        new Blob([JSON.stringify(eventTicketCategory)], {
+          type: "application/json",
+        })
+      );
 
       const response = await axios.post(
         "https://causal-eternal-ladybird.ngrok-free.app/api/events",
@@ -101,16 +112,17 @@ const AddEvents = () => {
         }
       );
 
-      console.log("Event created successfully:", response.data);
+      console.log("Event created successfully:", response.data.events);
       // You can do something after successful creation if needed
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
   };
-
+  const navigate = useNavigate();
   const goToCreatedParty = () => {
     fetchData();
     console.log(image);
+    navigate("/CreatedParty");
   };
 
   useEffect(() => {
@@ -137,6 +149,31 @@ const AddEvents = () => {
 
     fetchData();
   }, [token]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://causal-eternal-ladybird.ngrok-free.app/api/categories",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
+
+        console.log("Response Categories:", response.data); // Log response data
+
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -149,6 +186,7 @@ const AddEvents = () => {
             src={arrow}
             alt=""
             className="w-[27px] h-[27px] ml-[16px] cursor-pointer"
+            onClick={goBack}
           />
           <h3 className="text-[24px] font-bold text-[#041461]">
             لوحة المعلومات/ <span className="text-[20px]">إضافة حفلة</span>
@@ -196,15 +234,18 @@ const AddEvents = () => {
             </div>
 
             <div
-              className={` absolute w-[67%] outline-0 border border-2  rounded-[8px] text-[20px]  h-[190px] overflow-auto  ssc  bg-[#F9F9FF]
-  left-0 top-[100px] z-[1]
-  ${isRotatedT ? "" : "hidden"}`}
+              className={` absolute w-[67%] outline-0 border border-2  rounded-[8px] text-[20px]  h-[190px] overflow-auto  ssc  bg-[#F9F9FF] left-0 top-[100px] z-[1] ${
+                isRotatedT ? "" : "hidden"
+              }`}
             >
               {governorate.map((item) => (
                 <h3
                   key={item.id}
-                  className={`pr-[24px] py-[15px] rounded-[8px]  cursor-pointer ml-[5px]
-       ${showGovernorate === item.state_name ? "bg-[#041461] text-white" : ""}`}
+                  className={`pr-[24px] py-[15px] rounded-[8px]  cursor-pointer ml-[5px] ${
+                    showGovernorate === item.state_name
+                      ? "bg-[#041461] text-white"
+                      : ""
+                  }`}
                   onClick={() => {
                     setShowGovernorate(item.state_name);
                     setNumGovernorate(item.id);
@@ -237,7 +278,7 @@ const AddEvents = () => {
               }`}
             />
             <div className="w-full h-[80px] outline-0 border border-2 bg-transparent rounded-[8px] text-[30px] flex items-center pr-[24px]  ">
-              {type}
+              {showCategories}
             </div>
           </div>
 
@@ -255,72 +296,22 @@ const AddEvents = () => {
                 isRotated ? "" : "hidden"
               }`}
             >
-              <h3
-                className={`pr-[24px] py-[15px] rounded-[8px]  cursor-pointer ${
-                  activeTab === "standab" ? "bg-[#041461] text-white" : ""
-                }`}
-                onClick={() => {
-                  handleClick("standab");
-                  setType("ستاند اب");
-                }}
-              >
-                ستاند اب
-              </h3>
-              <h3
-                className={`px-[24px] py-[15px] rounded-[8px]  cursor-pointer ${
-                  activeTab === "graduation" ? "bg-[#041461] text-white" : ""
-                }`}
-                onClick={() => {
-                  handleClick("graduation");
-                  setType("حفلات تخرج");
-                }}
-              >
-                حفلات تخرج
-              </h3>
-              <h3
-                className={`px-[24px] py-[15px] rounded-[8px]  cursor-pointer ${
-                  activeTab === "funday" ? "bg-[#041461] text-white" : ""
-                }`}
-                onClick={() => {
-                  handleClick("funday");
-                  setType("فان داي");
-                }}
-              >
-                فان داي
-              </h3>
-              <h3
-                className={`px-[24px] py-[15px] rounded-[8px]  cursor-pointer ${
-                  activeTab === "singing" ? "bg-[#041461] text-white" : ""
-                }`}
-                onClick={() => {
-                  handleClick("singing");
-                  setType("حفلات غناء");
-                }}
-              >
-                حفلات غناء
-              </h3>
-              <h3
-                className={`px-[24px] py-[15px] rounded-[8px]  cursor-pointer ${
-                  activeTab === "bazaar" ? "bg-[#041461] text-white" : ""
-                }`}
-                onClick={() => {
-                  handleClick("bazaar");
-                  setType("بازار");
-                }}
-              >
-                بازار
-              </h3>
-              <h3
-                className={`px-[24px] py-[15px] rounded-[8px]  cursor-pointer ${
-                  activeTab === "conferences" ? "bg-[#041461] text-white" : ""
-                }`}
-                onClick={() => {
-                  handleClick("conferences");
-                  setType("مؤتمرات");
-                }}
-              >
-                مؤتمرات
-              </h3>
+              {categories.map((category) => (
+                <h3
+                  key={category.id}
+                  className={`pr-[24px] py-[15px] rounded-[8px] cursor-pointer ${
+                    showCategories === category.name
+                      ? "bg-[#041461] text-white"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setShowCategories(category.name);
+                    setNumCategory(category.id);
+                  }}
+                >
+                  {category.name}
+                </h3>
+              ))}
             </div>
           </div>
         </div>

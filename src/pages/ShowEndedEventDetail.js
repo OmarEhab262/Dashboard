@@ -21,7 +21,7 @@ const ShowEndedEventDetail = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/events/${id}`,
+          `https://causal-eternal-ladybird.ngrok-free.app/api/event-show/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -45,7 +45,70 @@ const ShowEndedEventDetail = () => {
   if (!party) {
     return <div>Loading...</div>; // Display a loading message while party data is being fetched
   }
+  function parseDateString(dateString) {
+    const [date, time] = dateString.split(" ");
+    const [year, month, day] = date.split("-");
+    const [hours, minutes, seconds] = time.split(":");
+    const parsedDate = new Date(year, month - 1, day, hours, minutes, seconds);
 
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: true,
+      locale: "ar",
+    };
+
+    // Customize the AM/PM strings
+    const localeOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      locale: "ar",
+    };
+
+    // Format time with customized AM/PM strings
+    const timeComponent = parsedDate
+      .toLocaleTimeString("ar", localeOptions)
+      .replace("ص", "صباحا")
+      .replace("م", "مساءا");
+
+    const formattedDate = parsedDate.toLocaleString("ar", options);
+    return {
+      dateComponent: parsedDate.toLocaleDateString("ar", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      timeComponent: timeComponent,
+    };
+  }
+
+  function formatDate(dateTimeString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    const date = new Date(dateTimeString).toLocaleDateString("ar", options);
+
+    const timeOptions = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      hourCycle: "h23", // Use 24-hour cycle to avoid AM/PM indicator
+    };
+    let time = new Date(dateTimeString).toLocaleTimeString("ar", timeOptions);
+
+    // Replace ص with صباحًا and م with مساءً
+    time = time.replace("ص", "صباحًا").replace("م", "مساءً");
+
+    return `${date}، ${time}`;
+  }
+  const { dateComponent, timeComponent } = parseDateString(party.date_time);
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -83,10 +146,15 @@ const ShowEndedEventDetail = () => {
                   {party.title}
                 </h3>
               </div>
-              <div className="bot text-[16px] flex ml-[32px] ">
-                <div className="date flex mt-[5px]">
+              <div className="bot text-[16px] flex ml-[32px] w-full gap-[30px]">
+                <div className="date flex mt-[5px] mx-[12px] items-center">
                   <img src={date} alt="date" className="w-[16px] h-[16px]" />
-                  <h3 className="text-[12px] mr-[10px]">{party.date_time}</h3>
+                  <h3 className="text-[15px] mr-[10px]">{dateComponent}</h3>
+                </div>
+                <div className="time flex mt-[5px] mx-[12px] items-center">
+                  <div className="h-[150%] w-[2px] bg-gray-400  ml-[10px]"></div>
+                  <img src={date} alt="date" className="w-[16px] h-[16px]" />
+                  <h3 className="text-[15px] mr-[10px]">{timeComponent}</h3>
                 </div>
                 <div className="location flex mt-[5px] mx-[32px] items-center">
                   <div className="h-[150%] w-[2px] bg-gray-400  ml-[10px]"></div>
@@ -97,7 +165,7 @@ const ShowEndedEventDetail = () => {
                   />
                   <a
                     href={party.location}
-                    className="text-[12px] mr-[10px] hover:font-bold"
+                    className="text-[15px] mr-[10px] hover:font-bold"
                   >
                     {party.location}
                   </a>
