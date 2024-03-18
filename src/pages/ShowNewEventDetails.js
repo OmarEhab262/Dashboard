@@ -156,6 +156,7 @@ const ShowNewEventDetails = () => {
                     className="w-[12px] h-[16px]"
                   />
                   <a
+                    target="blank"
                     href={party.location}
                     className="text-[15px] mr-[10px] hover:font-bold"
                   >

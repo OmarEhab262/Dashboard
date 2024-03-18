@@ -212,7 +212,7 @@ const AddEvents = () => {
               التاريخ والوقت{" "}
             </h3>
             <input
-              type="text"
+              type="datetime-local"
               className="w-full h-[80px] outline-0 border border-2 bg-transparent rounded-[8px] text-[30px] pr-[24px]"
               onChange={(e) => setDate(e.target.value)}
             />
@@ -307,6 +307,7 @@ const AddEvents = () => {
                   onClick={() => {
                     setShowCategories(category.name);
                     setNumCategory(category.id);
+                    handleInputChange();
                   }}
                 >
                   {category.name}

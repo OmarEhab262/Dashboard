@@ -20,12 +20,19 @@ const ShowParties = () => {
   const idFilter = location.state.id;
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
-
+  const [events, setEvents] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  useEffect(() => {
+    const filteredEvents = events.filter((event) =>
+      event.event.title.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    setSearchResults(filteredEvents);
+  }, [searchInput, events]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/category_events?query=${nameFilter}`,
+          `https://causal-eternal-ladybird.ngrok-free.app/api/category_events?category=${nameFilter}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -51,17 +58,6 @@ const ShowParties = () => {
     const [hours, minutes, seconds] = time.split(":");
     const parsedDate = new Date(year, month - 1, day, hours, minutes, seconds);
 
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-      hour12: true,
-      locale: "ar",
-    };
-
     // Customize the AM/PM strings
     const localeOptions = {
       hour: "numeric",
@@ -76,7 +72,6 @@ const ShowParties = () => {
       .replace("ص", "صباحا")
       .replace("م", "مساءا");
 
-    const formattedDate = parsedDate.toLocaleString("ar", options);
     return {
       dateComponent: parsedDate.toLocaleDateString("ar", {
         year: "numeric",
@@ -86,28 +81,12 @@ const ShowParties = () => {
       timeComponent: timeComponent,
     };
   }
-  function formatDate(dateTimeString) {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    const date = new Date(dateTimeString).toLocaleDateString("ar", options);
 
-    const timeOptions = {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-      hourCycle: "h23", // Use 24-hour cycle to avoid AM/PM indicator
-    };
-    let time = new Date(dateTimeString).toLocaleTimeString("ar", timeOptions);
-
-    // Replace ص with صباحًا and م with مساءً
-    time = time.replace("ص", "صباحًا").replace("م", "مساءً");
-
-    return `${date}، ${time}`;
-  }
-
+  const goToBooking = (partyId) => {
+    navigate("/Booking", {
+      state: { idFilter: partyId },
+    });
+  };
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -155,35 +134,37 @@ const ShowParties = () => {
             data.map((party) => (
               <div
                 key={party.event.id}
-                className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mx-auto mt-[20px] cursor-pointer"
-                // onClick={() => goToUsers(party)}
+                className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mx-auto mt-[20px] cursor-pointer"
+                onClick={() => goToBooking(party.event.id)} // Call goToBooking with party ID
               >
                 <div className="w-full">
                   <img
                     src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.event.banner}`}
                     alt="party"
-                    className="w-full h-[125px]"
+                    className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                   />
-                  <div className="content">
-                    <div className="title flex justify-center mt-[5px]">
-                      <h3 className="text-[#041461] text-[16px] font-bold">
-                        {party.event.title}
-                      </h3>
+                  <div className="grid grid-cols-1  gap-4">
+                    <div className="content">
+                      <div className="title flex justify-center mt-[10px] text-center">
+                        <h3 className="text-[#041461] text-[16px] font-bold">
+                          {party.event.title}
+                        </h3>
+                      </div>
                     </div>
-                    <div className="info pr-[8px]">
-                      <div className="date flex mt-[5px]">
+                    <div className="info pr-[8px] mt-auto">
+                      <div className="date flex mt-[10px]">
                         <img src={date} alt="date" />
                         <h3 className="text-[12px] mr-[10px]">
                           {parseDateString(party.event.date_time).dateComponent}
                         </h3>
                       </div>
-                      <div className="location flex mt-[5px]">
+                      <div className="location flex mt-[10px]">
                         <img src={locationIcon} alt="location" />
                         <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
                           {party.event.location}
                         </h3>
                       </div>
-                      <div className="time flex mt-[5px]">
+                      <div className="time flex mt-[10px]">
                         <img src={time} alt="time" />
                         <h3 className="text-[12px] mr-[10px]">
                           {parseDateString(party.event.date_time).timeComponent}

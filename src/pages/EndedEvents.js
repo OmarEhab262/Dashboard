@@ -181,22 +181,24 @@ const EndedEvents = () => {
                     <Link
                       to={`/ShowEndedEventDetail/${item.event.id}`}
                       key={item.event.id}
-                      className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
+                      className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
                       <div className="w-full">
                         <img
                           src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
-                          alt="party3"
-                          className="w-full h-[125px]"
+                          alt="party"
+                          className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
-                        <div className="content">
-                          <div className="head flex justify-center mt-[5px]">
-                            <h3 className="text-[#041461] text-[16px] font-bold">
-                              {item.event.title}
-                            </h3>
+                        <div className="grid grid-cols-1  gap-4">
+                          <div className="content">
+                            <div className="title flex justify-center mt-[10px] text-center">
+                              <h3 className="text-[#041461] text-[16px] font-bold">
+                                {item.event.title}
+                              </h3>
+                            </div>
                           </div>
-                          <div className="info pr-[8px]">
-                            <div className="date flex mt-[5px]">
+                          <div className="info pr-[8px] mt-auto">
+                            <div className="date flex mt-[10px]">
                               <img src={date} alt="date" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
@@ -205,17 +207,14 @@ const EndedEvents = () => {
                                 }
                               </h3>
                             </div>
-                            <Link
-                              to={item.event.location}
-                              className="location flex mt-[5px] overflow-hidden hover:font-bold"
-                            >
-                              <img src={location} alt="location " />
-                              <h3 className="text-[12px] mr-[10px]">
+                            <div className="location flex mt-[10px]">
+                              <img src={location} alt="location" />
+                              <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
                                 {item.event.location}
                               </h3>
-                            </Link>
-                            <div className="time flex mt-[5px]">
-                              <img src={time} alt="time " />
+                            </div>
+                            <div className="time flex mt-[10px]">
+                              <img src={time} alt="time" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
                                   parseDateString(item.event.date_time)
@@ -258,22 +257,24 @@ const EndedEvents = () => {
                     <Link
                       to={`/ShowEndedEventDetail/${item.event.id}`}
                       key={item.event.id}
-                      className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
+                      className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
                       <div className="w-full">
                         <img
                           src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
-                          alt="party3"
-                          className="w-full h-[125px]"
+                          alt="party"
+                          className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
-                        <div className="content">
-                          <div className="head flex justify-center mt-[5px]">
-                            <h3 className="text-[#041461] text-[16px] font-bold">
-                              {item.event.title}
-                            </h3>
+                        <div className="grid grid-cols-1  gap-4">
+                          <div className="content">
+                            <div className="title flex justify-center mt-[10px] text-center">
+                              <h3 className="text-[#041461] text-[16px] font-bold">
+                                {item.event.title}
+                              </h3>
+                            </div>
                           </div>
-                          <div className="info pr-[8px]">
-                            <div className="date flex mt-[5px]">
+                          <div className="info pr-[8px] mt-auto">
+                            <div className="date flex mt-[10px]">
                               <img src={date} alt="date" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
@@ -282,17 +283,14 @@ const EndedEvents = () => {
                                 }
                               </h3>
                             </div>
-                            <Link
-                              to={item.event.location}
-                              className="location flex mt-[5px] overflow-hidden hover:font-bold"
-                            >
-                              <img src={location} alt="location " />
-                              <h3 className="text-[12px] mr-[10px]">
+                            <div className="location flex mt-[10px]">
+                              <img src={location} alt="location" />
+                              <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
                                 {item.event.location}
                               </h3>
-                            </Link>
-                            <div className="time flex mt-[5px]">
-                              <img src={time} alt="time " />
+                            </div>
+                            <div className="time flex mt-[10px]">
+                              <img src={time} alt="time" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
                                   parseDateString(item.event.date_time)
@@ -335,22 +333,24 @@ const EndedEvents = () => {
                     <Link
                       to={`/ShowEndedEventDetail/${item.event.id}`}
                       key={item.event.id}
-                      className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
+                      className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
                       <div className="w-full">
                         <img
                           src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
-                          alt="party3"
-                          className="w-full h-[125px]"
+                          alt="party"
+                          className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
-                        <div className="content">
-                          <div className="head flex justify-center mt-[5px]">
-                            <h3 className="text-[#041461] text-[16px] font-bold">
-                              {item.event.title}
-                            </h3>
+                        <div className="grid grid-cols-1  gap-4">
+                          <div className="content">
+                            <div className="title flex justify-center mt-[10px] text-center">
+                              <h3 className="text-[#041461] text-[16px] font-bold">
+                                {item.event.title}
+                              </h3>
+                            </div>
                           </div>
-                          <div className="info pr-[8px]">
-                            <div className="date flex mt-[5px]">
+                          <div className="info pr-[8px] mt-auto">
+                            <div className="date flex mt-[10px]">
                               <img src={date} alt="date" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
@@ -359,17 +359,14 @@ const EndedEvents = () => {
                                 }
                               </h3>
                             </div>
-                            <Link
-                              to={item.event.location}
-                              className="location flex mt-[5px] overflow-hidden hover:font-bold"
-                            >
-                              <img src={location} alt="location " />
-                              <h3 className="text-[12px] mr-[10px]">
+                            <div className="location flex mt-[10px]">
+                              <img src={location} alt="location" />
+                              <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
                                 {item.event.location}
                               </h3>
-                            </Link>
-                            <div className="time flex mt-[5px]">
-                              <img src={time} alt="time " />
+                            </div>
+                            <div className="time flex mt-[10px]">
+                              <img src={time} alt="time" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
                                   parseDateString(item.event.date_time)
@@ -412,22 +409,24 @@ const EndedEvents = () => {
                     <Link
                       to={`/ShowEndedEventDetail/${item.event.id}`}
                       key={item.event.id}
-                      className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
+                      className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
                       <div className="w-full">
                         <img
                           src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
-                          alt="party3"
-                          className="w-full h-[125px]"
+                          alt="party"
+                          className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
-                        <div className="content">
-                          <div className="head flex justify-center mt-[5px]">
-                            <h3 className="text-[#041461] text-[16px] font-bold">
-                              {item.event.title}
-                            </h3>
+                        <div className="grid grid-cols-1  gap-4">
+                          <div className="content">
+                            <div className="title flex justify-center mt-[10px] text-center">
+                              <h3 className="text-[#041461] text-[16px] font-bold">
+                                {item.event.title}
+                              </h3>
+                            </div>
                           </div>
-                          <div className="info pr-[8px]">
-                            <div className="date flex mt-[5px]">
+                          <div className="info pr-[8px] mt-auto">
+                            <div className="date flex mt-[10px]">
                               <img src={date} alt="date" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
@@ -436,17 +435,14 @@ const EndedEvents = () => {
                                 }
                               </h3>
                             </div>
-                            <Link
-                              to={item.event.location}
-                              className="location flex mt-[5px] overflow-hidden hover:font-bold"
-                            >
-                              <img src={location} alt="location " />
-                              <h3 className="text-[12px] mr-[10px]">
+                            <div className="location flex mt-[10px]">
+                              <img src={location} alt="location" />
+                              <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
                                 {item.event.location}
                               </h3>
-                            </Link>
-                            <div className="time flex mt-[5px]">
-                              <img src={time} alt="time " />
+                            </div>
+                            <div className="time flex mt-[10px]">
+                              <img src={time} alt="time" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
                                   parseDateString(item.event.date_time)
@@ -490,22 +486,24 @@ const EndedEvents = () => {
                     <Link
                       to={`/ShowEndedEventDetail/${item.event.id}`}
                       key={item.event.id}
-                      className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
+                      className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
                       <div className="w-full">
                         <img
                           src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
-                          alt="party3"
-                          className="w-full h-[125px]"
+                          alt="party"
+                          className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
-                        <div className="content">
-                          <div className="head flex justify-center mt-[5px]">
-                            <h3 className="text-[#041461] text-[16px] font-bold">
-                              {item.event.title}
-                            </h3>
+                        <div className="grid grid-cols-1  gap-4">
+                          <div className="content">
+                            <div className="title flex justify-center mt-[10px] text-center">
+                              <h3 className="text-[#041461] text-[16px] font-bold">
+                                {item.event.title}
+                              </h3>
+                            </div>
                           </div>
-                          <div className="info pr-[8px]">
-                            <div className="date flex mt-[5px]">
+                          <div className="info pr-[8px] mt-auto">
+                            <div className="date flex mt-[10px]">
                               <img src={date} alt="date" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
@@ -514,17 +512,14 @@ const EndedEvents = () => {
                                 }
                               </h3>
                             </div>
-                            <Link
-                              to={item.event.location}
-                              className="location flex mt-[5px] overflow-hidden hover:font-bold"
-                            >
-                              <img src={location} alt="location " />
-                              <h3 className="text-[12px] mr-[10px]">
+                            <div className="location flex mt-[10px]">
+                              <img src={location} alt="location" />
+                              <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
                                 {item.event.location}
                               </h3>
-                            </Link>
-                            <div className="time flex mt-[5px]">
-                              <img src={time} alt="time " />
+                            </div>
+                            <div className="time flex mt-[10px]">
+                              <img src={time} alt="time" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
                                   parseDateString(item.event.date_time)
@@ -567,22 +562,24 @@ const EndedEvents = () => {
                     <Link
                       to={`/ShowEndedEventDetail/${item.event.id}`}
                       key={item.event.id}
-                      className="box w-[256px] h-[232px] rounded-[16px] border border-[2px] mr-[20px]"
+                      className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
                       <div className="w-full">
                         <img
                           src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
-                          alt="party3"
-                          className="w-full h-[125px]"
+                          alt="party"
+                          className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
-                        <div className="content">
-                          <div className="head flex justify-center mt-[5px]">
-                            <h3 className="text-[#041461] text-[16px] font-bold">
-                              {item.event.title}
-                            </h3>
+                        <div className="grid grid-cols-1  gap-4">
+                          <div className="content">
+                            <div className="title flex justify-center mt-[10px] text-center">
+                              <h3 className="text-[#041461] text-[16px] font-bold">
+                                {item.event.title}
+                              </h3>
+                            </div>
                           </div>
-                          <div className="info pr-[8px]">
-                            <div className="date flex mt-[5px]">
+                          <div className="info pr-[8px] mt-auto">
+                            <div className="date flex mt-[10px]">
                               <img src={date} alt="date" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
@@ -591,17 +588,14 @@ const EndedEvents = () => {
                                 }
                               </h3>
                             </div>
-                            <Link
-                              to={item.event.location}
-                              className="location flex mt-[5px] overflow-hidden hover:font-bold"
-                            >
-                              <img src={location} alt="location " />
-                              <h3 className="text-[12px] mr-[10px]">
+                            <div className="location flex mt-[10px]">
+                              <img src={location} alt="location" />
+                              <h3 className="text-[12px] mr-[10px] overflow-hidden hover:font-bold">
                                 {item.event.location}
                               </h3>
-                            </Link>
-                            <div className="time flex mt-[5px]">
-                              <img src={time} alt="time " />
+                            </div>
+                            <div className="time flex mt-[10px]">
+                              <img src={time} alt="time" />
                               <h3 className="text-[12px] mr-[10px]">
                                 {
                                   parseDateString(item.event.date_time)

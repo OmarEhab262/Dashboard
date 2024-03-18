@@ -53,6 +53,8 @@ const SideBar = ({ activeItemProp }) => {
       setActiveItem("reservations");
     } else if (pathname === "/Reservations") {
       setActiveItem("reservations");
+    } else if (pathname === "/ShowTicket") {
+      setActiveItem("reservations");
     } else if (pathname === "/EndedEvents") {
       setActiveItem("newEvents");
     }

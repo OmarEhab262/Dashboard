@@ -21,6 +21,7 @@ import EditEventDetail from "./pages/EditEventDetail";
 import ShowNewEventDetails from "./pages/ShowNewEventDetails";
 import AddEvents from "./pages/AddEvents";
 import User from "./pages/User";
+import ShowTicket from "./pages/ShowTicket";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           element={<ShowNewEventDetails />}
         />
         <Route path="/ShowParties" element={<ShowParties />} />
+        <Route path="/ShowTicket" element={<ShowTicket />} />
         <Route path="/AddEvents" element={<AddEvents />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path="/User" element={<User />} />

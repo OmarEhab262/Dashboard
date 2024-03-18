@@ -13,6 +13,8 @@ const ShowEndedEventDetail = () => {
   };
 
   const { id } = useParams();
+  localStorage.setItem("id", id);
+
   const [party, setParty] = useState(null);
   const [imgs, setImgs] = useState(null);
   const token = localStorage.getItem("token");
@@ -132,11 +134,11 @@ const ShowEndedEventDetail = () => {
           </div>
         </div>
         <div className="info flex py-[20px]  w-full h-auto overflow-hidden">
-          <div className="img h-[231px] w-[30%]">
+          <div className="img h-[231px] w-[30%] rounded-[16px]">
             <img
               src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.banner}`}
               alt="party"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover rounded-[16px]"
             />
           </div>
           <div className="content w-[70%] px-[32px]">
@@ -164,6 +166,7 @@ const ShowEndedEventDetail = () => {
                     className="w-[12px] h-[16px]"
                   />
                   <a
+                    target="blank"
                     href={party.location}
                     className="text-[15px] mr-[10px] hover:font-bold"
                   >
