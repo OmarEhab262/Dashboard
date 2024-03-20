@@ -27,10 +27,10 @@ const Users = () => {
         if (searchInput) {
           filteredUsers = response.data.data.filter(
             (user) =>
-              user.nameAR.toLowerCase().includes(searchInput.toLowerCase()) ||
-              user.nameEN.toLowerCase().includes(searchInput.toLowerCase()) ||
-              user.email.toLowerCase().includes(searchInput.toLowerCase()) ||
-              user.phone.includes(searchInput)
+              user.nameAR.startsWith(searchInput) ||
+              user.nameEN.startsWith(searchInput) ||
+              user.email.startsWith(searchInput) ||
+              user.phone.startsWith(searchInput)
           );
         }
         setUsers(filteredUsers);
@@ -44,6 +44,27 @@ const Users = () => {
 
   const handleInputChange = (e) => {
     setSearchInput(e.target.value);
+  };
+
+  const deleteUser = async () => {
+    try {
+      await axios.delete(
+        `https://causal-eternal-ladybird.ngrok-free.app/api/users/${userToDelete.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      // Refresh the user list after deletion
+      setShowDeleteConfirmation(false);
+      setUserToDelete(null);
+      setSearchInput(""); // Refresh the search input to show updated list
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   return (
@@ -136,7 +157,7 @@ const Users = () => {
                 <div className="flex gap-5">
                   <div
                     className="cursor-pointer w-[68px] h-[52px] rounded-[10px] bg-[#041461] text-white flex justify-center items-center border border-[#041461] mt-[20px]"
-                    // onClick={deleteUser}
+                    onClick={deleteUser}
                   >
                     نعم
                   </div>

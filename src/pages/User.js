@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import cam from "../assists/icon/cam.png";
-import user from "../assists/imgs/mainuser.jpg";
 import SideBar from "../components/SideBar";
 import axios from "axios";
 
 const User = () => {
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleFullNameChange = (e) => setFullName(e.target.value);
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleRoleChange = (e) => setRole(e.target.value);
 
   const handleImageChange = (event) => {
@@ -24,16 +21,14 @@ const User = () => {
   };
 
   const handleChange = () => {
-    setChange("");
+    setChange(!change);
   };
 
   const [change, setChange] = useState("disabled");
-  const [userData, setUserData] = useState(null);
   const [username, setUsername] = useState("");
   const [image, setImage] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [role, setRole] = useState("الادمن");
   const token = localStorage.getItem("token");
 
@@ -65,7 +60,7 @@ const User = () => {
       const formData = new FormData();
       formData.append("nameEN", username);
       formData.append("nameAR", fullName);
-      formData.append("image", image); // Append the image blob
+      formData.append("image", image);
 
       const response = await axios.post(
         "https://causal-eternal-ladybird.ngrok-free.app/api/profile/update",
@@ -79,7 +74,7 @@ const User = () => {
         }
       );
       console.log("User data updated:", response.data);
-      // You can do something after successful update if needed
+      window.location.reload();
     } catch (error) {
       console.error("Error updating user data:", error);
     }
@@ -100,10 +95,10 @@ const User = () => {
           <div className="content mt-[17px] flex justify-between items-center w-full ">
             <div className="head flex items-center ">
               <div className="relative">
-                <div className="img w-[140px] h-[140px]    overflow-hidden   rounded-full">
+                <div className="img w-[140px] h-[140px] overflow-hidden rounded-full">
                   <img
                     src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${image}`}
-                    alt=""
+                    alt="user"
                     className="rounded-full "
                   />
                   <div
@@ -126,7 +121,7 @@ const User = () => {
                   <h3>{}</h3>
                 </div>
                 <div className="type text-[#041461B2] text-[24px]">
-                  <h3>الادمن</h3>
+                  <h3>{role}</h3>
                 </div>
               </div>
             </div>
@@ -167,10 +162,9 @@ const User = () => {
                 <h3>البريد الالكترونى</h3>
               </div>
               <input
-                disabled={change}
+                disabled
                 type="text"
                 value={email}
-                onChange={handleEmailChange}
                 className="w-full bg-transparent outline-0 border-b-2 text-[#041461D9] text-[17px] mt-[15px] font-bold"
               />
             </div>

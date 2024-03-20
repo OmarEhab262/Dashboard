@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
 import down from "../assists/icon/down.png";
 import arrow from "../assists/icon/arrow.png";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -18,14 +17,14 @@ const AddEvents = () => {
   const [next, setNext] = useState(false);
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  const [vipSeats, setVipSeats] = useState("");
   const [plusSeats, setPlusSeats] = useState("");
+  const [vipSeats, setVipSeats] = useState("");
   const [vvipSeats, setVvipSeats] = useState("");
   const [ticketPricesVVIP, setTicketPricesVVIP] = useState("");
   const [ticketPricesPlus, setTicketPricesPlus] = useState("");
   const [ticketPricesVIP, setTicketPricesVIP] = useState("");
-  const [accompanying, setAccompanying] = useState("");
   const [ticketPrice, setTicketPrice] = useState("");
+  const [accompanying, setAccompanying] = useState("");
   const [selectedOption, setSelectedOption] = useState("open");
   const [stand, setStand] = useState(false);
   const [status, setStatus] = useState(1);
@@ -34,6 +33,7 @@ const AddEvents = () => {
   const [numGovernorate, setNumGovernorate] = useState("");
   const [numCategory, setNumCategory] = useState("");
 
+  let eventId;
   const handleStand = () => {
     setStand(true);
   };
@@ -71,60 +71,6 @@ const AddEvents = () => {
   };
 
   const token = localStorage.getItem("token");
-  const fetchData = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("title", partyName);
-      formData.append("description", description);
-      formData.append("attendants_price", accompanying);
-      formData.append("status", status);
-      formData.append("banner", image);
-      formData.append("band", "كايروكي");
-      formData.append("location", place);
-      formData.append("date_time", date);
-      formData.append("state_id", numGovernorate);
-      formData.append("category_event_id", numCategory);
-
-      // Create an object with the price and other necessary fields
-      const eventTicketCategory = {
-        price: ticketPrice,
-        is_available: 1,
-        tickets_category_id: 1,
-      };
-
-      // Convert the object to a JSON string and append it to the form data
-      formData.append(
-        "event_ticket_categories",
-        new Blob([JSON.stringify(eventTicketCategory)], {
-          type: "application/json",
-        })
-      );
-
-      const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/events",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // Set content type to multipart form data
-            Authorization: "Bearer " + token,
-            "ngrok-skip-browser-warning": "69420",
-          },
-        }
-      );
-
-      console.log("Event created successfully:", response.data.events);
-      // You can do something after successful creation if needed
-    } catch (error) {
-      console.error("Error creating event:", error.response.data);
-    }
-  };
-  const navigate = useNavigate();
-  const goToCreatedParty = () => {
-    fetchData();
-    console.log(image);
-    navigate("/CreatedParty");
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -174,6 +120,122 @@ const AddEvents = () => {
 
     fetchData();
   }, [token]);
+  const fetchData = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("title", partyName);
+      formData.append("description", description);
+      formData.append("attendants_price", accompanying);
+      formData.append("status", status);
+      formData.append("banner", image);
+      formData.append("band", band);
+      formData.append("location", place);
+      formData.append("date_time", date);
+      formData.append("state_id", numGovernorate);
+      formData.append("category_event_id", numCategory);
+
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/events",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      //   const eventId = response.data.event.id;
+      eventId = response.data.event.id;
+      console.log("Event ID:", response.data.event.id);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
+
+  const fetchPlusSeats = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("seat_number", plusSeats);
+      formData.append("tickets_category_id", 1);
+      formData.append("event_id", eventId);
+
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/seat_numbers",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("Event created successfully:", response.data.events);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
+  const fetchVipSeats = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("seat_number", vipSeats);
+      formData.append("tickets_category_id", 2);
+      formData.append("event_id", eventId);
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/seat_numbers",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("Event created successfully:", response.data.events);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
+  const fetchVvipSeats = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("seat_number", vvipSeats);
+      formData.append("tickets_category_id", 3);
+      formData.append("event_id", eventId);
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/seat_numbers",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("Event created successfully:", response.data.events);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
+  const navigate = useNavigate();
+  const goToCreatedParty = async () => {
+    try {
+      console.log(image);
+      await fetchData();
+      if (showCategories === "ستاند اب") {
+        await fetchPlusSeats();
+        await fetchVipSeats();
+        await fetchVvipSeats();
+      }
+      navigate("/CreatedParty");
+    } catch (error) {
+      console.error("Error navigating to CreatedParty:", error);
+    }
+  };
+
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />

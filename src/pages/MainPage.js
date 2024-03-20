@@ -335,8 +335,8 @@ const MainPage = () => {
                         {parseDateString(party.event.date_time).dateComponent}
                       </h3>
                     </div>
-                    <div className="flex flex-col justify-center items-center mt-[15px]">
-                      <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]">
+                    <div className="flex flex-col justify-center items-center mt-[15px] overflow-hidden">
+                      <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]  ">
                         {party.event.title}
                       </h3>
                       <h4 className="time text-[12px] text-gray-500 mb-[10px] mt-[10px]">
@@ -420,8 +420,8 @@ const MainPage = () => {
                       />
                     </div>
                     <div className="grid grid-cols-1 gap-2 justify-items-center items-center p-[5px]">
-                      <div className="content flex flex-col justify-center items-center ">
-                        <h3 className="name text-[14px] text-[#041361a8] font-bold my-[5px] text-center h-[40px] flex justify-center items-center">
+                      <div className="content flex flex-col justify-center items-center  overflow-hidden w-full">
+                        <h3 className="name text-[14px] text-[#041361a8] font-bold my-[5px] text-center h-[40px] flex justify-center items-center ">
                           {party.event.title}
                         </h3>
                       </div>

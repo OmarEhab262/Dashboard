@@ -6,19 +6,17 @@ import LogoSide from "../components/LogoSide";
 function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
+  const [tokenn, setToken] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    setEmailError("");
     setErrorMessage("");
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    setPasswordError("");
     setErrorMessage("");
   };
 
@@ -28,13 +26,19 @@ function LogIn() {
     try {
       const response = await axios.post(
         "https://causal-eternal-ladybird.ngrok-free.app/api/login",
-        { email, password }
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
-      console.log(response.data);
       const token = response.data.data.token;
-      const emailFromServer = response.data.data.email;
+      setToken(response.data.data.token); // Move this line up
+      console.log(response.data);
       console.log(token);
+      const emailFromServer = response.data.data.email;
       console.log(emailFromServer);
       localStorage.setItem("token", token);
       window.location.href = "/Dashboard/#/Welcome";

@@ -4,63 +4,20 @@ import search from "../assists/icon/search.png";
 import SideBar from "../components/SideBar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import arrow from "../assists/icon/arrow.png";
+
 const Booking = () => {
   const location = useLocation();
-  const [searchInput, setSearchInput] = useState("");
-  const [userData, setUserData] = useState(null);
-  const [idUsers, setIdUsers] = useState("");
   const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState("");
   const [data, setData] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [sortOrder, setSortOrder] = useState("asc");
   const token = localStorage.getItem("token");
   const idFilter = location.state.idFilter;
-  const [searchResults, setSearchResults] = useState([]);
-  localStorage.setItem("idFilter", idFilter);
+
   const goBack = () => {
-    window.history.back();
+    navigate(-1);
   };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Searching for:", searchInput);
-
-    // Filter data based on nameEN property
-    const filteredData = data.filter((user) => {
-      if (user && user.nameEN) {
-        return user.nameEN.includes(searchInput);
-      }
-      return false;
-    });
-
-    setSearchResults(filteredData);
-    console.log("hhh" + searchResults);
-  };
-
-  const handleUser = (gg) => {
-    setIdUsers(gg.user_id);
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/users/${idUsers}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          }
-        );
-        setUserData(response.data.data[0]);
-        console.log(response.data.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [idUsers, token]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,8 +32,7 @@ const Booking = () => {
             },
           }
         );
-        setData(response.data.bookings);
-        console.log(response.data.bookings);
+        setData(response.data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -84,7 +40,21 @@ const Booking = () => {
     fetchData();
   }, [idFilter, token]);
 
-  console.log(idFilter);
+  const handleSearch = (e) => {
+    const inputValue = e.target.value;
+    setSearchInput(inputValue);
+
+    if (inputValue.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    const filteredResults = data.filter((user) =>
+      user.user.nameEN.startsWith(inputValue)
+    );
+    setSearchResults(filteredResults);
+  };
+
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -114,7 +84,7 @@ const Booking = () => {
             <input
               type="text"
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={handleSearch}
               className="text-[16px] font-bold text-white w-[80%] ml-[20px] bg-[#041461] outline-none placeholder-white"
               placeholder="ابحث عن المستخدمين"
             />
@@ -125,7 +95,8 @@ const Booking = () => {
           style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
         >
           <h3 className="font-bold text-[16px] text-[#041461]">
-            عدد المستخدمين : <span>{data.length}</span>
+            عدد المستخدمين :{" "}
+            <span>{searchInput ? searchResults.length : data.length}</span>
           </h3>
         </div>
         <div className="w-full ">
@@ -135,43 +106,35 @@ const Booking = () => {
             <h3 className="">الحفلة</h3>
             <h3 className="">المبلغ</h3>
           </div>
-          <div className="overflow-auto h-[67vh] ssc">
-            {(searchInput && searchResults.length > 0
-              ? searchResults
-              : data
-            ).map((user) => (
+          <div className="overflow-auto h-[60vh] ssc">
+            {(searchInput ? searchResults : data).map((user) => (
               <div
-                key={user.id}
+                key={user.booking.id}
                 className="flex justify-between items-center w-full"
-                onClick={() => handleUser(userData && userData.nameEN)}
               >
                 <div className="info text-[15px] text-[#041461] font-bold items-center w-[85%] my-[10px] bg-[#727db5ab] rounded-[24px] grid grid-cols-4 py-[15px] justify-items-start">
                   <div className="flex pr-[20px] col-span-1">
                     <img
-                      src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${
-                        userData && userData.image
-                      }`}
+                      src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${user.user.image}`}
                       alt="user"
                       className="image_user w-[50px] h-[50px] rounded-full text-center"
                     />
                     <div className="flex flex-col items-start mr-[20px]">
-                      <h3 className="name_user">
-                        {userData && userData.nameEN}
-                      </h3>{" "}
+                      <h3 className="name_user">{user.user.nameEN}</h3>{" "}
                       <h3 className="email_user text-[12px]">
                         {" "}
-                        {userData && userData.email}
+                        {user.user.email}
                       </h3>
                     </div>
                   </div>
                   <h3 className="numberOfCompanions_user col-span-1 justify-self-center">
-                    {user.tickets_number}
+                    {user.booking.tickets_number}
                   </h3>
                   <h3 className="party_user col-span-1 justify-self-center">
-                    {user.event.title}
+                    {user.booking.event.title}
                   </h3>
                   <h3 className="cost_user col-span-1 justify-self-center">
-                    {user.total_price}
+                    {user.booking.total_price}
                   </h3>
                 </div>
 
