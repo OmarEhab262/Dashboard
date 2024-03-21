@@ -332,13 +332,13 @@ const SideBar = ({ activeItemProp }) => {
         <div className="line w-[70%] bg-white h-[1px]"></div>
         <div className="content flex items-center mt-[20px]">
           <div
-            className="img w-[64px] cursor-pointer rounded-full"
+            className="img w-[64px] h-[64px] overflow-hidden rounded-full flex justify-center items-center"
             onClick={goToUserpage}
           >
             <img
               src={`https://mature-collie-newly.ngrok-free.app/storage/${userData.image}`}
               alt="user1"
-              className="w-full rounded-full"
+              className="rounded-full w-full h-full object-cover  object-center"
             />
           </div>
           <div className="info mr-[20px] w-[100px] overflow-hidden ">

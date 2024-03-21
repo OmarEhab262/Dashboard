@@ -19,16 +19,7 @@ const EditEventDetail = () => {
   // Function to handle file change for main image
   const handleMainImageChange = (event) => {
     const file = event.target.files[0]; // Get the first selected file
-    if (file) {
-      // Check if a file is selected
-      const reader = new FileReader(); // FileReader to read file contents
-      reader.onload = () => {
-        // Callback when file is read successfully
-        const imageDataURL = reader.result; // Data URL representing the file contents
-        setMainImage(imageDataURL); // Set main image using data URL
-      };
-      reader.readAsDataURL(file); // Read file as data URL
-    }
+    setMainImage(file); // Set main image using data URL
   };
 
   // Function to trigger file input click when camera icon is clicked
@@ -77,7 +68,6 @@ const EditEventDetail = () => {
           }
         );
         setImgs(response.data.images);
-        console.log(imgs);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -103,7 +93,6 @@ const EditEventDetail = () => {
         setDescriptionParty(response.data.event.description);
         setMainImage(response.data.event.banner);
         setVideo(response.data.event.video);
-        console.log("11111111111111111111111" + response.data.event.video);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -125,6 +114,7 @@ const EditEventDetail = () => {
       formData.append("description", descriptionParty);
       formData.append("date_time", timeDate);
       formData.append("video", video);
+      formData.append("banner", mainImage);
       const lastImage = images[images.length - 1];
       formData.append("image[]", lastImage);
 
@@ -156,6 +146,22 @@ const EditEventDetail = () => {
     try {
       await axios.delete(
         `https://mature-collie-newly.ngrok-free.app/api/images/${deletImg}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting deleteimg:", error);
+    }
+  };
+  const deletVideo = async () => {
+    try {
+      await axios.delete(
+        `https://mature-collie-newly.ngrok-free.app/api/events/delete_video/${storedId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -313,11 +319,17 @@ const EditEventDetail = () => {
             <div className="video  w-full overflow-hidden mb-[70px]">
               <h3 className="text-[24px] font-bold">الفيديو</h3>
               <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
-                <video
-                  src={`https://mature-collie-newly.ngrok-free.app/storage/${video}`}
-                  controls
-                  className="w-[211px] h-[145px]"
-                ></video>
+                {video ? (
+                  <video
+                    src={`https://mature-collie-newly.ngrok-free.app/storage/${video}`}
+                    controls
+                    className="w-[211px] h-[145px]"
+                  ></video>
+                ) : (
+                  <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
+                    <h3 className="text-[20px]">لا يوجد فيديو</h3>
+                  </div>
+                )}
               </div>
               <div className="operationVideo flex justify-center items-center">
                 <label
@@ -334,9 +346,7 @@ const EditEventDetail = () => {
                   />
                 </label>
                 <div
-                  onClick={() => {
-                    setVideo(null);
-                  }}
+                  onClick={() => deletVideo()}
                   className="remove cursor-pointer border border-[#041461] h-[55px] m-[24px] py-[8px] px-[26px] text-[#041461] flex justify-center items-center gap-[10px] text-[20px] font-[500] bg-white rounded-[6px]"
                 >
                   <h3>حذف فيديو</h3>

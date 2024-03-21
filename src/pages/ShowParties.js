@@ -13,7 +13,7 @@ const ShowParties = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [parties, setParties] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState(""); // State variable for search input
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const nameFilter = location.state.name;
@@ -21,13 +21,17 @@ const ShowParties = () => {
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
   const [events, setEvents] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]); // State variable for filtered search results
+
+  // UseEffect to filter events based on searchInput changes
   useEffect(() => {
     const filteredEvents = events.filter((event) =>
-      event.event.title.toLowerCase().includes(searchInput.toLowerCase())
+      event.event.title.toLowerCase().startsWith(searchInput.toLowerCase())
     );
     setSearchResults(filteredEvents);
   }, [searchInput, events]);
+
+  // Fetch data on initial render
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,6 +46,7 @@ const ShowParties = () => {
           }
         );
         setData(response.data.data);
+        setEvents(response.data.data); // Set events data
         setIsLoading(false); // Set loading to false after data fetch
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -49,7 +54,7 @@ const ShowParties = () => {
       }
     };
     fetchData();
-  }, [nameFilter]); // Add nameFilter to dependency array
+  }, [nameFilter, token]); // Add token to dependency array
 
   console.log("Name Filter:", nameFilter);
   function parseDateString(dateString) {
@@ -87,6 +92,7 @@ const ShowParties = () => {
       state: { idFilter: partyId },
     });
   };
+
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -101,10 +107,7 @@ const ShowParties = () => {
               <span className="text-[20px]">الحجوزات/ {nameFilter}</span>
             </h3>
           </div>
-          <form
-            // onSubmit={handleSearch}
-            className="flex bg-[#041461] items-center w-[40%] p-[20px] rounded-[16px] h-[50px]"
-          >
+          <form className="flex bg-[#041461] items-center w-[40%] p-[20px] rounded-[16px] h-[50px]">
             <img
               src={search}
               alt="searchicon"
@@ -113,7 +116,7 @@ const ShowParties = () => {
             <input
               type="text"
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={(e) => setSearchInput(e.target.value)} // Handle search input changes
               className="text-[16px] font-bold text-white w-[80%] ml-[20px] bg-[#041461] outline-none placeholder-white"
               placeholder="ابحث في الحجوزات"
             />
@@ -131,7 +134,7 @@ const ShowParties = () => {
           {isLoading ? (
             <div>Loading...</div>
           ) : (
-            data.map((party) => (
+            searchResults.map((party) => (
               <div
                 key={party.event.id}
                 className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mx-auto mt-[20px] cursor-pointer"

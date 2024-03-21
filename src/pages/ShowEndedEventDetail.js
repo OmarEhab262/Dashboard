@@ -200,17 +200,23 @@ const ShowEndedEventDetail = () => {
                 ))}
             </div>
           </div>
-          <div className="video mt-[40px] h-[200px]w-full overflow-hidden">
-            <h3 className="text-[24px] font-bold">الفيديو</h3>
-            <div className="containerImgs  w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
-              <video
-                src={`https://mature-collie-newly.ngrok-free.app/storage/${party.video}`}
-                alt="party"
-                className="w-[224px] h-[144px] object-cover ml-[18px] block"
-                controls
-              />
+          {party.video ? (
+            <div className="video mt-[40px] h-[200px] w-full overflow-hidden">
+              <h3 className="text-[24px] font-bold">الفيديو</h3>
+              <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
+                <video
+                  src={`https://mature-collie-newly.ngrok-free.app/storage/${party.video}`}
+                  alt="party"
+                  className="w-[224px] h-[144px] object-cover ml-[18px] block"
+                  controls
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
+              <h3 className="text-[20px]">لا يوجد فيديو</h3>
+            </div>
+          )}
         </div>
       </div>
     </div>

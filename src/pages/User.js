@@ -95,11 +95,11 @@ const User = () => {
           <div className="content mt-[17px] flex justify-between items-center w-full ">
             <div className="head flex items-center ">
               <div className="relative">
-                <div className="img w-[140px] h-[140px] overflow-hidden rounded-full">
+                <div className="img w-[140px] h-[140px] overflow-hidden rounded-full flex justify-center items-center">
                   <img
                     src={`https://mature-collie-newly.ngrok-free.app/storage/${image}`}
                     alt="user"
-                    className="rounded-full "
+                    className="rounded-full w-full h-full object-cover  object-center"
                   />
                   <div
                     className="change absolute bottom-2 left-2 bg-[#041461] w-[32px] h-[32px] flex justify-center items-center rounded-full cursor-pointer"

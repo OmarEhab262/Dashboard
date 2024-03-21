@@ -208,15 +208,7 @@ const ShowNewEventDetails = () => {
               </div>
             </div>
           )}
-          {party.video === null && (
-            <div>
-              <h3 className="text-[24px] font-bold">الصور</h3>
-              <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
-                <h3 className="text-[20px]">لم تقام الحفلة بعد</h3>
-              </div>
-            </div>
-          )}
-          {party.video && party.video !== null && (
+          {party.video ? (
             <div className="video mt-[40px] h-[200px] w-full overflow-hidden">
               <h3 className="text-[24px] font-bold">الفيديو</h3>
               <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
@@ -227,6 +219,10 @@ const ShowNewEventDetails = () => {
                   controls
                 />
               </div>
+            </div>
+          ) : (
+            <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
+              <h3 className="text-[20px]">لا يوجد فيديو</h3>
             </div>
           )}
         </div>
