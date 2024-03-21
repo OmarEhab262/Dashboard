@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
 import arrow from "../assists/icon/arrow.png";
@@ -8,9 +8,37 @@ import ticket from "../assists/imgs/pdf.png";
 
 const ShowTicket = () => {
   const [searchInput, setSearchInput] = useState("");
+  const [bookingId, setBookingId] = useState("");
+  const [eventCategoryEventId, setEventCategoryEventId] = useState("");
+  const [ticketsNumber, setTicketsNumber] = useState("");
+  const [nameEN, setNameEN] = useState("");
+  const [email, setEmail] = useState("");
+  const [img, setImg] = useState("");
+
+  useEffect(() => {
+    const bookingId = localStorage.getItem("bookingId");
+    const eventCategoryEventId = localStorage.getItem("eventCategoryEventId");
+    const ticketsNumber = localStorage.getItem("ticketsNumber");
+    const nameEN = localStorage.getItem("nameEN");
+    const email = localStorage.getItem("email");
+    const img = localStorage.getItem("img");
+    console.log("Booking ID:", bookingId);
+    console.log("Category Event ID:", eventCategoryEventId);
+    console.log("img:", img);
+    setBookingId(bookingId);
+    setEventCategoryEventId(eventCategoryEventId);
+    setTicketsNumber(ticketsNumber);
+    setNameEN(nameEN);
+    setEmail(email);
+    setImg(img);
+  }, []);
+
   const goBack = () => {
     window.history.back();
   };
+
+  const ticketUrl = `https://causal-eternal-ladybird.ngrok-free.app/api/generate-pdf/${eventCategoryEventId}/${bookingId}`;
+
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -27,75 +55,38 @@ const ShowTicket = () => {
               </h3>
             </div>
           </div>
-          <form
-            // onSubmit={handleSearch}
-            className="flex bg-[#041461] items-center w-[40%] p-[20px] rounded-[16px] h-[50px]"
-          >
-            <img
-              src={search}
-              alt="searchicon"
-              className="w-[23px] h-[23px] ml-[20px] mb-[-5px] mr-[20px]"
-            />
-            <input
-              type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              className="text-[16px] font-bold text-white w-[80%] ml-[20px] bg-[#041461] outline-none placeholder-white"
-              placeholder="ابحث في الحجوزات"
-            />
-          </form>
         </div>
         <div className="content border-2 w-full h-[538px] my-auto rounded-[16px] p-[36px]">
           <div className="head flex  items-center">
             <div className="right flex items-center ml-[356px]">
               <div className="img w-[63px] h-[63px] rounded-full ml-[14px]">
-                {" "}
-                <img src={user} alt="user" className="rounded-full" />
+                <img
+                  src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${img}`}
+                  alt="user"
+                  className="rounded-full"
+                />
               </div>
               <div>
                 <h3 className="text-[15px] font-[700] text-[#041461]">
-                  سلمى محمود إبراهيم{" "}
+                  {nameEN}
                 </h3>
-                <h3>SalmaaAhmed12 @gmail.com</h3>
+                <h3>{email}</h3>
               </div>
             </div>
             <div className="left text-[15px] font-[700] text-[#041461] flex flex-col items-center justify-center ">
               <h3 className="mb-[5px]">عدد المرافقين</h3>
-              <h3>5</h3>
+              <h3>{ticketsNumber}</h3>
             </div>
           </div>
           {/* Tickets Section with Scroll */}
           <div className="tickets mt-[80px] h-[340px] flex  w-full overflow-auto ssc overflow-y-hidden">
             <div className="ticket  h-[330px] flex">
-              <a href={ticket} download className=" w-[300px] h-[300px]">
-                <img
-                  src={ticket}
-                  alt="ticket"
-                  className="   w-[300px] h-[300px] cursor-pointer"
-                />
-              </a>
-              <a href={ticket} download className=" w-[300px] h-[300px]">
-                <img
-                  src={ticket}
-                  alt="ticket"
-                  className="   w-[300px] h-[300px] cursor-pointer"
-                />
-              </a>
-              <a href={ticket} download className=" w-[300px] h-[300px]">
-                <img
-                  src={ticket}
-                  alt="ticket"
-                  className="   w-[300px] h-[300px] cursor-pointer"
-                />
-              </a>
-              <a href={ticket} download className=" w-[300px] h-[300px]">
-                <img
-                  src={ticket}
-                  alt="ticket"
-                  className="   w-[300px] h-[300px] cursor-pointer"
-                />
-              </a>
-              <a href={ticket} download className=" w-[300px] h-[300px]">
+              <a
+                target="blank"
+                href={ticketUrl}
+                download
+                className=" w-[300px] h-[300px]"
+              >
                 <img
                   src={ticket}
                   alt="ticket"

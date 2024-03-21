@@ -3,21 +3,18 @@ import SideBar from "../components/SideBar";
 import location2 from "../assists/icon/location2.png";
 import arrow from "../assists/icon/arrow.png";
 import axios from "axios";
+
 const EditEventDetail = () => {
   const [nameParty, setNameParty] = useState("");
   const [locationParty, setLocationParty] = useState("");
   const [timeDate, setTimeDate] = useState("");
-
   const [descriptionParty, setDescriptionParty] = useState("");
-  const [images, setImages] = useState([]);
   const [mainImage, setMainImage] = useState("");
-  const [videos, setVideos] = useState([]);
+  const [deletImg, setDeletImg] = useState("");
   const [removeClicked, setRemoveClicked] = useState(false);
-
-  const handleImageUpload = (event) => {
-    const uploadedImages = Array.from(event.target.files);
-    setImages((prevImages) => [...prevImages, ...uploadedImages]);
-  };
+  const [images, setImages] = useState([]);
+  const [imgs, setImgs] = useState(null);
+  const [videos, setVideos] = useState([]);
 
   const handleVideoUpload = (event) => {
     const uploadedVideos = Array.from(event.target.files);
@@ -31,6 +28,7 @@ const EditEventDetail = () => {
   const handleLocationPartyChange = (event) => {
     setLocationParty(event.target.value);
   };
+
   const handleDatePartyChange = (event) => {
     setTimeDate(event.target.value);
   };
@@ -38,6 +36,7 @@ const EditEventDetail = () => {
   const handleDescriptionPartyChange = (event) => {
     setDescriptionParty(event.target.value);
   };
+
   const goBack = () => {
     window.history.back();
   };
@@ -57,17 +56,34 @@ const EditEventDetail = () => {
             },
           }
         );
-
+        setImgs(response.data.images); // Set imgs to response.data.images
+        console.log(imgs); // Logging the fetched images
+        console.log(response.data.event); // Logging the fetched event
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [token]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://causal-eternal-ladybird.ngrok-free.app/api/event-show/${storedId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }
+        );
         setNameParty(response.data.event.title);
         setLocationParty(response.data.event.location);
         setTimeDate(response.data.event.date_time);
         setDescriptionParty(response.data.event.description);
         setMainImage(response.data.event.banner);
-        setImages(response.data.images);
-        setVideos(response.data.event.video);
-        // setImages(response.data.event.video);
-        setImages(response.data.images);
-        // Parse and update timeParty and dateParty
+        // setImgs(response.data.event.images); // Ensure that images are initialized even if response.data.event.images is undefined
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -76,14 +92,23 @@ const EditEventDetail = () => {
     fetchData();
   }, [storedId, token]);
 
+  const handleImageChange = (event) => {
+    const files = Array.from(event.target.files);
+    // Only keep the last image
+    setImages([files.pop()]);
+  };
+
   const handleSaveData = async () => {
     try {
       const formData = new FormData();
       formData.append("title", nameParty);
       formData.append("location", locationParty);
-      formData.append("description", descriptionParty); // Append the image blob
-      formData.append("date_time", timeDate); // Append the image blob
-      formData.append("images", images); // Append the image blob
+      formData.append("description", descriptionParty);
+      formData.append("date_time", timeDate);
+
+      // Append only the last image
+      const lastImage = images[images.length - 1];
+      formData.append("image[]", lastImage);
 
       const response = await axios.post(
         `https://causal-eternal-ladybird.ngrok-free.app/api/events/update/${storedId}`,
@@ -98,9 +123,31 @@ const EditEventDetail = () => {
       );
       console.log("data updated:", response.data);
       console.log(descriptionParty);
-      // You can do something after successful update if needed
+      window.location.reload();
     } catch (error) {
       console.error("Error updating user data:", error);
+    }
+  };
+
+  const handleDeleteImage = async (imageId) => {
+    setDeletImg(imageId);
+    await deleteimg();
+  };
+
+  const deleteimg = async () => {
+    try {
+      await axios.delete(
+        `https://causal-eternal-ladybird.ngrok-free.app/api/images/${deletImg}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting deleteimg:", error);
     }
   };
 
@@ -189,16 +236,26 @@ const EditEventDetail = () => {
           <div className="content">
             <div className="img mt-[24px] w-full overflow-hidden">
               <h3 className="text-[24px] font-bold">الصور</h3>
-              <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
-                {images.map((image) => (
-                  <img
-                    key={image.id}
-                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${image.image}`}
-                    alt={`img`}
-                    className={`w-[224px] h-[144px] object-cover ml-[18px] block relative`}
-                  />
-                ))}
+              <div className="containerImgs w-full flex overflow-x-auto ssc mt-20 pb-10 ">
+                {imgs &&
+                  imgs.map((img) => (
+                    <div className="flex-shrink-0 mr-4 relative" key={img.id}>
+                      <img
+                        onClick={
+                          removeClicked
+                            ? () => handleDeleteImage(img.id)
+                            : undefined
+                        }
+                        src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${img.image}`}
+                        alt="party"
+                        className={`w-[224px] h-[144px] cursor-pointer ${
+                          removeClicked ? "hover:opacity-80" : ""
+                        }`}
+                      />
+                    </div>
+                  ))}
               </div>
+
               <div className="operationImgs flex justify-center items-center">
                 <label
                   htmlFor="uploadImage"
@@ -210,7 +267,8 @@ const EditEventDetail = () => {
                     id="uploadImage"
                     accept="image/*"
                     style={{ display: "none" }}
-                    onChange={handleImageUpload}
+                    multiple
+                    onChange={handleImageChange}
                   />
                 </label>
                 <div
@@ -246,10 +304,7 @@ const EditEventDetail = () => {
                     onChange={handleVideoUpload}
                   />
                 </label>
-                <div
-                  className="remove cursor-pointer border border-[#041461] h-[55px] m-[24px] py-[8px] px-[26px] text-[#041461] flex justify-center items-center gap-[10px] text-[20px] font-[500] bg-white rounded-[6px]"
-                  onClick={() => setRemoveClicked(!removeClicked)}
-                >
+                <div className="remove cursor-pointer border border-[#041461] h-[55px] m-[24px] py-[8px] px-[26px] text-[#041461] flex justify-center items-center gap-[10px] text-[20px] font-[500] bg-white rounded-[6px]">
                   <h3>حذف فيديو</h3>
                 </div>
               </div>

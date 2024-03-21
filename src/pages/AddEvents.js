@@ -220,6 +220,99 @@ const AddEvents = () => {
       console.error("Error creating event:", error.response.data);
     }
   };
+
+  const fetchTicketPricesVIP = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("price", ticketPricesVIP);
+      formData.append("is_available", 1);
+      formData.append("tickets_category_id", 2);
+      formData.append("event_id", eventId);
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("Event created successfully:", response.data.events);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
+  const fetchTicketPricesPlus = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("price", ticketPricesPlus);
+      formData.append("is_available", 1);
+      formData.append("tickets_category_id", 1);
+      formData.append("event_id", eventId);
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("Event created successfully:", response.data.events);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
+  const fetchTicketPricesVVIP = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("price", ticketPricesVVIP);
+      formData.append("is_available", 1);
+      formData.append("tickets_category_id", 3);
+      formData.append("event_id", eventId);
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("Event created successfully:", response.data.events);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
+  const fetchTicketPrice = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("price", ticketPrice);
+      formData.append("is_available", 1);
+      formData.append("tickets_category_id", 1);
+      formData.append("event_id", eventId);
+      const response = await axios.post(
+        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        }
+      );
+      console.log("Event created successfully:", response.data.events);
+    } catch (error) {
+      console.error("Error creating event:", error.response.data);
+    }
+  };
   const navigate = useNavigate();
   const goToCreatedParty = async () => {
     try {
@@ -229,6 +322,11 @@ const AddEvents = () => {
         await fetchPlusSeats();
         await fetchVipSeats();
         await fetchVvipSeats();
+        await fetchTicketPricesPlus();
+        await fetchTicketPricesVIP();
+        await fetchTicketPricesVVIP();
+      } else {
+        await fetchTicketPrice();
       }
       navigate("/CreatedParty");
     } catch (error) {

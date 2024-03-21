@@ -9,9 +9,14 @@ const Booking = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
+  const [bookingId, setBookingId] = useState("");
+  const [eventCategoryEventId, setEventCategoryEventId] = useState("");
+  const [ticketsNumber, setTicketsNumber] = useState("");
+  const [nameEN, setNameEN] = useState("");
+  const [email, setEmail] = useState("");
+  const [img, setImg] = useState("");
   const [data, setData] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [sortOrder, setSortOrder] = useState("asc");
   const token = localStorage.getItem("token");
   const idFilter = location.state.idFilter;
 
@@ -55,6 +60,22 @@ const Booking = () => {
     setSearchResults(filteredResults);
   };
 
+  const saveBookingIdToLocal = (
+    bookingId,
+    eventCategoryEventId,
+    ticketsNumber,
+    nameEN,
+    email,
+    img
+  ) => {
+    localStorage.setItem("bookingId", bookingId);
+    localStorage.setItem("eventCategoryEventId", eventCategoryEventId);
+    localStorage.setItem("ticketsNumber", ticketsNumber);
+    localStorage.setItem("nameEN", nameEN);
+    localStorage.setItem("email", email);
+    localStorage.setItem("img", img);
+  };
+
   return (
     <div className="grid grid-cols-5 h-screen">
       <SideBar />
@@ -65,11 +86,11 @@ const Booking = () => {
               <img src={arrow} alt="arrow" className="w-[23px] h-[23px]" />
             </button>
             <h3 className="text-[24px] font-bold text-[#041461]">
-              لوحة المعلومات/{" "}
+              لوحة المعلومات/
               <span className="text-[20px]">
                 <span>الحجوزات /</span>
                 <span>الحجوزات</span>
-              </span>{" "}
+              </span>
             </h3>
           </div>
           <form
@@ -95,7 +116,7 @@ const Booking = () => {
           style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
         >
           <h3 className="font-bold text-[16px] text-[#041461]">
-            عدد المستخدمين :{" "}
+            عدد المستخدمين :
             <span>{searchInput ? searchResults.length : data.length}</span>
           </h3>
         </div>
@@ -120,9 +141,8 @@ const Booking = () => {
                       className="image_user w-[50px] h-[50px] rounded-full text-center"
                     />
                     <div className="flex flex-col items-start mr-[20px]">
-                      <h3 className="name_user">{user.user.nameEN}</h3>{" "}
+                      <h3 className="name_user">{user.user.nameEN}</h3>
                       <h3 className="email_user text-[12px]">
-                        {" "}
                         {user.user.email}
                       </h3>
                     </div>
@@ -140,6 +160,24 @@ const Booking = () => {
 
                 <Link
                   to="/ShowTicket"
+                  onClick={() => {
+                    setBookingId(user.booking.id);
+                    setEventCategoryEventId(
+                      user.booking.event.category_event_id
+                    );
+                    setEmail(user.user.email);
+                    setNameEN(user.user.nameEN);
+                    setImg(user.user.image);
+                    setTicketsNumber(user.booking.tickets_number);
+                    saveBookingIdToLocal(
+                      user.booking.id,
+                      user.booking.event.category_event_id,
+                      user.booking.tickets_number,
+                      user.user.nameEN,
+                      user.user.email,
+                      user.user.image
+                    );
+                  }}
                   className="w-[130px] h-[50px] flex justify-center items-center bg-[#041461] rounded-[10px] text-white mx-[10px] cursor-pointer"
                 >
                   عرض التذاكر

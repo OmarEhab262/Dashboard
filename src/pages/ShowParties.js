@@ -146,7 +146,7 @@ const ShowParties = () => {
                   <div className="grid grid-cols-1  gap-4">
                     <div className="content">
                       <div className="title flex justify-center mt-[10px] text-center">
-                        <h3 className="text-[#041461] text-[16px] font-bold">
+                        <h3 className="text-[#041461] text-[16px] font-bold w-full overflow-hidden">
                           {party.event.title}
                         </h3>
                       </div>
