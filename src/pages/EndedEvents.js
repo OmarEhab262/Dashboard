@@ -38,7 +38,7 @@ const EndedEvents = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/events",
+          "https://mature-collie-newly.ngrok-free.app/api/events",
           {
             headers: {
               "Content-Type": "application/json",
@@ -185,7 +185,7 @@ const EndedEvents = () => {
                     >
                       <div className="w-full">
                         <img
-                          src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${item.event.banner}`}
                           alt="party"
                           className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
@@ -261,7 +261,7 @@ const EndedEvents = () => {
                     >
                       <div className="w-full">
                         <img
-                          src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${item.event.banner}`}
                           alt="party"
                           className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
@@ -337,7 +337,7 @@ const EndedEvents = () => {
                     >
                       <div className="w-full">
                         <img
-                          src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${item.event.banner}`}
                           alt="party"
                           className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
@@ -413,7 +413,7 @@ const EndedEvents = () => {
                     >
                       <div className="w-full">
                         <img
-                          src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${item.event.banner}`}
                           alt="party"
                           className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
@@ -490,7 +490,7 @@ const EndedEvents = () => {
                     >
                       <div className="w-full">
                         <img
-                          src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${item.event.banner}`}
                           alt="party"
                           className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />
@@ -566,7 +566,7 @@ const EndedEvents = () => {
                     >
                       <div className="w-full">
                         <img
-                          src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.event.banner}`}
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${item.event.banner}`}
                           alt="party"
                           className="w-full h-[125px] rounded-tr-[16px]  rounded-tl-[16px]"
                         />

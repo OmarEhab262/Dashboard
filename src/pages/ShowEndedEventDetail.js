@@ -23,7 +23,7 @@ const ShowEndedEventDetail = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/event-show/${id}`,
+          `https://mature-collie-newly.ngrok-free.app/api/event-show/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const ShowEndedEventDetail = () => {
         <div className="info flex py-[20px]  w-full h-auto overflow-hidden">
           <div className="img h-[231px] w-[30%] rounded-[16px]">
             <img
-              src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.banner}`}
+              src={`https://mature-collie-newly.ngrok-free.app/storage/${party.banner}`}
               alt="party"
               className="h-full w-full object-cover rounded-[16px]"
             />
@@ -193,7 +193,7 @@ const ShowEndedEventDetail = () => {
                 imgs.map((img) => (
                   <img
                     key={img.id} // Ensure each image has a unique key
-                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${img.image}`} // Access the 'image' property of each image object
+                    src={`https://mature-collie-newly.ngrok-free.app/storage/${img.image}`} // Access the 'image' property of each image object
                     alt="party"
                     className="w-[224px] h-[144px] object-cover ml-[18px] block"
                   />
@@ -204,7 +204,7 @@ const ShowEndedEventDetail = () => {
             <h3 className="text-[24px] font-bold">الفيديو</h3>
             <div className="containerImgs  w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
               <video
-                src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.video}`}
+                src={`https://mature-collie-newly.ngrok-free.app/storage/${party.video}`}
                 alt="party"
                 className="w-[224px] h-[144px] object-cover ml-[18px] block"
                 controls

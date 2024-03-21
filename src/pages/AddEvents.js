@@ -75,7 +75,7 @@ const AddEvents = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/states",
+          "https://mature-collie-newly.ngrok-free.app/api/states",
           {
             headers: {
               "Content-Type": "application/json",
@@ -100,7 +100,7 @@ const AddEvents = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/categories",
+          "https://mature-collie-newly.ngrok-free.app/api/categories",
           {
             headers: {
               "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const AddEvents = () => {
       formData.append("category_event_id", numCategory);
 
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/events",
+        "https://mature-collie-newly.ngrok-free.app/api/events",
         formData,
         {
           headers: {
@@ -161,7 +161,7 @@ const AddEvents = () => {
       formData.append("event_id", eventId);
 
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/seat_numbers",
+        "https://mature-collie-newly.ngrok-free.app/api/seat_numbers",
         formData,
         {
           headers: {
@@ -183,7 +183,7 @@ const AddEvents = () => {
       formData.append("tickets_category_id", 2);
       formData.append("event_id", eventId);
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/seat_numbers",
+        "https://mature-collie-newly.ngrok-free.app/api/seat_numbers",
         formData,
         {
           headers: {
@@ -205,7 +205,7 @@ const AddEvents = () => {
       formData.append("tickets_category_id", 3);
       formData.append("event_id", eventId);
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/seat_numbers",
+        "https://mature-collie-newly.ngrok-free.app/api/seat_numbers",
         formData,
         {
           headers: {
@@ -229,7 +229,7 @@ const AddEvents = () => {
       formData.append("tickets_category_id", 2);
       formData.append("event_id", eventId);
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        "https://mature-collie-newly.ngrok-free.app/api/events_ticketcategories",
         formData,
         {
           headers: {
@@ -252,7 +252,7 @@ const AddEvents = () => {
       formData.append("tickets_category_id", 1);
       formData.append("event_id", eventId);
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        "https://mature-collie-newly.ngrok-free.app/api/events_ticketcategories",
         formData,
         {
           headers: {
@@ -275,7 +275,7 @@ const AddEvents = () => {
       formData.append("tickets_category_id", 3);
       formData.append("event_id", eventId);
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        "https://mature-collie-newly.ngrok-free.app/api/events_ticketcategories",
         formData,
         {
           headers: {
@@ -298,7 +298,7 @@ const AddEvents = () => {
       formData.append("tickets_category_id", 1);
       formData.append("event_id", eventId);
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/events_ticketcategories",
+        "https://mature-collie-newly.ngrok-free.app/api/events_ticketcategories",
         formData,
         {
           headers: {

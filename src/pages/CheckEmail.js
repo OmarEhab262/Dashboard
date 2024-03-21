@@ -64,7 +64,7 @@ const CheckEmail = () => {
 
       // Send a POST request to verify PIN API
       const pinResponse = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/verify/pin",
+        "https://mature-collie-newly.ngrok-free.app/api/verify/pin",
         { email, token: enteredCode },
         {
           headers: {
@@ -80,7 +80,7 @@ const CheckEmail = () => {
 
       // Send a POST request to reset password API
       const resetResponse = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/reset-password",
+        "https://mature-collie-newly.ngrok-free.app/api/reset-password",
         {
           email,
           password: newPassword,
@@ -118,7 +118,7 @@ const CheckEmail = () => {
 
       // Send a POST request to resend PIN code
       const resetCode = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/password/resend-pin",
+        "https://mature-collie-newly.ngrok-free.app/api/password/resend-pin",
         { email },
         {
           headers: {

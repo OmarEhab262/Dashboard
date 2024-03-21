@@ -14,7 +14,7 @@ const Users = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/users",
+          "https://mature-collie-newly.ngrok-free.app/api/users",
           {
             headers: {
               "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const Users = () => {
   const deleteUser = async () => {
     try {
       await axios.delete(
-        `https://causal-eternal-ladybird.ngrok-free.app/api/users/${userToDelete.id}`,
+        `https://mature-collie-newly.ngrok-free.app/api/users/${userToDelete.id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +115,7 @@ const Users = () => {
               >
                 <div className="info text-[15px] text-[#041461] font-bold flex items-center w-[90%] my-[10px]  bg-[#727db5ab] rounded-[24px]  justify-around py-[15px]">
                   <img
-                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${user.image}`}
+                    src={`https://mature-collie-newly.ngrok-free.app/storage/${user.image}`}
                     alt="User"
                     className="w-[50px] h-[50px] rounded-full text-center"
                   />

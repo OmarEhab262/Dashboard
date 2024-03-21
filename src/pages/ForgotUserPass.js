@@ -28,7 +28,7 @@ function ForgotUserPass() {
       }
 
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/forgot-password",
+        "https://mature-collie-newly.ngrok-free.app/api/forgot-password",
         { email },
         {
           headers: {

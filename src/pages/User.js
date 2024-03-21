@@ -36,7 +36,7 @@ const User = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/profile",
+          "https://mature-collie-newly.ngrok-free.app/api/profile",
           {
             headers: {
               "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const User = () => {
       formData.append("image", image);
 
       const response = await axios.post(
-        "https://causal-eternal-ladybird.ngrok-free.app/api/profile/update",
+        "https://mature-collie-newly.ngrok-free.app/api/profile/update",
         formData,
         {
           headers: {
@@ -97,7 +97,7 @@ const User = () => {
               <div className="relative">
                 <div className="img w-[140px] h-[140px] overflow-hidden rounded-full">
                   <img
-                    src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${image}`}
+                    src={`https://mature-collie-newly.ngrok-free.app/storage/${image}`}
                     alt="user"
                     className="rounded-full "
                   />

@@ -95,7 +95,7 @@ const SideBar = ({ activeItemProp }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/profile",
+          "https://mature-collie-newly.ngrok-free.app/api/profile",
           {
             headers: {
               "Content-Type": "application/json",
@@ -336,7 +336,7 @@ const SideBar = ({ activeItemProp }) => {
             onClick={goToUserpage}
           >
             <img
-              src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${userData.image}`}
+              src={`https://mature-collie-newly.ngrok-free.app/storage/${userData.image}`}
               alt="user1"
               className="w-full rounded-full"
             />

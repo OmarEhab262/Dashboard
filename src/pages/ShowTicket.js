@@ -37,7 +37,7 @@ const ShowTicket = () => {
     window.history.back();
   };
 
-  const ticketUrl = `https://causal-eternal-ladybird.ngrok-free.app/api/generate-pdf/${eventCategoryEventId}/${bookingId}`;
+  const ticketUrl = `https://mature-collie-newly.ngrok-free.app/api/generate-pdf/${eventCategoryEventId}/${bookingId}`;
 
   return (
     <div className="grid grid-cols-5 h-screen">
@@ -61,7 +61,7 @@ const ShowTicket = () => {
             <div className="right flex items-center ml-[356px]">
               <div className="img w-[63px] h-[63px] rounded-full ml-[14px]">
                 <img
-                  src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${img}`}
+                  src={`https://mature-collie-newly.ngrok-free.app/storage/${img}`}
                   alt="user"
                   className="rounded-full"
                 />

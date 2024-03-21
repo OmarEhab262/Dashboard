@@ -28,7 +28,7 @@ const Booking = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/event_bookings?event_id=${idFilter}`,
+          `https://mature-collie-newly.ngrok-free.app/api/event_bookings?event_id=${idFilter}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const Booking = () => {
                 <div className="info text-[15px] text-[#041461] font-bold items-center w-[85%] my-[10px] bg-[#727db5ab] rounded-[24px] grid grid-cols-4 py-[15px] justify-items-start">
                   <div className="flex pr-[20px] col-span-1">
                     <img
-                      src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${user.user.image}`}
+                      src={`https://mature-collie-newly.ngrok-free.app/storage/${user.user.image}`}
                       alt="user"
                       className="image_user w-[50px] h-[50px] rounded-full text-center"
                     />

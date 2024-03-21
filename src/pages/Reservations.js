@@ -11,7 +11,7 @@ const Reservations = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/categories",
+          "https://mature-collie-newly.ngrok-free.app/api/categories",
           {
             headers: {
               "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const Reservations = () => {
                     </div>
                     <div className="mid w-[200px] h-[200px] border border-[#041461] rounded-[10px] flex justify-center items-center my-[10px]">
                       <img
-                        src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${item.image}`}
+                        src={`https://mature-collie-newly.ngrok-free.app/storage/${item.image}`}
                         alt={item.name}
                         className="w-full h-[200px]"
                       />

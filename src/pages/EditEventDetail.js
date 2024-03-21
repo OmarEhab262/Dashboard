@@ -3,7 +3,7 @@ import SideBar from "../components/SideBar";
 import location2 from "../assists/icon/location2.png";
 import arrow from "../assists/icon/arrow.png";
 import axios from "axios";
-
+import cam from "../assists/icon/cam.png";
 const EditEventDetail = () => {
   const [nameParty, setNameParty] = useState("");
   const [locationParty, setLocationParty] = useState("");
@@ -14,13 +14,33 @@ const EditEventDetail = () => {
   const [removeClicked, setRemoveClicked] = useState(false);
   const [images, setImages] = useState([]);
   const [imgs, setImgs] = useState(null);
-  const [videos, setVideos] = useState([]);
+  const [video, setVideo] = useState("");
 
-  const handleVideoUpload = (event) => {
-    const uploadedVideos = Array.from(event.target.files);
-    setVideos((prevVideos) => [...prevVideos, ...uploadedVideos]);
+  // Function to handle file change for main image
+  const handleMainImageChange = (event) => {
+    const file = event.target.files[0]; // Get the first selected file
+    if (file) {
+      // Check if a file is selected
+      const reader = new FileReader(); // FileReader to read file contents
+      reader.onload = () => {
+        // Callback when file is read successfully
+        const imageDataURL = reader.result; // Data URL representing the file contents
+        setMainImage(imageDataURL); // Set main image using data URL
+      };
+      reader.readAsDataURL(file); // Read file as data URL
+    }
   };
 
+  // Function to trigger file input click when camera icon is clicked
+  const handleCameraClick = () => {
+    document.getElementById("mainImageInput").click();
+  };
+
+  const handleVideoUpload = (event) => {
+    const file = event.target.files[0];
+    setVideo(file);
+    console.log(video);
+  };
   const handleNamePartyChange = (event) => {
     setNameParty(event.target.value);
   };
@@ -47,7 +67,7 @@ const EditEventDetail = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/event-show/${storedId}`,
+          `https://mature-collie-newly.ngrok-free.app/api/event-show/${storedId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -56,9 +76,8 @@ const EditEventDetail = () => {
             },
           }
         );
-        setImgs(response.data.images); // Set imgs to response.data.images
-        console.log(imgs); // Logging the fetched images
-        console.log(response.data.event); // Logging the fetched event
+        setImgs(response.data.images);
+        console.log(imgs);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -69,7 +88,7 @@ const EditEventDetail = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/event-show/${storedId}`,
+          `https://mature-collie-newly.ngrok-free.app/api/event-show/${storedId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -83,7 +102,8 @@ const EditEventDetail = () => {
         setTimeDate(response.data.event.date_time);
         setDescriptionParty(response.data.event.description);
         setMainImage(response.data.event.banner);
-        // setImgs(response.data.event.images); // Ensure that images are initialized even if response.data.event.images is undefined
+        setVideo(response.data.event.video);
+        console.log("11111111111111111111111" + response.data.event.video);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -94,8 +114,7 @@ const EditEventDetail = () => {
 
   const handleImageChange = (event) => {
     const files = Array.from(event.target.files);
-    // Only keep the last image
-    setImages([files.pop()]);
+    setImages((prevImages) => [...prevImages, ...files]);
   };
 
   const handleSaveData = async () => {
@@ -105,13 +124,12 @@ const EditEventDetail = () => {
       formData.append("location", locationParty);
       formData.append("description", descriptionParty);
       formData.append("date_time", timeDate);
-
-      // Append only the last image
+      formData.append("video", video);
       const lastImage = images[images.length - 1];
       formData.append("image[]", lastImage);
 
       const response = await axios.post(
-        `https://causal-eternal-ladybird.ngrok-free.app/api/events/update/${storedId}`,
+        `https://mature-collie-newly.ngrok-free.app/api/events/update/${storedId}`,
         formData,
         {
           headers: {
@@ -137,7 +155,7 @@ const EditEventDetail = () => {
   const deleteimg = async () => {
     try {
       await axios.delete(
-        `https://causal-eternal-ladybird.ngrok-free.app/api/images/${deletImg}`,
+        `https://mature-collie-newly.ngrok-free.app/api/images/${deletImg}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -168,9 +186,22 @@ const EditEventDetail = () => {
         </div>
         <div className=" overflow-auto ssc pl-[24px] mt-[20px] w-full">
           <div className="h-[250px] grid w-full grid-cols-3 gap-[30px]">
-            <div className="img h-[231px] col-span-1">
+            <div className="img h-[231px] col-span-1 relative">
+              <input
+                type="file"
+                id="mainImageInput"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleMainImageChange}
+              />
+              <div
+                className="change absolute bottom-2 left-2 bg-[#041461] w-[32px] h-[32px] flex justify-center items-center rounded-full cursor-pointer"
+                onClick={handleCameraClick} // Call handleCameraClick when camera icon is clicked
+              >
+                <img src={cam} alt="" />
+              </div>
               <img
-                src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${mainImage}`}
+                src={`https://mature-collie-newly.ngrok-free.app/storage/${mainImage}`}
                 alt="party"
                 className="h-full w-full"
               />
@@ -246,7 +277,7 @@ const EditEventDetail = () => {
                             ? () => handleDeleteImage(img.id)
                             : undefined
                         }
-                        src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${img.image}`}
+                        src={`https://mature-collie-newly.ngrok-free.app/storage/${img.image}`}
                         alt="party"
                         className={`w-[224px] h-[144px] cursor-pointer ${
                           removeClicked ? "hover:opacity-80" : ""
@@ -279,13 +310,11 @@ const EditEventDetail = () => {
                 </div>
               </div>
             </div>
-
-            {/* Videos Section */}
             <div className="video  w-full overflow-hidden mb-[70px]">
               <h3 className="text-[24px] font-bold">الفيديو</h3>
               <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
                 <video
-                  src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${videos}`}
+                  src={`https://mature-collie-newly.ngrok-free.app/storage/${video}`}
                   controls
                   className="w-[211px] h-[145px]"
                 ></video>
@@ -299,12 +328,17 @@ const EditEventDetail = () => {
                   <input
                     type="file"
                     id="uploadVideo"
-                    accept="video/*"
                     style={{ display: "none" }}
+                    accept="video/*"
                     onChange={handleVideoUpload}
                   />
                 </label>
-                <div className="remove cursor-pointer border border-[#041461] h-[55px] m-[24px] py-[8px] px-[26px] text-[#041461] flex justify-center items-center gap-[10px] text-[20px] font-[500] bg-white rounded-[6px]">
+                <div
+                  onClick={() => {
+                    setVideo(null);
+                  }}
+                  className="remove cursor-pointer border border-[#041461] h-[55px] m-[24px] py-[8px] px-[26px] text-[#041461] flex justify-center items-center gap-[10px] text-[20px] font-[500] bg-white rounded-[6px]"
+                >
                   <h3>حذف فيديو</h3>
                 </div>
               </div>

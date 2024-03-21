@@ -28,7 +28,7 @@ const MainPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/events",
+          "https://mature-collie-newly.ngrok-free.app/api/events",
           {
             headers: {
               "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const MainPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/users_count",
+          "https://mature-collie-newly.ngrok-free.app/api/users_count",
           {
             headers: {
               "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const MainPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/booking_count",
+          "https://mature-collie-newly.ngrok-free.app/api/booking_count",
           {
             headers: {
               "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const MainPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://causal-eternal-ladybird.ngrok-free.app/api/events_count",
+          "https://mature-collie-newly.ngrok-free.app/api/events_count",
           {
             headers: {
               "Content-Type": "application/json",
@@ -414,7 +414,7 @@ const MainPage = () => {
                     <div className="img">
                       <img
                         // src={party.event.banner}
-                        src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.event.banner}`}
+                        src={`https://mature-collie-newly.ngrok-free.app/storage/${party.event.banner}`}
                         alt="MainPage"
                         className="mainImg w-[105%] h-[125px] rounded-tl-[16px] rounded-tr-[16px]"
                       />

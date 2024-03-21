@@ -7,6 +7,7 @@ import arrow from "../assists/icon/arrow.png";
 import party from "../assists/imgs/party.png";
 import axios from "axios";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 const ShowNewEventDetails = () => {
   const goBack = () => {
     window.history.back();
@@ -20,7 +21,7 @@ const ShowNewEventDetails = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://causal-eternal-ladybird.ngrok-free.app/api/event-show/${id}`,
+          `https://mature-collie-newly.ngrok-free.app/api/event-show/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -122,11 +123,19 @@ const ShowNewEventDetails = () => {
               لوحة المعلومات/ <span className="text-[20px]">{party.title}</span>
             </h3>
           </div>
+          <div className=" flex justify-end ">
+            <Link
+              to="/EditEventDetail"
+              className="cursor-pointer w-[155px] h-[50px] rounded-[16px] bg-[#041461] text-white font-bold text-[16px] flex justify-center items-center ml-[30px]"
+            >
+              <h3>تعديل حفلة</h3>
+            </Link>
+          </div>
         </div>
         <div className="info flex py-[20px]  w-full h-auto overflow-hidden ">
           <div className="img h-[231px] w-[30%]">
             <img
-              src={`https://causal-eternal-ladybird.ngrok-free.app/storage/${party.banner}`}
+              src={`https://mature-collie-newly.ngrok-free.app/storage/${party.banner}`}
               alt="party"
               className="h-full w-full object-cover"
             />
@@ -175,19 +184,51 @@ const ShowNewEventDetails = () => {
             </div>
           </div>
         </div>
-        <div className="party overflow-auto w-full ssc ">
-          <div className="img mt-[24px] w-full overflow-hidden">
-            <h3 className="text-[24px] font-bold">الصور</h3>
-            <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
-              <h3 className="text-[20px]">لم تقام الحفلة بعد</h3>
+        <div className="h-[50vh] overflow-auto w-full ssc">
+          {(!imgs || imgs.length === 0) && (
+            <div>
+              <h3 className="text-[24px] font-bold">الصور</h3>
+              <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
+                <h3 className="text-[20px]">لم تقام الحفلة بعد</h3>
+              </div>
             </div>
-          </div>
-          <div className="video mt-[24px] w-full overflow-hidden">
-            <h3 className="text-[24px] font-bold">الفيديو</h3>
-            <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto my-[20px]">
-              <h3 className="text-[20px]">لم تقام الحفلة بعد</h3>
+          )}
+          {imgs && imgs.length > 0 && (
+            <div className="img mt-[40px] h-[200px]">
+              <h3 className="text-[24px] font-bold">الصور</h3>
+              <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
+                {imgs.map((img) => (
+                  <img
+                    key={img.id} // Ensure each image has a unique key
+                    src={`https://mature-collie-newly.ngrok-free.app/storage/${img.image}`} // Access the 'image' property of each image object
+                    alt="party"
+                    className="w-[224px] h-[144px] object-cover ml-[18px] block"
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          {party.video === null && (
+            <div>
+              <h3 className="text-[24px] font-bold">الصور</h3>
+              <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
+                <h3 className="text-[20px]">لم تقام الحفلة بعد</h3>
+              </div>
+            </div>
+          )}
+          {party.video && party.video !== null && (
+            <div className="video mt-[40px] h-[200px] w-full overflow-hidden">
+              <h3 className="text-[24px] font-bold">الفيديو</h3>
+              <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
+                <video
+                  src={`https://mature-collie-newly.ngrok-free.app/storage/${party.video}`}
+                  alt="party"
+                  className="w-[224px] h-[144px] object-cover ml-[18px] block"
+                  controls
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
