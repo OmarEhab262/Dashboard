@@ -32,12 +32,21 @@ const AddEvents = () => {
   const [showCategories, setShowCategories] = useState("");
   const [numGovernorate, setNumGovernorate] = useState("");
   const [numCategory, setNumCategory] = useState("");
-
+  const navigate = useNavigate();
   let eventId;
   const handleStand = () => {
     setStand(true);
   };
+  const [showError, setShowError] = useState(false);
 
+  useEffect(() => {
+    // If showError is true, after 2 seconds, set it back to false
+    const timer = setTimeout(() => {
+      setShowError(false);
+    }, 2000);
+
+    return () => clearTimeout(timer); // Clear the timer on component unmount
+  }, [showError]);
   const handleInputChange = () => {
     setIsRotated(!isRotated);
   };
@@ -110,7 +119,7 @@ const AddEvents = () => {
           }
         );
 
-        // console.log("Response Categories:", response.data); // Log response data
+        console.log("Response Categories:", response.data); // Log response data
 
         setCategories(response.data.data);
       } catch (error) {
@@ -132,7 +141,7 @@ const AddEvents = () => {
       formData.append("location", place);
       formData.append("date_time", date);
       formData.append("state_id", numGovernorate);
-      formData.append("category_event_id", categories);
+      formData.append("category_event_id", numCategory);
 
       const response = await axios.post(
         "https://mature-collie-newly.ngrok-free.app/api/events",
@@ -147,8 +156,11 @@ const AddEvents = () => {
       );
       //   const eventId = response.data.event.id;
       eventId = response.data.event.id;
-      //   console.log("Event ID:", response.data.event.id);
+      navigate("/CreatedParty");
+      //   console.log("Event ID:", eventId);
+      //   console.log("Event categories:", numCategory);
     } catch (error) {
+      setShowError(true);
       console.error("Error creating event:", error.response.data);
     }
   };
@@ -313,7 +325,7 @@ const AddEvents = () => {
       console.error("Error creating event:", error.response.data);
     }
   };
-  const navigate = useNavigate();
+
   const goToCreatedParty = async () => {
     try {
       //   console.log(image);
@@ -328,7 +340,6 @@ const AddEvents = () => {
       } else {
         await fetchTicketPrice();
       }
-      navigate("/CreatedParty");
     } catch (error) {
       console.error("Error navigating to CreatedParty:", error);
     }
@@ -719,6 +730,18 @@ const AddEvents = () => {
           </div>
         </div>
       </div>
+      {showError && (
+        <div
+          className="fixed h-screen w-full top-0 left-0 flex justify-center items-center text-[#041461]"
+          style={{ background: "#66666657" }}
+        >
+          <div className="w-[393px] h-[194px] bg-white rounded-[24px] flex justify-center items-center  flex-col">
+            <h3 className="text-[24px] font-[700]">
+              ادخل البيانات بطريقة صحيحة
+            </h3>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -19,12 +19,11 @@ const MainPage = () => {
   const token = localStorage.getItem("token");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const filteredEvents = events.filter((event) =>
-      event.event.title.toLowerCase().includes(searchInput.toLowerCase())
-    );
-    setSearchResults(filteredEvents);
-  }, [searchInput, events]);
+  const currentDate = new Date();
+  const formattedDate = currentDate
+    .toISOString()
+    .slice(0, 19)
+    .replace("T", " ");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,8 +37,8 @@ const MainPage = () => {
             },
           }
         );
-        setEvents(response.data.events); // Assuming the events array is directly inside the response data
-        // console.log(response.data.events); // Logging the fetched events
+        setEvents(response.data.events);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -47,6 +46,7 @@ const MainPage = () => {
 
     fetchData();
   }, [token]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,9 +60,7 @@ const MainPage = () => {
             },
           }
         );
-        setUsersCount(response.data.count); // Assuming the events array is directly inside the response data
-        // console.log(response.data.count); // Logging the fetched events
-        setLoading(false);
+        setUsersCount(response.data.count);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -70,6 +68,7 @@ const MainPage = () => {
 
     fetchData();
   }, [token]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -83,8 +82,7 @@ const MainPage = () => {
             },
           }
         );
-        setBookingCount(response.data.count); // Assuming the events array is directly inside the response data
-        // console.log(response.data.count); // Logging the fetched events
+        setBookingCount(response.data.count);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -92,6 +90,7 @@ const MainPage = () => {
 
     fetchData();
   }, [token]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -105,8 +104,7 @@ const MainPage = () => {
             },
           }
         );
-        setEventsCount(response.data.count); // Assuming the events array is directly inside the response data
-        // console.log(response.data.count); // Logging the fetched events
+        setEventsCount(response.data.count);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -114,30 +112,32 @@ const MainPage = () => {
 
     fetchData();
   }, [token]);
+
   useEffect(() => {
-    const filteredEvents = events.filter((event) => {
-      const eventDateTime = new Date(event.event.date_time);
-      return eventDateTime > new Date(); // Filter out events that have already occurred
-    });
-
-    const sortedEvents = filteredEvents.sort(
-      (a, b) => new Date(a.event.date_time) - new Date(b.event.date_time)
-    );
-
-    setSearchResults(sortedEvents);
+    const filteredEvents = events.filter((event) => event.historyEnded); // Assuming 'historyEnded' is the property indicating ended history
+    setSearchResults(filteredEvents);
   }, [events]);
+
+  useEffect(() => {
+    const filteredEvents = events.filter((event) =>
+      event.event.title.toLowerCase().startsWith(searchInput.toLowerCase())
+    );
+    setSearchResults(filteredEvents);
+  }, [searchInput, events]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // Perform search logic here
     console.log("Searching for:", searchInput);
   };
+
   const showNewParties = () => {
     setShowComingParties((prevShow) => !prevShow);
   };
+
   const showlastParties = () => {
     setShowOldParties((prevShow) => !prevShow);
   };
+
   function parseDateString(dateString) {
     const [date, time] = dateString.split(" ");
     const [year, month, day] = date.split("-");
@@ -155,7 +155,6 @@ const MainPage = () => {
       locale: "ar",
     };
 
-    // Customize the AM/PM strings
     const localeOptions = {
       hour: "numeric",
       minute: "numeric",
@@ -163,7 +162,6 @@ const MainPage = () => {
       locale: "ar",
     };
 
-    // Format time with customized AM/PM strings
     const timeComponent = parsedDate
       .toLocaleTimeString("ar", localeOptions)
       .replace("ص", "صباحا")
@@ -179,23 +177,24 @@ const MainPage = () => {
       timeComponent: timeComponent,
     };
   }
+
   function formatDate(dateTimeString) {
     const options = {
       year: "numeric",
       month: "long",
       day: "numeric",
     };
+
     const date = new Date(dateTimeString).toLocaleDateString("ar", options);
 
     const timeOptions = {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
-      hourCycle: "h23", // Use 24-hour cycle to avoid AM/PM indicator
+      hourCycle: "h23",
     };
     let time = new Date(dateTimeString).toLocaleTimeString("ar", timeOptions);
 
-    // Replace ص with صباحًا and م with مساءً
     time = time.replace("ص", "صباحًا").replace("م", "مساءً");
 
     return `${date}، ${time}`;
@@ -274,44 +273,35 @@ const MainPage = () => {
           </div>
         </div>
         <div className="overflow-auto w-[100%]  ssc">
-          <div
-            className="upcomingConcerts flex bg-white rounded-[16px]  p-[24px] w-[100%] flex-col  "
-            style={{
-              boxShadow: "0px  4px 4px rgba(0, 0, 0, 0.25)",
-              WebkitOverflowScrolling: "touch",
-              msOverflowStyle: "none", // Hide scrollbar on Edge and IE
-              WebkitScrollbarWidth: "auto", // Set scrollbar width to auto
-              WebkitScrollbarColor: "transparent transparent", // Set scrollbar color to transparent
-            }}
-          >
-            <div className="head flex justify-between w-full items-center mb-[10px]  ">
+          <div className="upcomingConcerts flex bg-white rounded-[16px] p-[24px] w-[100%] flex-col">
+            <div className="head flex justify-between w-full items-center mb-[10px]">
               <h3 className="text-[20px] font-bold text-[#041361c2]">
                 الحفلات القادمة
               </h3>
               <div className="relative">
                 <h3
-                  className="text-[20px] font-bold text-[#041361c2] cursor-pointer "
+                  className="text-[20px] font-bold text-[#041361c2] cursor-pointer"
                   onClick={showNewParties}
                 >
                   ...
                 </h3>
                 <div
-                  className="absolute top-[40px] left-0 w-[128px] h-[112px] border-solid border-[3px] border-[#041361c2] rounded-[16px] bg-white  "
+                  className="absolute top-[40px] left-0 w-[128px] h-[112px] border-solid border-[3px] border-[#041361c2] rounded-[16px] bg-white"
                   style={{ display: showComingParties ? "block" : "none" }}
                 >
-                  <div className="flex flex-col justify-center items-center h-full ">
+                  <div className="flex flex-col justify-center items-center h-full">
                     <Link
-                      to="/NewEvents "
-                      className="h-[50%] flex justify-center items-center cursor-pointer "
+                      to="/NewEvents"
+                      className="h-[50%] flex justify-center items-center cursor-pointer"
                     >
-                      <h3 className="">عرض الكل</h3>
+                      <h3>عرض الكل</h3>
                     </Link>
                     <div className="w-full h-[3px] bg-[#041361c2]"></div>
                     <Link
                       to="/AddEvents"
-                      className="h-[50%] flex justify-center items-center cursor-pointer "
+                      className="h-[50%] flex justify-center items-center cursor-pointer"
                     >
-                      <h3 className="">إضـافـة</h3>
+                      <h3>إضـافـة</h3>
                     </Link>
                   </div>
                 </div>
@@ -330,34 +320,38 @@ const MainPage = () => {
                   </div>
                 </div>
               ) : (
-                searchResults.map((party) => {
-                  const formattedDate = parseDateString(party.event.date_time);
+                searchResults
+                  .filter((party) => party.event.date_time > formattedDate)
+                  .map((party) => {
+                    const formattedDate = parseDateString(
+                      party.event.date_time
+                    );
 
-                  return (
-                    <Link
-                      to={`/ShowNewEventDetails/${party.event.id}`}
-                      key={party.event.id}
-                      className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px] "
-                    >
-                      <div className="date bg-[#0413614d] w-[200px] items-center flex justify-center py-[5px] rounded-[24px] mb-[5px] h-[40px]">
-                        <h3 className="text-[#041461] text-[14px] font-bold">
-                          {formattedDate.dateComponent}
-                        </h3>
-                      </div>
-                      <div className="flex flex-col justify-center items-center mt-[15px] overflow-hidden">
-                        <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]  ">
-                          {party.event.title}
-                        </h3>
-                        <h4 className="time text-[12px] text-gray-500 mb-[10px] mt-[10px]">
-                          {formattedDate.timeComponent}
-                        </h4>
-                      </div>
-                      <div className="users self-end ml-[25px]">
-                        <div className="users flex"></div>
-                      </div>
-                    </Link>
-                  );
-                })
+                    return (
+                      <Link
+                        to={`/ShowNewEventDetails/${party.event.id}`}
+                        key={party.event.id}
+                        className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px]"
+                      >
+                        <div className="date bg-[#0413614d] w-[200px] items-center flex justify-center py-[5px] rounded-[24px] mb-[5px] h-[40px]">
+                          <h3 className="text-[#041461] text-[14px] font-bold">
+                            {formattedDate.dateComponent}
+                          </h3>
+                        </div>
+                        <div className="flex flex-col justify-center items-center mt-[15px] overflow-hidden">
+                          <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]">
+                            {party.event.title}
+                          </h3>
+                          <h4 className="time text-[12px] text-gray-500 mb-[10px] mt-[10px]">
+                            {formattedDate.timeComponent}
+                          </h4>
+                        </div>
+                        <div className="users self-end ml-[25px]">
+                          <div className="users flex"></div>
+                        </div>
+                      </Link>
+                    );
+                  })
               )}
             </div>
           </div>
@@ -428,34 +422,35 @@ const MainPage = () => {
                   </div>
                 </div>
               ) : (
-                searchResults.map((party) => (
-                  <Link
-                    to={`/ShowEndedEventDetail/${party.event.id}`}
-                    key={party.event.id}
-                    className="partyContainer ml-[70px]"
-                  >
-                    <div className="party border-solid border-[1px] border-gray-400 rounded-[18px] ml-[10px] w-[260px] h-[240px] mb-[10px]">
-                      <div className="img">
-                        <img
-                          // src={party.event.banner}
-                          src={`https://mature-collie-newly.ngrok-free.app/storage/${party.event.banner}`}
-                          alt="MainPage"
-                          className="mainImg w-[105%] h-[125px] rounded-tl-[16px] rounded-tr-[16px]"
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 gap-2 justify-items-center items-center p-[5px]">
-                        <div className="content flex flex-col justify-center items-center  overflow-hidden w-full">
-                          <h3 className="name text-[14px] text-[#041361a8] font-bold my-[5px] text-center h-[40px] flex justify-center items-center ">
-                            {party.event.title}
-                          </h3>
+                searchResults
+                  .filter((party) => party.event.date_time < formattedDate) // Filter parties whose history has ended
+                  .map((party) => (
+                    <Link
+                      to={`/ShowEndedEventDetail/${party.event.id}`}
+                      key={party.event.id}
+                      className="partyContainer ml-[70px]"
+                    >
+                      <div className="party border-solid border-[1px] border-gray-400 rounded-[18px] ml-[10px] w-[260px] h-[240px] mb-[10px]">
+                        <div className="img">
+                          <img
+                            src={`https://mature-collie-newly.ngrok-free.app/storage/${party.event.banner}`}
+                            alt="MainPage"
+                            className="mainImg w-[105%] h-[125px] rounded-tl-[16px] rounded-tr-[16px]"
+                          />
                         </div>
-                        <h4 className="timeAndDate text-[12px] text-[#838389] mt-[10px]">
-                          {formatDate(party.event.date_time)}
-                        </h4>
+                        <div className="grid grid-cols-1 gap-2 justify-items-center items-center p-[5px]">
+                          <div className="content flex flex-col justify-center items-center  overflow-hidden w-full">
+                            <h3 className="name text-[14px] text-[#041361a8] font-bold my-[5px] text-center h-[40px] flex justify-center items-center ">
+                              {party.event.title}
+                            </h3>
+                          </div>
+                          <h4 className="timeAndDate text-[12px] text-[#838389] mt-[10px]">
+                            {formatDate(party.event.date_time)}
+                          </h4>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                ))
+                    </Link>
+                  ))
               )}
             </div>
           </div>
