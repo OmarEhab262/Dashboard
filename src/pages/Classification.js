@@ -51,7 +51,7 @@ const Classification = () => {
         }
       );
 
-      console.log("Updated category data:", response.data.data);
+      //   console.log("Updated category data:", response.data.data);
 
       // Refresh data after image upload
       fetchData();

@@ -85,7 +85,7 @@ const AddEvents = () => {
           }
         );
 
-        console.log("Response data:", response.data); // Log response data
+        // console.log("Response data:", response.data); // Log response data
 
         setGovernorate(response.data.data);
       } catch (error) {
@@ -110,7 +110,7 @@ const AddEvents = () => {
           }
         );
 
-        console.log("Response Categories:", response.data); // Log response data
+        // console.log("Response Categories:", response.data); // Log response data
 
         setCategories(response.data.data);
       } catch (error) {
@@ -132,7 +132,7 @@ const AddEvents = () => {
       formData.append("location", place);
       formData.append("date_time", date);
       formData.append("state_id", numGovernorate);
-      formData.append("category_event_id", numCategory);
+      formData.append("category_event_id", categories);
 
       const response = await axios.post(
         "https://mature-collie-newly.ngrok-free.app/api/events",
@@ -147,7 +147,7 @@ const AddEvents = () => {
       );
       //   const eventId = response.data.event.id;
       eventId = response.data.event.id;
-      console.log("Event ID:", response.data.event.id);
+      //   console.log("Event ID:", response.data.event.id);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -171,7 +171,7 @@ const AddEvents = () => {
           },
         }
       );
-      console.log("Event created successfully:", response.data.events);
+      //   console.log("Event created successfully:", response.data.events);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -193,7 +193,7 @@ const AddEvents = () => {
           },
         }
       );
-      console.log("Event created successfully:", response.data.events);
+      //   console.log("Event created successfully:", response.data.events);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -215,7 +215,7 @@ const AddEvents = () => {
           },
         }
       );
-      console.log("Event created successfully:", response.data.events);
+      //   console.log("Event created successfully:", response.data.events);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -239,7 +239,7 @@ const AddEvents = () => {
           },
         }
       );
-      console.log("Event created successfully:", response.data.events);
+      //   console.log("Event created successfully:", response.data.events);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -262,7 +262,7 @@ const AddEvents = () => {
           },
         }
       );
-      console.log("Event created successfully:", response.data.events);
+      //   console.log("Event created successfully:", response.data.events);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -285,7 +285,7 @@ const AddEvents = () => {
           },
         }
       );
-      console.log("Event created successfully:", response.data.events);
+      //   console.log("Event created successfully:", response.data.events);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -308,7 +308,7 @@ const AddEvents = () => {
           },
         }
       );
-      console.log("Event created successfully:", response.data.events);
+      //   console.log("Event created successfully:", response.data.events);
     } catch (error) {
       console.error("Error creating event:", error.response.data);
     }
@@ -316,7 +316,7 @@ const AddEvents = () => {
   const navigate = useNavigate();
   const goToCreatedParty = async () => {
     try {
-      console.log(image);
+      //   console.log(image);
       await fetchData();
       if (showCategories === "ستاند اب") {
         await fetchPlusSeats();

@@ -22,9 +22,9 @@ const ShowTicket = () => {
     const nameEN = localStorage.getItem("nameEN");
     const email = localStorage.getItem("email");
     const img = localStorage.getItem("img");
-    console.log("Booking ID:", bookingId);
-    console.log("Category Event ID:", eventCategoryEventId);
-    console.log("img:", img);
+    // console.log("Booking ID:", bookingId);
+    // console.log("Category Event ID:", eventCategoryEventId);
+    // console.log("img:", img);
     setBookingId(bookingId);
     setEventCategoryEventId(eventCategoryEventId);
     setTicketsNumber(ticketsNumber);

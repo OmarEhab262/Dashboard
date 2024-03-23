@@ -30,7 +30,7 @@ const EditEventDetail = () => {
   const handleVideoUpload = (event) => {
     const file = event.target.files[0];
     setVideo(file);
-    console.log(video);
+    // console.log(video);
   };
   const handleNamePartyChange = (event) => {
     setNameParty(event.target.value);
@@ -68,6 +68,7 @@ const EditEventDetail = () => {
           }
         );
         setImgs(response.data.images);
+        console.log(storedId);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -129,8 +130,8 @@ const EditEventDetail = () => {
           },
         }
       );
-      console.log("data updated:", response.data);
-      console.log(descriptionParty);
+      //   console.log("data updated:", response.data);
+      //   console.log(descriptionParty);
       window.location.reload();
     } catch (error) {
       console.error("Error updating user data:", error);
@@ -206,11 +207,13 @@ const EditEventDetail = () => {
               >
                 <img src={cam} alt="" />
               </div>
-              <img
-                src={`https://mature-collie-newly.ngrok-free.app/storage/${mainImage}`}
-                alt="party"
-                className="h-full w-full"
-              />
+              <div className="img h-[231px]  overflow-hidden rounded-[16px]">
+                <img
+                  src={`https://mature-collie-newly.ngrok-free.app/storage/${mainImage}`}
+                  alt="party"
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
             <div className="content  col-span-2  ">
               <div className="one flex  pr-[15px] mb-[24px]">
@@ -238,8 +241,8 @@ const EditEventDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className="two flex justify-between pr-[15px] mb-[24px] items-start">
-                <div className="w-[261px] dateParty">
+              <div className="two flex  pr-[15px] mb-[24px] justify-between">
+                <div className="w-[40%] dateParty">
                   <h3 className="text-[#29346c] text-[16px]">
                     {" "}
                     تاريخ و واقت الحفلة
@@ -253,7 +256,7 @@ const EditEventDetail = () => {
                     />
                   </div>
                 </div>
-                <div className="three  pr-[15px] items-center">
+                <div className="   w-[57%]">
                   <h3 className="text-[#29346c] text-[16px] ml-[24px] font-bold">
                     الوصف
                   </h3>

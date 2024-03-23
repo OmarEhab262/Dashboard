@@ -56,7 +56,7 @@ const ShowParties = () => {
     fetchData();
   }, [nameFilter, token]); // Add token to dependency array
 
-  console.log("Name Filter:", nameFilter);
+  //   console.log("Name Filter:", nameFilter);
   function parseDateString(dateString) {
     const [date, time] = dateString.split(" ");
     const [year, month, day] = date.split("-");

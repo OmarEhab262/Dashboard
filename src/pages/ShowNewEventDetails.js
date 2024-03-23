@@ -13,10 +13,11 @@ const ShowNewEventDetails = () => {
     window.history.back();
   };
   const { id } = useParams();
+  localStorage.setItem("id", id);
   const [party, setParty] = useState(null);
   const [imgs, setImgs] = useState(null);
   const token = localStorage.getItem("token");
-  console.log(id);
+  //   console.log(id);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,8 +33,8 @@ const ShowNewEventDetails = () => {
         );
         setParty(response.data.event); // Set party to response.data instead of response.data.events
         setImgs(response.data.images); // Set party to response.data instead of response.data.events
-        console.log(response.data.images); // Set party to response.data instead of response.data.events
-        console.log(response.data.event); // Logging the fetched data
+        // console.log(response.data.images); // Set party to response.data instead of response.data.events
+        // console.log(response.data.event); // Logging the fetched data
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -43,7 +44,18 @@ const ShowNewEventDetails = () => {
   }, [id, token]);
 
   if (!party) {
-    return <div>Loading...</div>; // Display a loading message while party data is being fetched
+    return (
+      <div className="flex justify-center items-center w-full h-[100vh]">
+        <div className="spinner flex justify-center items-center h-full">
+          {[...Array(10)].map((_, index) => (
+            <div
+              key={index}
+              className="w-4 h-4 bg-black rounded-full mx-1 animate-bounce"
+            ></div>
+          ))}
+        </div>
+      </div>
+    ); // Display a loading message while party data is being fetched
   }
   function parseDateString(dateString) {
     const [date, time] = dateString.split(" ");
@@ -133,7 +145,7 @@ const ShowNewEventDetails = () => {
           </div>
         </div>
         <div className="info flex py-[20px]  w-full h-auto overflow-hidden ">
-          <div className="img h-[231px] w-[30%]">
+          <div className="img h-[231px] w-[30%] overflow-hidden rounded-[16px]">
             <img
               src={`https://mature-collie-newly.ngrok-free.app/storage/${party.banner}`}
               alt="party"
@@ -221,8 +233,13 @@ const ShowNewEventDetails = () => {
               </div>
             </div>
           ) : (
-            <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
-              <h3 className="text-[20px]">لا يوجد فيديو</h3>
+            <div className="video  w-full overflow-hidden my-[70px]">
+              <h3 className="text-[24px] font-bold">الفيديو</h3>
+              <div className="containerImgs w-full flex overflow-x-auto ssc mt-[20px] pb-[10px]">
+                <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
+                  <h3 className="text-[20px]">لا يوجد فيديو</h3>
+                </div>
+              </div>
             </div>
           )}
         </div>

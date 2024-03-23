@@ -8,10 +8,12 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [loading, setLoading] = useState(false); // Track loading state
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await axios.get(
           "https://mature-collie-newly.ngrok-free.app/api/users",
@@ -36,6 +38,8 @@ const Users = () => {
         setUsers(filteredUsers);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
@@ -98,80 +102,96 @@ const Users = () => {
             عدد المستخدمين : <span>{users.length}</span>
           </h3>
         </div>
-        <div className="w-full ">
-          <div className="headerInfo text-[18px] text-[#041461] font-bold flex justify-around items-center w-[90%] my-[10px] ">
-            <h3 className="w-[50px] ">الصورة</h3>
-            <h3 className="w-[170px]">الاسم باللغة العربية</h3>
-            <h3 className="w-[190px]">الاسم باللغة بالإنجليزية</h3>
-            <h3 className="w-[130px]">البريد الإلكتروني</h3>
-            <h3 className="w-[150px]  text-center">رقم الموبايل</h3>
-            <h3 className="w-[80px]  text-center">السن</h3>
-          </div>
-          <div className="overflow-auto h-[67vh] ssc">
-            {users.map((user) => (
-              <div
-                key={user.id}
-                className="flex justify-between items-center w-full"
-              >
-                <div className="info text-[15px] text-[#041461] font-bold flex items-center w-[90%] my-[10px]  bg-[#727db5ab] rounded-[24px]  justify-around py-[15px]">
-                  <img
-                    src={`https://mature-collie-newly.ngrok-free.app/storage/${user.image}`}
-                    alt="User"
-                    className="w-[50px] h-[50px] rounded-full text-center"
-                  />
-                  <h3 className="w-[170px]  text-center">{user.nameAR}</h3>
-                  <h3 className="w-[190px]  text-center">{user.nameEN}</h3>
-                  <h3
-                    className="w-[130px]  text-center overflow-x-auto  overflow-hidden userssss mt-[10px]"
-                    title={user.email}
-                  >
-                    {user.email}
-                  </h3>
-                  <h3 className="w-[150px]  text-center">{user.phone}</h3>
-                  <h3 className="w-[80px]  text-center">
-                    {user.age >= 18 ? "أكبر من 18" : "أصغر من 18"}
-                  </h3>
-                </div>
+        {loading ? ( // Render spinner while loading is true
+          <div className="flex justify-center items-center w-full h-full">
+            <div className="spinner flex justify-center items-center h-full">
+              {[...Array(10)].map((_, index) => (
                 <div
-                  className="w-[70px] h-[50px] flex justify-center items-center bg-[#041461] rounded-[10px] text-white mx-[10px] cursor-pointer"
-                  onClick={() => {
-                    setUserToDelete(user);
-                    setShowDeleteConfirmation(true);
-                  }}
-                >
-                  حذف
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {showDeleteConfirmation && (
-            <div
-              className="fixed h-screen w-full top-0 left-0 flex justify-center items-center text-[#041461]"
-              style={{ background: "#66666657" }}
-            >
-              <div className="w-[393px] h-[194px] bg-white rounded-[24px] flex justify-center items-center  flex-col">
-                <h3 className="text-[24px] font-[700]">
-                  هل تريد حذف المستخدم؟
-                </h3>
-                <div className="flex gap-5">
-                  <div
-                    className="cursor-pointer w-[68px] h-[52px] rounded-[10px] bg-[#041461] text-white flex justify-center items-center border border-[#041461] mt-[20px]"
-                    onClick={deleteUser}
-                  >
-                    نعم
-                  </div>
-                  <div
-                    className="cursor-pointer w-[68px] h-[52px] rounded-[10px] bg-white text-[#041461] flex justify-center items-center border border-[#041461] mt-[20px]"
-                    onClick={() => setShowDeleteConfirmation(false)}
-                  >
-                    لا
-                  </div>
-                </div>
-              </div>
+                  key={index}
+                  className="w-4 h-4 bg-black rounded-full mx-1 animate-bounce"
+                ></div>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="w-full ">
+            <div className="headerInfo text-[18px] text-[#041461] font-bold flex justify-around items-center w-[90%] my-[10px] ">
+              <h3 className="w-[50px] ">الصورة</h3>
+              <h3 className="w-[170px]">الاسم باللغة العربية</h3>
+              <h3 className="w-[190px]">الاسم باللغة بالإنجليزية</h3>
+              <h3 className="w-[130px]">البريد الإلكتروني</h3>
+              <h3 className="w-[150px]  text-center">رقم الموبايل</h3>
+              <h3 className="w-[80px]  text-center">السن</h3>
+            </div>
+            <div className="overflow-auto h-[67vh] ssc">
+              {users.map((user) => (
+                <div
+                  key={user.id}
+                  className="flex justify-between items-center w-full"
+                >
+                  <div className="info text-[15px] text-[#041461] font-bold flex items-center w-[90%] my-[10px]  bg-[#727db5ab] rounded-[24px]  justify-around py-[15px]">
+                    <img
+                      src={`https://mature-collie-newly.ngrok-free.app/storage/${user.image}`}
+                      alt="User"
+                      className="w-[50px] h-[50px] rounded-full text-center"
+                    />
+                    <h3 className="w-[170px]  text-center">{user.nameAR}</h3>
+                    <h3 className="w-[190px]  text-center">{user.nameEN}</h3>
+                    <h3
+                      className="w-[130px]  text-center overflow-x-auto  overflow-hidden userssss mt-[10px]"
+                      title={user.email}
+                    >
+                      {user.email}
+                    </h3>
+                    <h3 className="w-[150px]  text-center">{user.phone}</h3>
+                    <h3
+                      className="w-[80px]
+  text-center"
+                    >
+                      {user.age >= 18 ? "أكبر من 18" : "أصغر من 18"}
+                    </h3>
+                  </div>
+                  <div
+                    className="w-[70px] h-[50px] flex justify-center items-center bg-[#041461] rounded-[10px] text-white mx-[10px] cursor-pointer"
+                    onClick={() => {
+                      setUserToDelete(user);
+                      setShowDeleteConfirmation(true);
+                    }}
+                  >
+                    حذف
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {showDeleteConfirmation && (
+              <div
+                className="fixed h-screen w-full top-0 left-0 flex justify-center items-center text-[#041461]"
+                style={{ background: "#66666657" }}
+              >
+                <div className="w-[393px] h-[194px] bg-white rounded-[24px] flex justify-center items-center  flex-col">
+                  <h3 className="text-[24px] font-[700]">
+                    هل تريد حذف المستخدم؟
+                  </h3>
+                  <div className="flex gap-5">
+                    <div
+                      className="cursor-pointer w-[68px] h-[52px] rounded-[10px] bg-[#041461] text-white flex justify-center items-center border border-[#041461] mt-[20px]"
+                      onClick={deleteUser}
+                    >
+                      نعم
+                    </div>
+                    <div
+                      className="cursor-pointer w-[68px] h-[52px] rounded-[10px] bg-white text-[#041461] flex justify-center items-center border border-[#041461] mt-[20px]"
+                      onClick={() => setShowDeleteConfirmation(false)}
+                    >
+                      لا
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

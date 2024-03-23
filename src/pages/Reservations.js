@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const Reservations = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true); // State to track loading status
   const navigate = useNavigate(); // Using useNavigate hook
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -21,9 +23,10 @@ const Reservations = () => {
           }
         );
         setData(response.data.data);
-        // console.log(response.data); // Log entire response data
+        setLoading(false); // Set loading to false after fetching data
       } catch (error) {
         console.error("Error fetching user profile:", error);
+        setLoading(false); // Set loading to false in case of error
       }
     };
     fetchData();
@@ -45,38 +48,51 @@ const Reservations = () => {
             لوحة المعلومات/ <span className="text-[20px]">الحجوزات</span>
           </h3>
         </div>
-        <div className="overflow-auto ssc w-full flex justify-center items-center h-[93%]">
-          <div className="container flex justify-center mt-[15px]">
-            <div className="grid grid-cols-3 grid-rows-2 gap-[55px] mt-[20px]">
-              {data &&
-                data.map((item) => (
-                  <div
-                    key={item.id}
-                    className="box h-[300px] w-[206px] flex flex-col justify-between items-center cursor-pointer"
-                    onClick={() => navigateToParty(item)}
-                  >
-                    <div
-                      className="head h-[54px] rounded-[10px] flex justify-center items-center w-full my-[10px] border border-[#0413616b]"
-                      style={{
-                        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)",
-                      }}
-                    >
-                      <h3 className="text-[#041461] text-[18px] font-[500] ">
-                        {item.name}
-                      </h3>
-                    </div>
-                    <div className="mid w-[200px] h-[200px] border border-[#041461] rounded-[10px] flex justify-center items-center my-[10px]">
-                      <img
-                        src={`https://mature-collie-newly.ngrok-free.app/storage/${item.image}`}
-                        alt={item.name}
-                        className="w-full h-[200px]"
-                      />
-                    </div>
-                  </div>
-                ))}
+        {loading ? ( // Render spinner while loading is true
+          <div className="flex justify-center items-center w-full h-full">
+            <div className="spinner flex justify-center items-center h-full">
+              {[...Array(10)].map((_, index) => (
+                <div
+                  key={index}
+                  className="w-4 h-4 bg-black rounded-full mx-1 animate-bounce"
+                ></div>
+              ))}
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="overflow-auto ssc w-full flex justify-center items-center h-[93%]">
+            <div className="container flex justify-center mt-[15px]">
+              <div className="grid grid-cols-3 grid-rows-2 gap-[55px] mt-[20px]">
+                {data &&
+                  data.map((item) => (
+                    <div
+                      key={item.id}
+                      className="box h-[300px] w-[206px] flex flex-col justify-between items-center cursor-pointer"
+                      onClick={() => navigateToParty(item)}
+                    >
+                      <div
+                        className="head h-[54px] rounded-[10px] flex justify-center items-center w-full my-[10px] border border-[#0413616b]"
+                        style={{
+                          boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.26)",
+                        }}
+                      >
+                        <h3 className="text-[#041461] text-[18px] font-[500] ">
+                          {item.name}
+                        </h3>
+                      </div>
+                      <div className="mid w-[200px] h-[200px] border border-[#041461] rounded-[10px] flex justify-center items-center my-[10px]">
+                        <img
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${item.image}`}
+                          alt={item.name}
+                          className="w-full h-[200px]"
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

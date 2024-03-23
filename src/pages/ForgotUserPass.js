@@ -20,7 +20,7 @@ function ForgotUserPass() {
     try {
       // Retrieve token from localStorage
       const token = localStorage.getItem("token");
-      console.log(token);
+      //   console.log(token);
       if (!token) {
         console.error("Token not found in localStorage");
         // Handle case where token is not available
@@ -38,10 +38,10 @@ function ForgotUserPass() {
         }
       );
       localStorage.setItem("email", email);
-      console.log("Response from server:", response.data);
+      //   console.log("Response from server:", response.data);
 
       // Placeholder functionality to demonstrate submission
-      console.log("Email submitted:", email);
+      //   console.log("Email submitted:", email);
       // Redirect to CheckEmail page
       window.location.href = "/Dashboard/#/CheckEmail";
     } catch (error) {

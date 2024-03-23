@@ -36,14 +36,14 @@ function LogIn() {
 
       const token = response.data.data.token;
       setToken(response.data.data.token); // Move this line up
-      console.log(response.data);
-      console.log(token);
+      //   console.log(response.data);
+      //   console.log(token);
       const emailFromServer = response.data.data.email;
-      console.log(emailFromServer);
+      //   console.log(emailFromServer);
       localStorage.setItem("token", token);
       window.location.href = "/Dashboard/#/Welcome";
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
       if (error.response) {
         if (error.response.status === 401) {
           setErrorMessage("البريد الإلكتروني أو كلمة المرور غير صحيحة.");

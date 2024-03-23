@@ -25,15 +25,23 @@ const EndedEvents = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     // Perform search logic here
-    console.log("Searching for:", searchInput);
+    // console.log("Searching for:", searchInput);
   };
 
   useEffect(() => {
-    const filteredEvents = events.filter((event) =>
-      event.event.title.toLowerCase().includes(searchInput.toLowerCase())
+    const filteredEvents = events.filter(
+      (event) =>
+        event.event.title.toLowerCase().includes(searchInput.toLowerCase()) &&
+        new Date(event.event.date_time) < currentDate
     );
+
+    // Sort the filtered events by date in ascending order
+    filteredEvents.sort(
+      (a, b) => new Date(a.event.date_time) - new Date(b.event.date_time)
+    );
+
     setSearchResults(filteredEvents);
-  }, [searchInput, events]);
+  }, [searchInput, events, currentDate]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,7 +56,7 @@ const EndedEvents = () => {
           }
         );
         setEvents(response.data.events); // Assuming the events array is directly inside the response data
-        console.log(response.data.events); // Logging the fetched events
+        // console.log(response.data.events); // Logging the fetched events
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -155,7 +163,7 @@ const EndedEvents = () => {
         </div>
         <div className="content w-full overflow-auto ssc flex flex-col items-center">
           <div
-            className="funDay flex p-[20px] flex-col w-[99%] rounded-[16px] my-[20px] "
+            className="funDay flex p-[20px] flex-col w-[99%] rounded-[16px] my-[20px]"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
           >
             <div className="head text-[20px] font-bold text-[#041461] text-center">
@@ -169,17 +177,20 @@ const EndedEvents = () => {
                 overflowX: "auto",
               }}
             >
-              <div className="boxes-inner flex ">
+              <div className="boxes-inner flex">
                 {searchResults
                   .filter(
                     (item) =>
-                      item.event.category_event_id === 6 &&
-                      new Date(item.event.date_time).toLocaleDateString() <
-                        currentDate.toLocaleDateString() // Filter events happening today
+                      item.event.category_event_id === 6 && // Update category_event_id to 3 for "حفلات فان داى"
+                      new Date(item.event.date_time) < currentDate // Filter events happening today
                   )
+                  .sort(
+                    (a, b) =>
+                      new Date(a.event.date_time) - new Date(b.event.date_time)
+                  ) // Sort events by date
                   .map((item) => (
                     <Link
-                      to={`/ShowEndedEventDetail/${item.event.id}`}
+                      to={`/ShowNewEventDetails/${item.event.id}`}
                       key={item.event.id}
                       className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
@@ -231,7 +242,7 @@ const EndedEvents = () => {
             </div>
           </div>
           <div
-            className="funDay flex p-[20px] flex-col w-[99%] rounded-[16px] my-[20px] "
+            className="bazaar flex p-[20px] flex-col w-[99%] rounded-[16px] my-[20px]"
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
           >
             <div className="head text-[20px] font-bold text-[#041461] text-center">
@@ -245,17 +256,20 @@ const EndedEvents = () => {
                 overflowX: "auto",
               }}
             >
-              <div className="boxes-inner flex ">
+              <div className="boxes-inner flex">
                 {searchResults
                   .filter(
                     (item) =>
-                      item.event.category_event_id === 5 &&
-                      new Date(item.event.date_time).toLocaleDateString() <
-                        currentDate.toLocaleDateString() // Filter events happening today
+                      item.event.category_event_id === 5 && // Update category_event_id to 3 for "حفلات فان داى"
+                      new Date(item.event.date_time) < currentDate // Filter events happening today
                   )
+                  .sort(
+                    (a, b) =>
+                      new Date(a.event.date_time) - new Date(b.event.date_time)
+                  ) // Sort events by date
                   .map((item) => (
                     <Link
-                      to={`/ShowEndedEventDetail/${item.event.id}`}
+                      to={`/ShowNewEventDetails/${item.event.id}`}
                       key={item.event.id}
                       className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
@@ -325,13 +339,16 @@ const EndedEvents = () => {
                 {searchResults
                   .filter(
                     (item) =>
-                      item.event.category_event_id === 3 &&
-                      new Date(item.event.date_time).toLocaleDateString() <
-                        currentDate.toLocaleDateString() // Filter events happening today
+                      item.event.category_event_id === 3 && // Update category_event_id to 3 for "حفلات فان داى"
+                      new Date(item.event.date_time) < currentDate // Filter events happening today
                   )
+                  .sort(
+                    (a, b) =>
+                      new Date(a.event.date_time) - new Date(b.event.date_time)
+                  ) // Sort events by date
                   .map((item) => (
                     <Link
-                      to={`/ShowEndedEventDetail/${item.event.id}`}
+                      to={`/ShowNewEventDetails/${item.event.id}`}
                       key={item.event.id}
                       className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
@@ -401,13 +418,16 @@ const EndedEvents = () => {
                 {searchResults
                   .filter(
                     (item) =>
-                      item.event.category_event_id === 2 &&
-                      new Date(item.event.date_time).toLocaleDateString() <
-                        currentDate.toLocaleDateString() // Filter events happening today
+                      item.event.category_event_id === 2 && // Update category_event_id to 3 for "حفلات فان داى"
+                      new Date(item.event.date_time) < currentDate // Filter events happening today
                   )
+                  .sort(
+                    (a, b) =>
+                      new Date(a.event.date_time) - new Date(b.event.date_time)
+                  ) // Sort events by date
                   .map((item) => (
                     <Link
-                      to={`/ShowEndedEventDetail/${item.event.id}`}
+                      to={`/ShowNewEventDetails/${item.event.id}`}
                       key={item.event.id}
                       className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
@@ -458,7 +478,6 @@ const EndedEvents = () => {
               </div>
             </div>
           </div>
-
           <div
             className="Singing flex p-[20px] flex-col w-[99%] rounded-[16px] my-[20px] "
             style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
@@ -478,13 +497,16 @@ const EndedEvents = () => {
                 {searchResults
                   .filter(
                     (item) =>
-                      item.event.category_event_id === 1 &&
-                      new Date(item.event.date_time).toLocaleDateString() <
-                        currentDate.toLocaleDateString() // Filter events happening today
+                      item.event.category_event_id === 1 && // Update category_event_id to 3 for "حفلات فان داى"
+                      new Date(item.event.date_time) < currentDate // Filter events happening today
                   )
+                  .sort(
+                    (a, b) =>
+                      new Date(a.event.date_time) - new Date(b.event.date_time)
+                  ) // Sort events by date
                   .map((item) => (
                     <Link
-                      to={`/ShowEndedEventDetail/${item.event.id}`}
+                      to={`/ShowNewEventDetails/${item.event.id}`}
                       key={item.event.id}
                       className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >
@@ -554,13 +576,16 @@ const EndedEvents = () => {
                 {searchResults
                   .filter(
                     (item) =>
-                      item.event.category_event_id === 4 &&
-                      new Date(item.event.date_time).toLocaleDateString() <
-                        currentDate.toLocaleDateString() // Filter events happening today
+                      item.event.category_event_id === 4 && // Update category_event_id to 3 for "حفلات فان داى"
+                      new Date(item.event.date_time) < currentDate // Filter events happening today
                   )
+                  .sort(
+                    (a, b) =>
+                      new Date(a.event.date_time) - new Date(b.event.date_time)
+                  ) // Sort events by date
                   .map((item) => (
                     <Link
-                      to={`/ShowEndedEventDetail/${item.event.id}`}
+                      to={`/ShowNewEventDetails/${item.event.id}`}
                       key={item.event.id}
                       className="box w-[280px] h-[280px] rounded-[16px] border border-[2px] mr-[20px]"
                     >

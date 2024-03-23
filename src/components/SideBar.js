@@ -116,7 +116,18 @@ const SideBar = ({ activeItemProp }) => {
   }, []); // Empty dependency array to fetch data only once when component mounts
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center">
+        <div className="spinner flex justify-center items-center h-full">
+          {[...Array(10)].map((_, index) => (
+            <div
+              key={index}
+              className="w-4 h-4 bg-black rounded-full mx-1 animate-bounce"
+            ></div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (!userData) {
@@ -184,7 +195,7 @@ const SideBar = ({ activeItemProp }) => {
             <div className="absolute bottom-0 right-[-120%] w-[100%] h-[100%] bg-white rounded-tl-[10px] rounded-bl-[10px]"></div>
           )}
         </Link>
-        <Link
+        {/* <Link
           to="/Classification"
           className={`${
             activeItem === "classification"
@@ -215,7 +226,7 @@ const SideBar = ({ activeItemProp }) => {
           {activeItem === "classification" && (
             <div className="absolute bottom-0 right-[-120%] w-[100%] h-[100%] bg-white rounded-tl-[10px] rounded-bl-[10px]"></div>
           )}
-        </Link>
+        </Link> */}
         <Link
           to="/Reservations"
           className={`${
@@ -332,7 +343,7 @@ const SideBar = ({ activeItemProp }) => {
         <div className="line w-[70%] bg-white h-[1px]"></div>
         <div className="content flex items-center mt-[20px]">
           <div
-            className="img w-[64px] h-[64px] overflow-hidden rounded-full flex justify-center items-center"
+            className="img w-[64px] h-[64px] overflow-hidden rounded-full flex justify-center items-center cursor-pointer"
             onClick={goToUserpage}
           >
             <img

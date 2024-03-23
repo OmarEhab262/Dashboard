@@ -18,6 +18,7 @@ const MainPage = () => {
   const [events, setEvents] = useState([]);
   const token = localStorage.getItem("token");
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const filteredEvents = events.filter((event) =>
       event.event.title.toLowerCase().includes(searchInput.toLowerCase())
@@ -38,7 +39,7 @@ const MainPage = () => {
           }
         );
         setEvents(response.data.events); // Assuming the events array is directly inside the response data
-        console.log(response.data.events); // Logging the fetched events
+        // console.log(response.data.events); // Logging the fetched events
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -60,7 +61,8 @@ const MainPage = () => {
           }
         );
         setUsersCount(response.data.count); // Assuming the events array is directly inside the response data
-        console.log(response.data.count); // Logging the fetched events
+        // console.log(response.data.count); // Logging the fetched events
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -82,7 +84,7 @@ const MainPage = () => {
           }
         );
         setBookingCount(response.data.count); // Assuming the events array is directly inside the response data
-        console.log(response.data.count); // Logging the fetched events
+        // console.log(response.data.count); // Logging the fetched events
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -104,7 +106,7 @@ const MainPage = () => {
           }
         );
         setEventsCount(response.data.count); // Assuming the events array is directly inside the response data
-        console.log(response.data.count); // Logging the fetched events
+        // console.log(response.data.count); // Logging the fetched events
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -112,17 +114,18 @@ const MainPage = () => {
 
     fetchData();
   }, [token]);
-  function filterFutureParties(events) {
-    const today = new Date();
-    return events.filter((party) => new Date(party.event.date_time) >= today);
-  }
-  const futureParties = filterFutureParties(events);
+  useEffect(() => {
+    const filteredEvents = events.filter((event) => {
+      const eventDateTime = new Date(event.event.date_time);
+      return eventDateTime > new Date(); // Filter out events that have already occurred
+    });
 
-  function filterExpiredParties(events) {
-    const today = new Date();
-    return events.filter((party) => new Date(party.event.date_time) < today);
-  }
-  const filteredParties = filterExpiredParties(events);
+    const sortedEvents = filteredEvents.sort(
+      (a, b) => new Date(a.event.date_time) - new Date(b.event.date_time)
+    );
+
+    setSearchResults(sortedEvents);
+  }, [events]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -224,6 +227,7 @@ const MainPage = () => {
             />
           </form>
         </div>
+
         <div className=" flex w-[100%] justify-between mt-[30px] mb-[20px]">
           <div
             className="flex items-center bg-white rounded-[16px] pr-[24px] py-[5px] w-[32%] h-[70px] border border-[#0413616b]"
@@ -232,6 +236,7 @@ const MainPage = () => {
             <div className="flex justify-center items-center rounded-full w-[50px] h-[50px] text-white bg-[#041461] text-[14px]">
               <img src={count} alt="count" />
             </div>
+
             <div className=" mr-[20px]">
               <h3 className="text-[16px] font-bold text-[#041461]">
                 عدد المستخدمين
@@ -312,47 +317,53 @@ const MainPage = () => {
                 </div>
               </div>
             </div>
-            <div
-              className="parties flex items-start overflow-x-auto my-[10px]"
-              style={{
-                WebkitOverflowScrolling: "touch",
-                msOverflowStyle: "none", // Hide scrollbar on Edge and IE
-                WebkitScrollbarWidth: "auto", // Set scrollbar width to auto
-                WebkitScrollbarColor: "transparent transparent", // Set scrollbar color to transparent
-              }}
-            >
-              {searchResults.map((party) => {
-                const formattedDate = parseDateString(party.event.date_time);
+            <div className="parties flex items-start overflow-x-auto my-[10px]">
+              {loading ? (
+                <div className="flex justify-center items-center w-full h-[200px]">
+                  <div className="spinner flex justify-center items-center h-full">
+                    {[...Array(10)].map((_, index) => (
+                      <div
+                        key={index}
+                        className="w-4 h-4 bg-black rounded-full mx-1 animate-bounce"
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                searchResults.map((party) => {
+                  const formattedDate = parseDateString(party.event.date_time);
 
-                return (
-                  <Link
-                    to={`/ShowNewEventDetails/${party.event.id}`}
-                    key={party.event.id}
-                    className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px] "
-                  >
-                    <div className="date bg-[#0413614d] w-[200px] items-center flex justify-center py-[5px] rounded-[24px] mb-[5px] h-[40px]">
-                      <h3 className="text-[#041461] text-[14px] font-bold">
-                        {parseDateString(party.event.date_time).dateComponent}
-                      </h3>
-                    </div>
-                    <div className="flex flex-col justify-center items-center mt-[15px] overflow-hidden">
-                      <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]  ">
-                        {party.event.title}
-                      </h3>
-                      <h4 className="time text-[12px] text-gray-500 mb-[10px] mt-[10px]">
-                        {parseDateString(party.event.date_time).timeComponent}
-                      </h4>
-                    </div>
-                    <div className="users self-end ml-[25px]">
-                      <div className="users flex"></div>
-                    </div>
-                  </Link>
-                );
-              })}
+                  return (
+                    <Link
+                      to={`/ShowNewEventDetails/${party.event.id}`}
+                      key={party.event.id}
+                      className="party rounded-[12px] border-solid border-[1px] border-gray-400 p-[20px] flex justify-start items-center flex-col h-[200px] ml-[20px] mb-[10px] "
+                    >
+                      <div className="date bg-[#0413614d] w-[200px] items-center flex justify-center py-[5px] rounded-[24px] mb-[5px] h-[40px]">
+                        <h3 className="text-[#041461] text-[14px] font-bold">
+                          {formattedDate.dateComponent}
+                        </h3>
+                      </div>
+                      <div className="flex flex-col justify-center items-center mt-[15px] overflow-hidden">
+                        <h3 className="name text-[#041361a8] text-[14px] font-bold text-center h-[50px] w-[200px]  ">
+                          {party.event.title}
+                        </h3>
+                        <h4 className="time text-[12px] text-gray-500 mb-[10px] mt-[10px]">
+                          {formattedDate.timeComponent}
+                        </h4>
+                      </div>
+                      <div className="users self-end ml-[25px]">
+                        <div className="users flex"></div>
+                      </div>
+                    </Link>
+                  );
+                })
+              )}
             </div>
           </div>
+
           <div
-            className="upcomingConcerts flex bg-white rounded-[16px] p-[24px]  flex-col  my-[20px] w-full overflow-hidden "
+            className="endedConcerts flex bg-white rounded-[16px] p-[24px]  flex-col  my-[20px] w-full overflow-hidden "
             style={{
               boxShadow: "0px  4px 4px rgba(0, 0, 0, 0.25)",
               WebkitOverflowScrolling: "touch",
@@ -404,34 +415,48 @@ const MainPage = () => {
                 WebkitScrollbarColor: "transparent transparent", // Set scrollbar color to transparent
               }}
             >
-              {searchResults.map((party) => (
-                <Link
-                  to={`/ShowEndedEventDetail/${party.event.id}`}
-                  key={party.event.id}
-                  className="partyContainer ml-[70px]"
-                >
-                  <div className="party border-solid border-[1px] border-gray-400 rounded-[18px] ml-[10px] w-[260px] h-[240px] mb-[10px]">
-                    <div className="img">
-                      <img
-                        // src={party.event.banner}
-                        src={`https://mature-collie-newly.ngrok-free.app/storage/${party.event.banner}`}
-                        alt="MainPage"
-                        className="mainImg w-[105%] h-[125px] rounded-tl-[16px] rounded-tr-[16px]"
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 gap-2 justify-items-center items-center p-[5px]">
-                      <div className="content flex flex-col justify-center items-center  overflow-hidden w-full">
-                        <h3 className="name text-[14px] text-[#041361a8] font-bold my-[5px] text-center h-[40px] flex justify-center items-center ">
-                          {party.event.title}
-                        </h3>
-                      </div>
-                      <h4 className="timeAndDate text-[12px] text-[#838389] mt-[10px]">
-                        {formatDate(party.event.date_time)}
-                      </h4>
-                    </div>
+              {loading ? (
+                // Render spinner while loading is true
+                <div className="flex justify-center items-center w-full h-[200px]">
+                  <div className="spinner flex justify-center items-center h-full">
+                    {[...Array(10)].map((_, index) => (
+                      <div
+                        key={index}
+                        className="w-4 h-4 bg-black rounded-full mx-1 animate-bounce"
+                      ></div>
+                    ))}
                   </div>
-                </Link>
-              ))}
+                </div>
+              ) : (
+                searchResults.map((party) => (
+                  <Link
+                    to={`/ShowEndedEventDetail/${party.event.id}`}
+                    key={party.event.id}
+                    className="partyContainer ml-[70px]"
+                  >
+                    <div className="party border-solid border-[1px] border-gray-400 rounded-[18px] ml-[10px] w-[260px] h-[240px] mb-[10px]">
+                      <div className="img">
+                        <img
+                          // src={party.event.banner}
+                          src={`https://mature-collie-newly.ngrok-free.app/storage/${party.event.banner}`}
+                          alt="MainPage"
+                          className="mainImg w-[105%] h-[125px] rounded-tl-[16px] rounded-tr-[16px]"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 gap-2 justify-items-center items-center p-[5px]">
+                        <div className="content flex flex-col justify-center items-center  overflow-hidden w-full">
+                          <h3 className="name text-[14px] text-[#041361a8] font-bold my-[5px] text-center h-[40px] flex justify-center items-center ">
+                            {party.event.title}
+                          </h3>
+                        </div>
+                        <h4 className="timeAndDate text-[12px] text-[#838389] mt-[10px]">
+                          {formatDate(party.event.date_time)}
+                        </h4>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              )}
             </div>
           </div>
         </div>

@@ -73,7 +73,7 @@ const User = () => {
           },
         }
       );
-      console.log("User data updated:", response.data);
+      //   console.log("User data updated:", response.data);
       window.location.reload();
     } catch (error) {
       console.error("Error updating user data:", error);

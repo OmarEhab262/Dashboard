@@ -10,7 +10,7 @@ import CreatedParty from "./components/CreatedParty";
 import Welcome from "./components/Welcome";
 import MainPage from "./pages/MainPage";
 import Users from "./pages/Users";
-import Classification from "./pages/Classification";
+// import Classification from "./pages/Classification";
 import Reservations from "./pages/Reservations";
 import ShowParties from "./pages/ShowParties";
 import Booking from "./pages/Booking";
@@ -35,7 +35,7 @@ function App() {
         <Route path="/CreatedParty" element={<CreatedParty />} />
         <Route path="/MainPage" element={<MainPage />} />
         <Route path="/Users" element={<Users />} />
-        <Route path="/Classification" element={<Classification />} />
+        {/* <Route path="/Classification" element={<Classification />} /> */}
         <Route path="/Reservations" element={<Reservations />} />
         <Route path="/EndedEvents" element={<EndedEvents />} />
         <Route path="/NewEvents" element={<NewEvents />} />

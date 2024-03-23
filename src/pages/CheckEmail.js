@@ -58,9 +58,9 @@ const CheckEmail = () => {
         return;
       }
 
-      console.log("Data to be sent:", { email, code: enteredCode });
+      //   console.log("Data to be sent:", { email, code: enteredCode });
       const token = localStorage.getItem("token");
-      console.log(token);
+      //   console.log(token);
 
       // Send a POST request to verify PIN API
       const pinResponse = await axios.post(
@@ -74,7 +74,7 @@ const CheckEmail = () => {
         }
       );
 
-      console.log("Response from verify PIN API:", pinResponse.data);
+      //   console.log("Response from verify PIN API:", pinResponse.data);
 
       // Check if PIN verification was successful
 
@@ -94,10 +94,10 @@ const CheckEmail = () => {
         }
       );
 
-      console.log("Response from reset password API:", resetResponse.data);
+      //   console.log("Response from reset password API:", resetResponse.data);
 
       // Placeholder functionality to demonstrate submission
-      console.log("Form submitted:", { email, num: enteredCode });
+      //   console.log("Form submitted:", { email, num: enteredCode });
       window.location.href = "/Dashboard/#/SuccessfulPassword";
     } catch (error) {
       console.error("Error:", error);
@@ -128,10 +128,10 @@ const CheckEmail = () => {
         }
       );
 
-      console.log("Response from resend PIN code:", resetCode.data);
+      //   console.log("Response from resend PIN code:", resetCode.data);
 
       // Placeholder functionality to demonstrate successful resend
-      console.log("PIN code resent successfully");
+      //   console.log("PIN code resent successfully");
     } catch (error) {
       console.error("Error:", error);
       // Handle error
