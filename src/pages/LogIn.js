@@ -30,6 +30,8 @@ function LogIn() {
         {
           headers: {
             "Content-Type": "application/json",
+            // Authorization: "Bearer " + tokenn,
+            // "ngrok-skip-browser-warning": "69420",
           },
         }
       );
@@ -37,8 +39,8 @@ function LogIn() {
       const token = response.data.data.token;
       setToken(response.data.data.token); // Move this line up
       //   console.log(response.data);
-      //   console.log(token);
-      const emailFromServer = response.data.data.email;
+      console.log(token);
+      //   const emailFromServer = response.data.data.email;
       //   console.log(emailFromServer);
       localStorage.setItem("token", token);
       window.location.href = "/Dashboard/#/Welcome";

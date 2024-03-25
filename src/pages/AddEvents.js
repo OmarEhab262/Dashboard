@@ -119,7 +119,7 @@ const AddEvents = () => {
           }
         );
 
-        console.log("Response Categories:", response.data); // Log response data
+        // console.log("Response Categories:", response.data); // Log response data
 
         setCategories(response.data.data);
       } catch (error) {

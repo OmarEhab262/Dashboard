@@ -22,6 +22,7 @@ import ShowNewEventDetails from "./pages/ShowNewEventDetails";
 import AddEvents from "./pages/AddEvents";
 import User from "./pages/User";
 import ShowTicket from "./pages/ShowTicket";
+import Home from "./web/Home";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/AddEvents" element={<AddEvents />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path="/User" element={<User />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
