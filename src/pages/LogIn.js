@@ -19,7 +19,6 @@ function LogIn() {
     setPassword(e.target.value);
     setErrorMessage("");
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -37,11 +36,7 @@ function LogIn() {
       );
 
       const token = response.data.data.token;
-      setToken(response.data.data.token); // Move this line up
-      //   console.log(response.data);
-      console.log(token);
-      //   const emailFromServer = response.data.data.email;
-      //   console.log(emailFromServer);
+      setToken(token);
       localStorage.setItem("token", token);
       window.location.href = "/Dashboard/#/Welcome";
     } catch (error) {

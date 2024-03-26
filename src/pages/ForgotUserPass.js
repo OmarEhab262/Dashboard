@@ -19,13 +19,13 @@ function ForgotUserPass() {
 
     try {
       // Retrieve token from localStorage
-      const token = localStorage.getItem("token");
-      //   console.log(token);
-      if (!token) {
-        console.error("Token not found in localStorage");
-        // Handle case where token is not available
-        return;
-      }
+      //   const token = localStorage.getItem("token");
+      //   //   console.log(token);
+      //   if (!token) {
+      //     console.error("Token not found in localStorage");
+      //     // Handle case where token is not available
+      //     return;
+      //   }
 
       const response = await axios.post(
         "https://mature-collie-newly.ngrok-free.app/api/forgot-password",
@@ -33,7 +33,7 @@ function ForgotUserPass() {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+            // Authorization: "Bearer " + token,
           },
         }
       );
