@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Dashboard/static/css/main.973fcda3.css",
-    "main.js": "/Dashboard/static/js/main.bf9cd4fb.js",
+    "main.css": "/Dashboard/static/css/main.9fc6d9ac.css",
+    "main.js": "/Dashboard/static/js/main.080934b5.js",
     "static/media/about.jpeg": "/Dashboard/static/media/about.4fdabecff170b3cf63e5.jpeg",
     "static/media/fimg.png": "/Dashboard/static/media/fimg.30d2d8867c423d51fd08.png",
     "static/media/homeLogo.svg": "/Dashboard/static/media/homeLogo.c16b19dc82a384029036dba8aad83808.svg",
@@ -21,11 +21,11 @@
     "static/media/Successful-password.png": "/Dashboard/static/media/Successful-password.3e11ca91f046152c3d3e.png",
     "static/media/mainuser.jpg": "/Dashboard/static/media/mainuser.13efe6d92a40cfe5e6e5.jpg",
     "index.html": "/Dashboard/index.html",
-    "main.973fcda3.css.map": "/Dashboard/static/css/main.973fcda3.css.map",
-    "main.bf9cd4fb.js.map": "/Dashboard/static/js/main.bf9cd4fb.js.map"
+    "main.9fc6d9ac.css.map": "/Dashboard/static/css/main.9fc6d9ac.css.map",
+    "main.080934b5.js.map": "/Dashboard/static/js/main.080934b5.js.map"
   },
   "entrypoints": [
-    "static/css/main.973fcda3.css",
-    "static/js/main.bf9cd4fb.js"
+    "static/css/main.9fc6d9ac.css",
+    "static/js/main.080934b5.js"
   ]
 }
