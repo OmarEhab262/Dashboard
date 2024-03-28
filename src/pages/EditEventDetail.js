@@ -116,8 +116,11 @@ const EditEventDetail = () => {
       formData.append("date_time", timeDate);
       formData.append("video", video);
       formData.append("banner", mainImage);
-      const lastImage = images[images.length - 1];
-      formData.append("image[]", lastImage);
+
+      // Append all images
+      images.forEach((image, index) => {
+        formData.append(`image[${index}]`, image);
+      });
 
       const response = await axios.post(
         `https://mature-collie-newly.ngrok-free.app/api/events/update/${storedId}`,
@@ -130,8 +133,6 @@ const EditEventDetail = () => {
           },
         }
       );
-      //   console.log("data updated:", response.data);
-      //   console.log(descriptionParty);
       window.location.reload();
     } catch (error) {
       console.error("Error updating user data:", error);
@@ -276,9 +277,9 @@ const EditEventDetail = () => {
           <div className="content">
             <div className="img mt-[24px] w-full overflow-hidden">
               <h3 className="text-[24px] font-bold">الصور</h3>
-              <div className="containerImgs w-full flex overflow-x-auto ssc mt-20 pb-10 ">
-                {imgs &&
-                  imgs.map((img) => (
+              {imgs && imgs.length > 0 ? (
+                <div className="containerImgs w-full flex overflow-x-auto ssc mt-20 pb-10 ">
+                  {imgs.map((img) => (
                     <div className="flex-shrink-0 mr-4 relative" key={img.id}>
                       <img
                         onClick={
@@ -294,7 +295,12 @@ const EditEventDetail = () => {
                       />
                     </div>
                   ))}
-              </div>
+                </div>
+              ) : (
+                <div className="box border-dashed border-2 w-[503px] h-[24px] py-[55px] px-[13px] flex justify-center items-center border-[#041461] rounded-[10px] mx-auto mt-[20px] mb-[72px]">
+                  <h3 className="text-[20px]">لا يوجد صور</h3>
+                </div>
+              )}
 
               <div className="operationImgs flex justify-center items-center">
                 <label

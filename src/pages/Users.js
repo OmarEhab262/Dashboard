@@ -138,12 +138,12 @@ const Users = () => {
                     <h3 className="w-[170px]  text-center">{user.nameAR}</h3>
                     <h3 className="w-[190px]  text-center">{user.nameEN}</h3>
                     <h3
-                      className="w-[130px]  text-center overflow-x-auto  overflow-hidden userssss mt-[10px]"
+                      className="w-[200px]  text-center overflow-x-auto  overflow-hidden userssss "
                       title={user.email}
                     >
                       {user.email}
                     </h3>
-                    <h3 className="w-[150px]  text-center">{user.phone}</h3>
+                    <h3 className="w-[150px]  text-start">{user.phone}</h3>
                     <h3
                       className="w-[80px]
   text-center"
